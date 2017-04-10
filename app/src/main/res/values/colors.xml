@@ -3,6 +3,18 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <!--透明色-->
+    <color name="transparent">#00000000</color>
     <!--主题色-->
     <color name="themeColor">#7ec30e</color>
+    <!--黑色-->
+    <color name="black">#000000</color>
+    <!--白色-->
+    <color name="white">#ffffff</color>
+    <!--注册页灰色间隔-->
+    <color name="gray">#dfdfdf</color>
+    <!--点击按钮-->
+    <color name="button_click">#6ba50d</color>
+    <!--注册页面提示文字颜色-->
+    <color name="register_text">#666666</color>
 </resources>
