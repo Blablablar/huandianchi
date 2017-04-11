@@ -4,19 +4,19 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 /**
  * Created by blablabla on 2017/4/11.
  */
 
 public class HomePageActivity extends Activity implements View.OnClickListener{
-    private ImageButton backBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_next);
-        backBtn=(ImageButton)findViewById(R.id.btn_back);
-        backBtn.setOnClickListener(this);
+        setContentView(R.layout.activity_homepage);
+
+        init();
     }
     @Override
     public void onClick(View v){
@@ -27,5 +27,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+    public void init(){
+
     }
 }

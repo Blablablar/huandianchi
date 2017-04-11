@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
+        <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.1_1a72b818a6817831f0fcf1237f736a93dd5b834b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -21,6 +30,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/design/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
+        <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.1_571e9eaa825e2b962b286cd98972f18e274907c2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -30,12 +48,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
+        <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.1_d095e3adad35a96db24877f8aff37488c8af25f6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
         <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_148661ad082d2e8c34616740edc8d51acba30680/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/exploded-aar/com.makeramen/roundedimageview/2.3.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fbaffbfc2a42fce3718dc9f52182810ad332b0ec">
+        <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.makeramen-roundedimageview-2.3.0_f1053dffcddc87ffdb18e2c5ac266fbc16121238/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -61,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="841fa37aac31e11af8cdba812b411e04812c1242">
+        sha1="4c3a5ebab474c116923196a220565f9dab53a59b">
         <dex dex="/Users/blablabla/Desktop/huandianchi/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c0e771083ba22a5c96c8dd9aa5d670df52a8cc97/classes.dex" />
     </item>
     <item

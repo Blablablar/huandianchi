@@ -25,7 +25,7 @@
             android:scaleType="fitCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/vin"/>
+            android:src="@mipmap/vin"/>
         <EditText
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/iv_vin"
@@ -45,7 +45,7 @@
             android:scaleType="fitCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pigeon"/>
+            android:src="@mipmap/pigeon"/>
     </RelativeLayout>
     <View
         android:layout_marginStart="10dp"
@@ -55,6 +55,7 @@
         android:background="@color/gray">
     </View>
     <Button
+        android:id="@+id/btn_submit"
         android:layout_marginTop="30dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
