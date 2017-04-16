@@ -11,6 +11,10 @@
     <color name="black">#000000</color>
     <!--白色-->
     <color name="white">#ffffff</color>
+    <!--白色focus-->
+    <color name="light_white">#aaffffff</color>
+    <!--btn pressed-->
+    <color name="extra_light_gray">#88efefef</color>
     <!--注册页灰色间隔-->
     <color name="gray">#dfdfdf</color>
     <!--点击按钮-->
@@ -19,6 +23,7 @@
     <color name="register_text">#666666</color>
     <!--账户页面提示文字颜色-->
     <color name="dark_gray">#8d8d8d</color>
+    <color name="light_gray">#bfbfbf</color>
     <!--修改名称页面下划线颜色-->
     <color name="underline">#7ec40f</color>
 </resources>

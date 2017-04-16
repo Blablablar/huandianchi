@@ -3,9 +3,41 @@
     <string name="header_title">换电汽车系统注册</string>
     <string name="register_protocol"><u>点击注册，即表示同意《该应用用户协议》</u></string>
 
+    <!--my account-->
     <string name="user_img">头像</string>
     <string name="user_name">用户名</string>
     <string name="phone">手机号</string>
     <string name="title_activity_my_account">我的账号</string>
     <string name="username_edit_hint_text">好的名字可以让你的朋友更容易记住你</string>
+
+    <!--history ticket-->
+    <string name="history_ticket">历史发票</string>
+    <string name="create_ticket">开具发票</string>
+
+    <!--create ticket-->
+    <string name="ticket_type">发票类型</string>
+    <string name="ticket_info">填写发票信息</string>
+    <string name="ticket_content">发票内容：</string>
+    <string name="ticket_content_hint">交通费用</string>
+    <string name="ticket_money_hint">900.00元</string>
+    <string name="ticket_money">发票金额：</string>
+    <string name="ticket_property_hint">请输入公司名或个人</string>
+    <string name="ticket_property">发票抬头：</string>
+    <string name="receiver_info">填写收件人信息</string>
+    <string name="reveive_info">收件信息：</string>
+    <string name="receive_info_hint">请输入收件人姓名</string>
+    <string name="paper_ticket">纸质发票：</string>
+    <string name="paper_ticket_hint">快递费用自行支付</string>
+    <string name="receiver_phone">联系电话：</string>
+    <string name="receiver_phone_hint">请输入收件人联系电话</string>
+    <string name="address">所在地址：</string>
+    <string name="address_hint">请选择 请选择 请选择：</string>
+    <string name="detail_address">详细地址：</string>
+    <string name="detail_address_hint">填写详细地址</string>
+    <string name="ticket_mail">邮           箱：</string>
+    <string name="ticket_mail_hint">填写邮箱地址</string>
+    <string name="send_hint">---发票寄出后，会通过联系电话和邮箱地址通知您---</string>
+    <string name="submit">提交</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认提交</string>
 </resources>
