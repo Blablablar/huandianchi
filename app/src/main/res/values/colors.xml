@@ -17,4 +17,8 @@
     <color name="button_click">#6ba50d</color>
     <!--注册页面提示文字颜色-->
     <color name="register_text">#666666</color>
+    <!--账户页面提示文字颜色-->
+    <color name="dark_gray">#8d8d8d</color>
+    <!--修改名称页面下划线颜色-->
+    <color name="underline">#7ec40f</color>
 </resources>
