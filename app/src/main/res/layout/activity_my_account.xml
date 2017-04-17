@@ -39,6 +39,7 @@
                 android:textColor="@color/black"/>
 
             <LinearLayout
+                android:id="@+id/vg_edit_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -54,7 +55,6 @@
                     android:src="@color/gray"/>
 
                 <ImageView
-                    android:id="@+id/btn_edit_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/arrow_grey"
@@ -88,6 +88,7 @@
                 android:textColor="@color/black"/>
 
             <LinearLayout
+                android:id="@+id/vg_edit_username"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -103,7 +104,6 @@
                     android:textColor="@color/dark_gray"/>
 
                 <ImageView
-                    android:id="@+id/btn_edit_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/arrow_grey"
@@ -137,6 +137,7 @@
                 android:textColor="@color/black"/>
 
             <LinearLayout
+                android:id="@+id/vg_edit_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -152,7 +153,6 @@
                     android:textColor="@color/dark_gray"/>
 
                 <ImageView
-                    android:id="@+id/btn_edit_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/arrow_grey"

@@ -25,16 +25,21 @@ public class MyUserNameEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_user_name_edit);
         ButterKnife.bind(this);
-    }
-}
-
-class MyUserNameEditActivityBuilder extends ActivityBuilder {
-    public MyUserNameEditActivityBuilder(Context context) {
-        super(context);
+        init();
     }
 
-    @Override
-    public Intent create() {
-        return new Intent(getContext(), MyUserNameEditActivity.class);
+    private void init() {
+        mTitleBar.bindActivity(this);
+    }
+
+    public static class Builder extends ActivityBuilder {
+        public Builder(Context context) {
+            super(context);
+        }
+
+        @Override
+        public Intent create() {
+            return new Intent(getContext(), MyUserNameEditActivity.class);
+        }
     }
 }

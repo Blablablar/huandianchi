@@ -1,10 +1,14 @@
 package com.haundianchi.huandianchi.ui.tickets;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.utils.ActivityBuilder;
+import com.haundianchi.huandianchi.widget.TitleBar;
 import com.haundianchi.huandianchi.widget.dialog.TicketConfirmDialog;
 
 import butterknife.BindView;
@@ -31,12 +35,20 @@ public class CreateNewTicketActivity extends AppCompatActivity {
     EditText mTicketDetailAddress;
     @BindView(R.id.et_ticket_mail)
     EditText mTicketMail;
+    @BindView(R.id.titleBar)
+    TitleBar mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_ticket);
         ButterKnife.bind(this);
+
+        init();
+    }
+
+    private void init() {
+        mTitleBar.bindActivity(this);
     }
 
     @OnClick(R.id.et_ticket_type)
@@ -51,5 +63,17 @@ public class CreateNewTicketActivity extends AppCompatActivity {
     public void onBtnSubmitTicketClicked() {
         TicketConfirmDialog.Builder builder = new TicketConfirmDialog.Builder(this);
         builder.show();
+    }
+
+    public static class Builder extends ActivityBuilder {
+
+        public Builder(Context context) {
+            super(context);
+        }
+
+        @Override
+        public Intent create() {
+            return new Intent(getContext(), CreateNewTicketActivity.class);
+        }
     }
 }

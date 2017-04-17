@@ -70,6 +70,7 @@ public class TitleBar extends FrameLayout {
                 }
             };
         }
+        mBack.setOnClickListener(listener);
     }
 
     public void bindActivity(final Activity activity) {

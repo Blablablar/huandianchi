@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <com.haundianchi.huandianchi.widget.TitleBar
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isShowBack="true"
@@ -68,6 +69,7 @@
                         android:drawableEnd="@mipmap/drop_arrow"
                         android:hint="@string/paper_ticket_hint"
                         android:paddingEnd="20dp"
+                        android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -106,6 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_content_hint"
+                        android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -137,6 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_money_hint"
+                        android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -168,6 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_property_hint"
+                        android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -207,6 +212,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/receive_info_hint"
+                        android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -238,6 +244,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/receiver_phone_hint"
+                        android:background="@null"
                         android:text="15900929016"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
@@ -270,6 +277,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@mipmap/drop_arrow"
+                        android:background="@null"
                         android:hint="@string/address_hint"
                         android:paddingEnd="20dp"
                         android:textColor="@color/black"
@@ -303,6 +311,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/detail_address_hint"
+                        android:background="@null"
                         android:textColor="@color/dark_gray"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -334,6 +343,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_mail_hint"
+                        android:background="@null"
                         android:text="2373775880@qq.com"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
@@ -360,6 +370,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button"
                 android:text="@string/submit"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 
