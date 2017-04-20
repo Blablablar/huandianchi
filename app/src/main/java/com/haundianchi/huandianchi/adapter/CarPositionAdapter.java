@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.model.CarPositionModel;
+import com.haundianchi.huandianchi.ui.order.OrderConfirmActivity;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class CarPositionAdapter extends RecyclerView.Adapter<CarPositionViewHold
 
     @Override
     public CarPositionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CarPositionViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_car_position, parent, false));
+        return new CarPositionViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_car_position, parent, false), context);
     }
 
     @Override
@@ -52,9 +53,12 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_position_detail)
     TextView mPositionDetail;
 
-    public CarPositionViewHolder(View itemView) {
+    private Context context;
+
+    public CarPositionViewHolder(View itemView, Context context) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.context = context;
     }
 
     public void bindData(CarPositionModel model) {
@@ -62,5 +66,10 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.btn_view_more)
     public void onViewMoreClicked() {
+    }
+
+    @OnClick(R.id.vg_container)
+    public void onContainerClicked() {
+        new OrderConfirmActivity.Builder(context).start();
     }
 }

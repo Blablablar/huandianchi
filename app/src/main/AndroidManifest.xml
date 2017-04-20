@@ -27,7 +27,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="90d7911aa9c61aa96a74e98fdb1ad589" />
 
-        <activity android:name=".ui.LoginActivity"
+        <activity
+            android:name=".ui.LoginActivity"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,8 +43,10 @@
         <activity android:name=".ui.account.MyUserNameEditActivity" />
         <activity android:name=".ui.tickets.HistoryTicketsActivity" />
         <activity android:name=".ui.tickets.CreateNewTicketActivity" />
-        <activity android:name=".ui.position.CarPositionActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".ui.position.CarPositionActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".ui.order.OrderConfirmActivity"></activity>
     </application>
 
 </manifest>

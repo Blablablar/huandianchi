@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.haundianchi.huandianchi.R;
@@ -37,6 +38,8 @@ public class CreateNewTicketActivity extends AppCompatActivity {
     EditText mTicketMail;
     @BindView(R.id.titleBar)
     TitleBar mTitleBar;
+    @BindView(R.id.vg_root)
+    ViewGroup mRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class CreateNewTicketActivity extends AppCompatActivity {
     }
 
     private void init() {
+        mRoot.requestFocus();
         mTitleBar.bindActivity(this);
     }
 

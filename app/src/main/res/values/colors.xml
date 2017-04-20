@@ -26,4 +26,6 @@
     <color name="light_gray">#bfbfbf</color>
     <!--修改名称页面下划线颜色-->
     <color name="underline">#7ec40f</color>
+
+    <color name="background">#f0f4f3</color>
 </resources>
