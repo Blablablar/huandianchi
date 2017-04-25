@@ -13,6 +13,8 @@
     <color name="white">#ffffff</color>
     <!--白色focus-->
     <color name="light_white">#aaffffff</color>
+    <!--红色-->
+    <color name="red">#e50909</color>
     <!--btn pressed-->
     <color name="extra_light_gray">#88efefef</color>
     <!--注册页灰色间隔-->

@@ -38,6 +38,10 @@
         </activity>
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.HomePageActivity" />
+        <activity android:name=".ui.PhoneActivity" />
+        <activity android:name=".ui.Indent.IndentActivity" />
+        <activity android:name=".ui.Indent.IndentConfirmActivity" />
+        <activity android:name=".ui.CarInfoActivity" />
         <activity android:name=".ui.RegisterNextActivity" />
         <activity android:name=".ui.account.MyAccountActivity" />
         <activity android:name=".ui.account.MyUserNameEditActivity" />

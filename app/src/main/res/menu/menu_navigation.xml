@@ -16,19 +16,22 @@
             android:icon="@mipmap/fapiao"
             android:title="我的发票"/>
         <item
-            android:id="@+id/nav_position"
+            android:id="@+id/nav_info"
             android:icon="@mipmap/car_info"
             android:title="车辆信息"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_instruction"
             android:icon="@mipmap/instruction"
             android:title="使用说明"/>
         <item
+            android:id="@+id/nav_problem"
             android:icon="@mipmap/problem"
             android:title="常见问题"/>
         <item
+            android:id="@+id/nav_phone"
             android:icon="@mipmap/phone"
             android:title="客服电话"/>
     </group>

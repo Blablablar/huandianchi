@@ -1,0 +1,47 @@
+package com.haundianchi.huandianchi.ui.Indent;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.haundianchi.huandianchi.R;
+
+/**
+ * Created by blablabla on 2017/4/20.
+ */
+
+public class IndentActivity extends Activity implements View.OnClickListener{
+    private ImageButton backBtn;
+    private Button confirmBtn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order);
+        backBtn = (ImageButton)findViewById(R.id.btn_back);
+        confirmBtn=(Button)findViewById(R.id.btn_confirm);
+        confirmBtn.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
+        init();
+    }
+    @Override
+    public void onClick(View v){
+        switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
+            case R.id.btn_confirm:
+                Intent intent2 = new Intent(this.getApplicationContext(),IndentConfirmActivity.class);
+                startActivity(intent2);
+                break;
+            default:
+                break;
+        }
+    }
+    public void init(){
+        ((TextView)findViewById(R.id.tv_title)).setText("订单查询");
+    }
+}
