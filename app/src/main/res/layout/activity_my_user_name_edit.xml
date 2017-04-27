@@ -28,6 +28,7 @@
             android:paddingBottom="20dp"
             android:paddingLeft="5dp"
             android:textColor="@color/black"
+            android:maxLines="1"
             android:backgroundTint="@color/underline"/>
 
         <TextView

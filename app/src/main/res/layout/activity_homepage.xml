@@ -137,15 +137,56 @@
             android:background="@color/gray">
         </View>
         <LinearLayout
+            android:weightSum="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/ll_rescue"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/homepage_1"/>
+                android:orientation="vertical">
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/road_rescure"/>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="道路救援"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray"></View>
+            <LinearLayout
+                android:id="@+id/ll_change_history"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:padding="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/change_history"/>
+                <TextView
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="更换记录"/>
+            </LinearLayout>
         </LinearLayout>
         <Button
             android:id="@+id/btn_order"

@@ -1,7 +1,11 @@
 package com.haundianchi.huandianchi.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
@@ -21,6 +26,8 @@ import com.haundianchi.huandianchi.ui.tickets.HistoryTicketsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.phoneNumber;
 
 /**
  * Created by blablabla on 2017/4/11.
@@ -39,7 +46,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
     ImageButton mMenuBtn;
     Button mOrderBtn;
-
+    LinearLayout mChangeHistoryll;
+    LinearLayout mRescuell;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +55,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         mOrderBtn=(Button)findViewById(R.id.btn_order);
         mDrawerLayout=(DrawerLayout) findViewById(R.id.id_drawer_layout);
         mMenuBtn=(ImageButton)findViewById(R.id.btn_menu);
+        mChangeHistoryll=(LinearLayout)findViewById(R.id.ll_change_history);
+        mRescuell=(LinearLayout)findViewById(R.id.ll_rescue);
         mOrderBtn.setOnClickListener(this);
         mMenuBtn.setOnClickListener(this);
+        mChangeHistoryll.setOnClickListener(this);
+        mRescuell.setOnClickListener(this);
         ButterKnife.bind(this);
+
         init();
     }
 
@@ -64,6 +77,26 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_menu:
                 mDrawerLayout.openDrawer(Gravity.LEFT);
+                break;
+            case R.id.ll_rescue:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:10086"));
+                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(callIntent);
+                    }else{
+                        //
+                    }
+                }else{
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:10086"));
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(callIntent);
+                }
+                break;
+            case R.id.ll_change_history:
+                new HistoryTicketsActivity.Builder(HomePageActivity.this).start();
                 break;
             default:
                 break;

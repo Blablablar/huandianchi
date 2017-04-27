@@ -1,11 +1,16 @@
 package com.haundianchi.huandianchi.ui.Indent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
@@ -16,14 +21,19 @@ import com.haundianchi.huandianchi.R;
 
 public class IndentActivity extends Activity implements View.OnClickListener{
     private ImageButton backBtn;
-    private Button confirmBtn;
+
+
+    private UnPayFragment mTab01;
+    private PayedFragment mTab02;
+    private LinearLayout mUnPayll;
+    private LinearLayout mPayedll;
+    private FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
+        setContentView(R.layout.activity_indent);
+        fragmentManager=getFragmentManager();
         backBtn = (ImageButton)findViewById(R.id.btn_back);
-        confirmBtn=(Button)findViewById(R.id.btn_confirm);
-        confirmBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         init();
     }
@@ -37,11 +47,99 @@ public class IndentActivity extends Activity implements View.OnClickListener{
                 Intent intent2 = new Intent(this.getApplicationContext(),IndentConfirmActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.ll_unpay:
+                setTabSelection(0);
+                break;
+            case R.id.ll_payed:
+                setTabSelection(1);
+                break;
             default:
                 break;
         }
     }
+
     public void init(){
+
+        mUnPayll = (LinearLayout) findViewById(R.id.ll_unpay);
+        mPayedll = (LinearLayout) findViewById(R.id.ll_payed);
+        mUnPayll.setOnClickListener(this);
+        mPayedll.setOnClickListener(this);
+        mUnPayll.callOnClick();
         ((TextView)findViewById(R.id.tv_title)).setText("订单查询");
+    }
+    private void setTabSelection(int index)
+    {
+        // 重置按钮
+        resetBtn();
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index)
+        {
+            case 0:
+                // 当点击了消息tab时，改变控件的图片和文字颜色
+                ((ImageView) mUnPayll.findViewById(R.id.iv_unpay))
+                        .setImageResource(R.mipmap.weizhifu_touch);
+                if (mTab01 == null)
+                {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    mTab01 = new UnPayFragment();
+                    transaction.add(R.id.id_content, mTab01);
+                } else
+                {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(mTab01);
+                }
+                break;
+            case 1:
+                // 当点击了消息tab时，改变控件的图片和文字颜色
+                ((ImageView) mPayedll.findViewById(R.id.iv_payed))
+                        .setImageResource(R.mipmap.yiwancheng_touch);
+                if (mTab02 == null)
+                {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    mTab02 = new PayedFragment();
+                    transaction.add(R.id.id_content, mTab02);
+                } else
+                {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(mTab02);
+                }
+                break;
+            default:
+                break;
+        }
+        transaction.commit();
+    }
+
+    /**
+     * 清除掉所有的选中状态。
+     */
+    private void resetBtn()
+    {
+        ((ImageView) mUnPayll.findViewById(R.id.iv_unpay))
+                .setImageResource(R.mipmap.weizhifu_untouch);
+        ((ImageView) mPayedll.findViewById(R.id.iv_payed))
+                .setImageResource(R.mipmap.yiwancheng_untouch);
+    }
+
+    /**
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction
+     *            用于对Fragment执行操作的事务
+     */
+    @SuppressLint("NewApi")
+    private void hideFragments(FragmentTransaction transaction)
+    {
+        if (mTab01 != null)
+        {
+            transaction.hide(mTab01);
+        }
+        if (mTab02 != null)
+        {
+            transaction.hide(mTab02);
+        }
     }
 }
