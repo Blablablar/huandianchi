@@ -5,6 +5,7 @@
     android:background="@color/white">
     
     <LinearLayout
+        android:id="@+id/btn_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -42,11 +43,10 @@
             android:text="推荐电站点"/>
 
         <ImageView
-            android:id="@+id/btn_more"
             android:paddingLeft="10dp"
             android:paddingEnd="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
             android:layout_alignParentEnd="true"
             android:src="@mipmap/arrow_down"/>
     </RelativeLayout>

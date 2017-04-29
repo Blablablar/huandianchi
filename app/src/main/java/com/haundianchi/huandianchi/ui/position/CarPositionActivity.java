@@ -1,5 +1,6 @@
 package com.haundianchi.huandianchi.ui.position;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,8 +10,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +37,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CarPositionActivity extends AppCompatActivity implements LocationSource {
+import static android.view.MotionEvent.ACTION_MOVE;
+
+public class CarPositionActivity extends AppCompatActivity implements LocationSource, View.OnTouchListener{
     @BindView(R.id.map)
     MapView mMapView;
     @BindView(R.id.search)
@@ -52,6 +59,9 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     private CarPositionAdapter mAdapter;
     private ArrayList<CarPositionModel> models = new ArrayList<>();
 
+    private int lastX;
+    private int lastY;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +75,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     private void init() {
         mTitleBar.bindActivity(this);
         initSearchView();
+        mSearchResult.setOnTouchListener(this);
 
         models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
         models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
@@ -78,8 +89,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                 DividerItemDecoration.VERTICAL));
         mContainer.setAdapter(mAdapter);
 
-        initMap();
 
+        initMap();
     }
 
     private void initSearchView() {
@@ -92,6 +103,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
             public boolean onQueryTextSubmit(String query) {
                 if (mSearchResult.getVisibility() == View.GONE)
                     mSearchResult.setVisibility(View.VISIBLE);
+
+                scrollList();
                 return false;
             }
 
@@ -147,6 +160,21 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         //mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
 
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
+
+        aMap.setOnMapTouchListener(new AMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                //隐藏软键盘
+                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(CarPositionActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                //隐藏具体列表项
+                int deltaHeight = mContainer.getHeight();
+                if (mSearchResult.getTranslationY() < deltaHeight){//向下滑动
+                    ObjectAnimator.ofFloat(mSearchResult,"translationY", mSearchResult.getTranslationY(), deltaHeight).setDuration(100).start();
+                }
+            }
+        });
+
     }
 
 
@@ -190,11 +218,45 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
 
     @OnClick(R.id.btn_more)
     public void onMoreClicked() {
-        if (mContainer.getVisibility() == View.VISIBLE){
-            mContainer.setVisibility(View.GONE);
-        }else{
-            mContainer.setVisibility(View.VISIBLE);
+        scrollList();
+    }
+
+    private void scrollList() {
+        int deltaHeight = mContainer.getHeight();
+        if (mSearchResult.getTranslationY() < deltaHeight){//向下滑动
+            ObjectAnimator.ofFloat(mSearchResult,"translationY", mSearchResult.getTranslationY(), deltaHeight).setDuration(100).start();
+        }else if (mSearchResult.getTranslationY() > 0){//向上滑动
+            ObjectAnimator.ofFloat(mSearchResult,"translationY",mSearchResult.getTranslationY(), 0).setDuration(100).start();
         }
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        //获取到手指处的横坐标和纵坐标
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        int deltaHeight = mContainer.getHeight();
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                lastX = x;
+                lastY = y;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //计算移动的距离
+                int offX = x - lastX;
+                int offY = y - lastY;
+
+                if (offY > 0 && mSearchResult.getTranslationY() < deltaHeight){//向下滑动
+                    ObjectAnimator.ofFloat(mSearchResult,"translationY", mSearchResult.getTranslationY(), deltaHeight).setDuration(100).start();
+                }
+                if (offY < 0 && mSearchResult.getTranslationY() > 0){//向上滑动
+                    ObjectAnimator.ofFloat(mSearchResult,"translationY",mSearchResult.getTranslationY(), 0).setDuration(100).start();
+                }
+                break;
+        }
+        return true;
     }
 
     public static class Builder extends ActivityBuilder {

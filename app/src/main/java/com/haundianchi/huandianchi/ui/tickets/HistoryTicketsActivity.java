@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.adapter.TicketAdapter;
 import com.haundianchi.huandianchi.model.TicketModel;
+import com.haundianchi.huandianchi.ui.order.OrderToTicketActivity;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
 import com.haundianchi.huandianchi.widget.TitleBar;
 
@@ -32,6 +34,10 @@ public class HistoryTicketsActivity extends AppCompatActivity {
 
     private TicketAdapter mAdapter;
     private ArrayList<TicketModel> mTicketModels = new ArrayList<>();
+    private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+
+    private Boolean move = false;
+    private int mIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +55,31 @@ public class HistoryTicketsActivity extends AppCompatActivity {
         mTicketModels.add(new TicketModel("发票", "2017.3.1", "上海", "华东师范大学", 250));
         mTicketModels.add(new TicketModel("发票", "2017.3.1", "上海", "华东师范大学", 250));
         //init adapter
-        mAdapter = new TicketAdapter(this, mTicketModels);
+        mAdapter = new TicketAdapter(this, mTicketModels, new TicketAdapter.OnTicketDetailClickListener() {
+            @Override
+            public void onClick(int position) {
+                mAdapter.setVisibilityInverse(position);
+                mIndex = position;
+                //Log.i("HistoryTicketsActivity", "Scroll To " + position);
+                int lastItem = mLinearLayoutManager.findLastVisibleItemPosition();
+                if (position <= lastItem && position >= lastItem - 1){
+//                    mAdapter.notifyDataSetChanged();
+                    int top = -400;
+                    mContainer.scrollBy(0, 300);
+                }
+            }
+        });
 
-        mContainer.setLayoutManager(new LinearLayoutManager(this));
+        mContainer.setLayoutManager(mLinearLayoutManager);
         mContainer.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
         mContainer.setAdapter(mAdapter);
+
     }
 
     @OnClick(R.id.btn_create_ticket)
     public void onCreateClicked() {
-        new CreateNewTicketActivity.Builder(this).start();
+        new OrderToTicketActivity.Builder(this).start();
     }
 
     public static class Builder extends ActivityBuilder{

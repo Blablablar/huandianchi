@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!--触摸状态时颜色-->
-    <item android:drawable="@color/button_click" android:state_focused="true" />
+    <item android:state_focused="true" >
+        <shape android:shape="rectangle">
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/button_click"/>
+        </shape>
+    </item>
     <!--点击状态是颜色-->
-    <item android:drawable="@color/button_click" android:state_pressed="true" />
+    <item android:state_pressed="true" >
+        <shape android:shape="rectangle">
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/button_click"/>
+        </shape>
+    </item>
     <!--默认颜色-->
-    <item android:drawable="@color/themeColor" />
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/themeColor"/>
+        </shape>
+    </item>
 </selector>
