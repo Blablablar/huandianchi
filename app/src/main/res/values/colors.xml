@@ -30,4 +30,6 @@
     <color name="underline">#7ec40f</color>
 
     <color name="background">#f0f4f3</color>
+
+    <color name="bg_homepage">#f5f5f5</color>
 </resources>

@@ -7,88 +7,121 @@
         android:id="@+id/header"
         layout="@layout/header">
     </include>
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
+    <TextView
+        android:layout_margin="10dp"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="基本信息"/>
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_alignParentStart="true"
             android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:text="车架号    "
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <TextView
+            android:paddingEnd="10dp"
             android:gravity="center"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="*************"
-            android:textColor="@color/black"
+            android:layout_height="50dp"
+            android:text="SAAB 9000"
+            android:textColor="@color/dark_gray"
             android:textSize="18sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_width="wrap_content"
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray">
+    </View>
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_alignParentStart="true"
             android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="汽车型号"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-        <TextView
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="*************"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="电池型号"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-        <TextView
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="*************"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:text="电池状态"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <TextView
+            android:paddingEnd="10dp"
             android:gravity="center"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="*************"
+            android:layout_height="50dp"
+            android:text="SAAB 9000"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray">
+    </View>
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="汽车型号"
             android:textColor="@color/black"
             android:textSize="18sp"/>
-    </LinearLayout>
+        <TextView
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="GB9417-88"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray">
+    </View>
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="电池型号"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <TextView
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="SAAB 9000"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray">
+    </View>
 </LinearLayout>

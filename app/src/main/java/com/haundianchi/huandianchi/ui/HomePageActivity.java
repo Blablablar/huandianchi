@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
+import com.haundianchi.huandianchi.ui.MyPopupWindow.MyPopupWindow;
+import com.haundianchi.huandianchi.ui.MyPopupWindow.RescueWindow;
 import com.haundianchi.huandianchi.ui.account.MyAccountActivity;
 import com.haundianchi.huandianchi.ui.position.CarPositionActivity;
 import com.haundianchi.huandianchi.ui.tickets.HistoryTicketsActivity;
@@ -48,6 +50,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     Button mOrderBtn;
     LinearLayout mChangeHistoryll;
     LinearLayout mRescuell;
+    RescueWindow rescueWindow;
+    Activity mActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,21 +83,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
                 break;
             case R.id.ll_rescue:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if(getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED) {
-                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                        callIntent.setData(Uri.parse("tel:10086"));
-                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(callIntent);
-                    }else{
-                        //
-                    }
-                }else{
-                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:10086"));
-                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(callIntent);
-                }
+                rescueWindow = new RescueWindow(this,itemsOnClick);
+                rescueWindow.showAtLocation(findViewById(R.id.id_drawer_layout),
+                        Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.ll_change_history:
                 new HistoryTicketsActivity.Builder(HomePageActivity.this).start();
@@ -138,9 +130,48 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                         Intent intent3=new Intent(getApplicationContext(),CarInfoActivity.class);
                         startActivity(intent3);
                         break;
+                    case R.id.nav_instruction:
+                        Intent intent4=new Intent(getApplicationContext(),InstructionsActivity.class);
+                        startActivity(intent4);
+                        break;
+                    case R.id.nav_problem:
+                        Intent intent5=new Intent(getApplicationContext(),FaqActivity.class);
+                        startActivity(intent5);
+                        break;
                 }
                 return true;
             }
         });
     }
+
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_call:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if(getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                            callIntent.setData(Uri.parse("tel:10086"));
+                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(callIntent);
+                        }else{
+                            //
+                        }
+                    }else{
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:10086"));
+                        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(callIntent);
+                    }
+                    break;
+                case R.id.btn_cancel:
+                    rescueWindow.dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
 }
