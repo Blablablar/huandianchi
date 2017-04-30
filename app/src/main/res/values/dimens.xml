@@ -7,4 +7,6 @@
     <dimen name="small_size">13sp</dimen>
     <dimen name="common_size">15sp</dimen>
     <dimen name="subtitle_size">17sp</dimen>
+
+    <dimen name="pos_recycle_height">220dp</dimen>
 </resources>

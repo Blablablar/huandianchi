@@ -54,5 +54,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vg_container"
         android:layout_width="match_parent"
-        android:layout_height="220dp"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

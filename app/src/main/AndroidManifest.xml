@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haundianchi.huandianchi">
-
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 允许程序设置内置sd卡的写权限 -->
@@ -16,7 +15,20 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 允许拨打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+     
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +40,8 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="90d7911aa9c61aa96a74e98fdb1ad589" />
+
+        <service android:name="com.amap.api.location.APSService" />
 
         <activity
             android:name=".ui.LoginActivity"

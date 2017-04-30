@@ -45,6 +45,10 @@ public class CarPositionAdapter extends RecyclerView.Adapter<CarPositionViewHold
         return models.size();
     }
 
+    public void updateAdapter(ArrayList<CarPositionModel> models){
+        this.models = models;
+        notifyDataSetChanged();
+    }
 }
 
 class CarPositionViewHolder extends RecyclerView.ViewHolder {
