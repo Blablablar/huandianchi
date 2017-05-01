@@ -188,17 +188,29 @@
                     android:text="更换记录"/>
             </LinearLayout>
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_order"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="预约电站"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:background="@color/themeColor"/>
+            android:layout_height="match_parent"
+            android:background="@color/bg_homepage">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bg_img_homepage"/>
+            <Button
+                android:id="@+id/btn_order"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="预约电站"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@color/themeColor"/>
+        </RelativeLayout>
+
     </LinearLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/id_nv_menu"

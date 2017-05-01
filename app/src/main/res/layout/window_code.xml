@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/window_code"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp">
+    <RelativeLayout
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <EditText
+            android:id="@+id/et_code"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入兑换码"
+            android:background="@drawable/et_code"/>
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/et_code"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:background="@color/themeColor"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_quit"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/quit"
+        android:background="@color/transparent"/>
+</RelativeLayout>

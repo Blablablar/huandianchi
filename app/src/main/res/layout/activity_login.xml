@@ -5,19 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
-    <com.haundianchi.huandianchi.widget.TitleBar
+    <ImageView
+        android:paddingTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleText="换电汽车系统注册"
-        app:isShowBack="false"/>
-
+        android:src="@mipmap/login_icon"/>
     <LinearLayout
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center">
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,77 +23,81 @@
             android:textSize="18sp"
             android:textColor="@color/black"/>
         <EditText
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:hint="请输入手机号"
             android:textColorHint="@color/gray"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:background="@null" />
     </LinearLayout>
     <View
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray">
     </View>
-    <RelativeLayout
+
+    <LinearLayout
+        android:layout_marginStart="15dp"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-        <Button
-            android:id="@+id/btn_sendMsg"
-            android:layout_marginEnd="15dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="获取验证码"
-            android:textColor="@color/white"
-            android:background="@drawable/button"/>
-        <LinearLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="验证码"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+            android:text="验证码"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <EditText
-                android:hint="请输入验证码"
-                android:textColorHint="@color/gray"
-                android:textColor="@color/black"
-                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_height="30dp"
+                android:background="@null"
+                android:hint="请输入验证码"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray" />
+            <Button
+                android:id="@+id/btn_sendMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button"
+                android:text="获取验证码"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+    </LinearLayout>
     <View
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray">
     </View>
-    <TextView
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="收不到短信，检测手机号是否是本机"
-        android:textColor="@color/themeColor"/>
+    <!--<TextView-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="收不到短信，检测手机号是否是本机"-->
+        <!--android:textColor="@color/themeColor"/>-->
     <Button
         android:id="@+id/btn_login"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="登录"

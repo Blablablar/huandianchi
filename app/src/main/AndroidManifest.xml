@@ -58,6 +58,8 @@
         <activity android:name=".ui.PhoneActivity" />
         <activity android:name=".ui.Indent.IndentActivity" />
         <activity android:name=".ui.Indent.IndentConfirmActivity" />
+        <activity android:name=".ui.InstructionsActivity" />
+        <activity android:name=".ui.FaqActivity" />
         <activity android:name=".ui.CarInfoActivity" />
         <activity android:name=".ui.RegisterNextActivity" />
         <activity android:name=".ui.account.MyAccountActivity" />
