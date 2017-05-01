@@ -22,6 +22,11 @@ android {
             {
                 cruncherEnabled = false
             }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {

@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,7 +48,10 @@ import com.haundianchi.huandianchi.adapter.CarPositionAdapter;
 import com.haundianchi.huandianchi.model.CarPositionModel;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
 import com.haundianchi.huandianchi.utils.SensorEventHelper;
+import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
 import com.haundianchi.huandianchi.widget.TitleBar;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +61,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CarPositionActivity extends AppCompatActivity implements LocationSource, View.OnTouchListener, AMapLocationListener, AMap.OnMarkerClickListener {
+public class CarPositionActivity extends AppCompatActivity implements LocationSource, View.OnTouchListener,
+        AMapLocationListener, AMap.OnMarkerClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
     @BindView(R.id.map)
     MapView mMapView;
     @BindView(R.id.search)
@@ -187,15 +193,15 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         adjustRecycleView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int hasWriteContactsPermission = getApplicationContext().checkSelfPermission(Manifest.permission_group.LOCATION);
-            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission_group.LOCATION},
+            int hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION);
+            if (hasPermission == PackageManager.PERMISSION_GRANTED) {
+                initMap();
+            }else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
-                return;
             }
         }
 
-        initMap();
     }
 
     private void initSearchView() {
@@ -287,7 +293,6 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     }
 
     private void startLocation(){
-
     }
 
     private void adjustRecycleView(){
@@ -307,6 +312,9 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
                 LatLng location = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+
+                SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(amapLocation.getLatitude()));
+                SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(amapLocation.getLongitude()));
                 if (!mFirstFix) {
                     mFirstFix = true;
                     addCircle(location, amapLocation.getAccuracy());//添加定位精度圆
@@ -317,6 +325,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     latlngs[0]= new LatLng(amapLocation.getLatitude() + 0.003, amapLocation.getLongitude() + 0.003);
                     latlngs[1] = new LatLng(amapLocation.getLatitude() - 0.003, amapLocation.getLongitude() - 0.003);
                     latlngs[2] = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude() - 0.003);
+                    models.get(0).setLng(latlngs[0]);
+                    models.get(1).setLng(latlngs[1]);
+                    models.get(2).setLng(latlngs[2]);
+                    models.get(3).setLng(latlngs[2]);
+                    mAdapter.updateAdapter(models);
                     addPosMarkers(latlngs);
                 } else {
                     mCircle.setCenter(location);
@@ -418,7 +431,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     public boolean onMarkerClick(Marker marker) {
         if(Objects.equals(marker.getId(), locationId)) return false;
         ArrayList<CarPositionModel> modelList = new ArrayList<>();
-        modelList.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
+        modelList.add(models.get(0));
         mAdapter.updateAdapter(modelList);
         adjustRecycleView();
         if (mSearchResult.getVisibility() == View.GONE)

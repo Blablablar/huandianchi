@@ -1,6 +1,7 @@
 package com.haundianchi.huandianchi.adapter;
 
 import android.content.Context;
+import android.database.AbstractCursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.model.CarPositionModel;
 import com.haundianchi.huandianchi.ui.order.OrderConfirmActivity;
+import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,7 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
     TextView mPositionDetail;
 
     private Context context;
+    private CarPositionModel model;
 
     public CarPositionViewHolder(View itemView, Context context) {
         super(itemView);
@@ -66,6 +69,7 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindData(CarPositionModel model) {
+        this.model = model;
     }
 
     @OnClick(R.id.btn_view_more)
@@ -74,6 +78,10 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.vg_container)
     public void onContainerClicked() {
+        //设置终点
+        SharedPreferencesHelper.getInstance(context).putString("tLat", String.valueOf(model.lat));
+        SharedPreferencesHelper.getInstance(context).putString("tLon", String.valueOf(model.lon));
+
         new OrderConfirmActivity.Builder(context).start();
     }
 }

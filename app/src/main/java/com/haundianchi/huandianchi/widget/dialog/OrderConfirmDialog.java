@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.ui.position.NavigationActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,9 +26,11 @@ public class OrderConfirmDialog extends AlertDialog {
     public static class Builder {
         private AlertDialog.Builder mBuilder;
         private AlertDialog mDialog;
+        private Context mContext;
 
         public Builder(@NonNull Context context) {
             mBuilder = new AlertDialog.Builder(context);
+            mContext = context;
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_confirm_order, null);
             ButterKnife.bind(this, view);
             mBuilder.setView(view);
@@ -47,6 +50,7 @@ public class OrderConfirmDialog extends AlertDialog {
         @OnClick(R.id.btn_confirm)
         public void onBtnConfirmClicked() {
             mDialog.dismiss();
+            new NavigationActivity.Builder(mContext).start();
         }
     }
 }
