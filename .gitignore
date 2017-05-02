@@ -5,3 +5,4 @@ huandianchi.iml
 local.properties
 build/
 *.apk
+app/app.iml
