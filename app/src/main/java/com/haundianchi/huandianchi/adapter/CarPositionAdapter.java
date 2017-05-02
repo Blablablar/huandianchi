@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.model.CarPositionModel;
@@ -82,6 +83,10 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
         SharedPreferencesHelper.getInstance(context).putString("tLat", String.valueOf(model.lat));
         SharedPreferencesHelper.getInstance(context).putString("tLon", String.valueOf(model.lon));
 
+        if (SharedPreferencesHelper.getInstance(context).getString("sLat") == null){
+            Toast.makeText(context, "请先定位当前位置", Toast.LENGTH_SHORT);
+            return;
+        }
         new OrderConfirmActivity.Builder(context).start();
     }
 }

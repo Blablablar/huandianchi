@@ -200,6 +200,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
             }
+        }else{
+            initMap();
         }
 
     }
