@@ -23,11 +23,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="名称   "
+            android:text="名称    "
             android:textSize="18sp"
             android:textColor="@color/black"/>
         <EditText
-            android:layout_marginStart="5dp"
+            android:id="@+id/et_name"
+            android:layout_marginStart="10dp"
             android:textColor="@color/black"
             android:hint="请输入姓名"
             android:textColorHint="@color/gray"
@@ -52,12 +53,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机号"
+
             android:textSize="18sp"
             android:textColor="@color/black"/>
         <EditText
-            android:layout_marginStart="5dp"
+            android:id="@+id/et_phone_number"
+            android:layout_marginStart="10dp"
             android:textColor="@color/black"
             android:hint="请输入手机号"
+            android:digits="0123456789"
+            android:inputType="phone"
             android:textColorHint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,13 +103,17 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
             <EditText
-                android:hint="请输入验证码"
-                android:textColorHint="@color/gray"
-                android:textColor="@color/black"
-                android:layout_marginStart="5dp"
+                android:id="@+id/et_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null" />
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:maxLines="1"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:hint="请输入验证码"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray" />
         </LinearLayout>
     </RelativeLayout>
     <View

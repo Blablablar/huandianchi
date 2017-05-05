@@ -3,8 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="240dp"
     android:background="@color/themeColor"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/nav_bg_img"
+        android:layout_alignParentBottom="true"/>
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_avatar"
         android:layout_centerHorizontal="true"
@@ -14,21 +19,23 @@
         android:layout_height="72dp"
         android:layout_marginBottom="16dp"
         app:riv_oval="true"
-        android:src="@mipmap/avatar"/>
+        android:src="@mipmap/timg"/>
     <TextView
+        android:layout_below="@+id/iv_avatar"
+        android:id="@+id/tv_phone_number"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/white"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_phone_number"
         android:id="@+id/tv_username"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试名"
-        android:layout_below="@+id/iv_avatar"/>
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tv_phone_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_username"
-        android:text="18901997403"/>
+        android:text=""
+        android:textColor="@color/white"/>
 </RelativeLayout>

@@ -19,9 +19,6 @@
             android:id="@+id/nav_info"
             android:icon="@mipmap/car_info"
             android:title="车辆信息"/>
-    </group>
-
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_instruction"
             android:icon="@mipmap/instruction"

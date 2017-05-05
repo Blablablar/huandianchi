@@ -19,24 +19,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <TextView
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:text="@string/user_img"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/vg_edit_img"
@@ -49,43 +49,42 @@
                     android:id="@+id/user_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="20dp"
-                    app:riv_oval="true"
-                    android:src="@color/gray"/>
-
+                    android:layout_marginStart="10dp"
+                    android:src="@mipmap/timg"
+                    app:riv_oval="true" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/arrow_grey"
-                    android:layout_marginEnd="3dp"/>
+                    android:layout_marginEnd="3dp"
+                    android:src="@mipmap/arrow_grey" />
 
             </LinearLayout>
 
         </RelativeLayout>
+
         <View
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray">
-        </View>
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray"></View>
 
         <RelativeLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <TextView
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:text="@string/user_name"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/vg_edit_username"
@@ -98,43 +97,43 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="王某某"
                     android:layout_margin="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/dark_gray"/>
+                    android:text=""
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/arrow_grey"
-                    android:layout_marginEnd="3dp"/>
+                    android:layout_marginEnd="3dp"
+                    android:src="@mipmap/arrow_grey" />
 
             </LinearLayout>
 
         </RelativeLayout>
+
         <View
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray">
-        </View>
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray"></View>
 
         <RelativeLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <TextView
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:text="@string/phone"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/vg_edit_phone"
@@ -147,35 +146,36 @@
                     android:id="@+id/user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="18435172579"
                     android:layout_margin="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/dark_gray"/>
+                    android:text=""
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </RelativeLayout>
+
         <View
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray">
-        </View>
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray"></View>
+
         <RelativeLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <TextView
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:text="车架号"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,15 +184,26 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tv_car_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AQWERSFF"
                     android:layout_margin="10dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/dark_gray"/>
+                    android:text=""
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp" />
             </LinearLayout>
-
         </RelativeLayout>
     </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出登陆"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/button"/>
 </LinearLayout>

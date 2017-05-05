@@ -5,12 +5,12 @@
     android:layout_alignParentBottom="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="155.5dp"
     android:background="@color/transparent">
     <Button
         android:id="@+id/phone_number_1"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:text="上海：021-11111111"
         android:textColor="@color/themeColor"
         android:background="@drawable/button_phone_top"/>
@@ -22,7 +22,7 @@
     <Button
         android:id="@+id/phone_number_2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:text="上海：021-11111111"
         android:textColor="@color/themeColor"
         android:background="@drawable/button_phone_bottom"/>
@@ -30,7 +30,7 @@
         android:id="@+id/btn_cancel"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:text="取消"
         android:textColor="@color/themeColor"
         android:background="@drawable/button_phone"/>

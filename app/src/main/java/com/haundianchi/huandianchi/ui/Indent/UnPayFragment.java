@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.haundianchi.huandianchi.R;
 
@@ -16,6 +18,10 @@ import com.haundianchi.huandianchi.R;
 
 public class UnPayFragment extends Fragment implements View.OnClickListener
 {
+    ImageView ll_1;
+    ImageView ll_2;
+    ImageView ll_3;
+    ImageView ll_4;
     private Button confirmBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -23,6 +29,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
         View view=inflater.inflate(R.layout.unpay_fragment, container, false);
         confirmBtn=(Button)view.findViewById(R.id.btn_confirm);
         confirmBtn.setOnClickListener(this);
+        init(view);
         return view;
     }
 
@@ -33,8 +40,27 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                 Intent intent2 = new Intent(getActivity(),IndentConfirmActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.imageView1:
+            case R.id.imageView2:
+            case R.id.imageView3:
+            case R.id.imageView4:
+                Intent intent = new Intent(getActivity(),IndentDetailActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
+    }
+
+    public void init(View view){
+        ll_1=(ImageView)view.findViewById(R.id.imageView1);
+        ll_2=(ImageView)view.findViewById(R.id.imageView2);
+        ll_3=(ImageView)view.findViewById(R.id.imageView3);
+        ll_4=(ImageView)view.findViewById(R.id.imageView4);
+
+        ll_1.setOnClickListener(this);
+        ll_2.setOnClickListener(this);
+        ll_3.setOnClickListener(this);
+        ll_4.setOnClickListener(this);
     }
 }

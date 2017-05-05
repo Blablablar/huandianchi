@@ -74,7 +74,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.GuideActivity"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,10 +83,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.HomePageActivity" />
+        <activity android:name=".ui.HomePageActivity"/>
         <activity android:name=".ui.PhoneActivity" />
         <activity android:name=".ui.Indent.IndentActivity" />
         <activity android:name=".ui.Indent.IndentConfirmActivity" />
+        <activity android:name=".ui.Indent.IndentDetailActivity"/>
+        <activity android:name=".ui.LoginActivity"/>
         <activity android:name=".ui.InstructionsActivity" />
         <activity android:name=".ui.FaqActivity" />
         <activity android:name=".ui.CarInfoActivity" />
