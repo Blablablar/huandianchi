@@ -60,6 +60,7 @@
     <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS" />
 
     <application
+        android:name=".LIMSApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -89,6 +90,7 @@
         <activity android:name=".ui.Indent.IndentConfirmActivity" />
         <activity android:name=".ui.Indent.IndentDetailActivity"/>
         <activity android:name=".ui.LoginActivity"/>
+        <activity android:name=".ui.Indent.PayMethodActivity"/>
         <activity android:name=".ui.InstructionsActivity" />
         <activity android:name=".ui.FaqActivity" />
         <activity android:name=".ui.CarInfoActivity" />

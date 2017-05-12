@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
 
 import org.json.JSONArray;
@@ -27,7 +28,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by blablabla on 2017/4/11.
@@ -77,6 +77,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 edit.putString("token", jsonObject.get("result").toString());
                                 edit.commit();  //保存数据信息
                                 finish();
+                                VolleyRequest.setToken(jsonObject.get("result").toString());
                                 Intent intent1 = new Intent(getApplicationContext(),HomePageActivity.class);
                                 startActivity(intent1);
                             }else if(jsonObject.get("code").toString().equals("400"))

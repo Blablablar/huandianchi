@@ -12,4 +12,7 @@
         <item name="android:windowEnterAnimation">@anim/anim_call_out</item>
         <item name="android:windowExitAnimation">@anim/anim_call_back</item>
     </style>
+    <style name="PayCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_method</item>
+    </style>
 </resources>

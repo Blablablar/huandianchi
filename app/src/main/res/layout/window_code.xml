@@ -20,6 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:hint="请输入兑换码"
             android:background="@drawable/et_code"/>
         <Button
@@ -37,10 +38,10 @@
     <ImageView
         android:id="@+id/iv_quit"
         android:padding="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@mipmap/quit"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

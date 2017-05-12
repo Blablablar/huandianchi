@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.data.UserInfo;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
 import com.haundianchi.huandianchi.ui.MyPopupWindow.MyPopupWindow;
 import com.haundianchi.huandianchi.ui.MyPopupWindow.RescueWindow;
@@ -268,13 +269,21 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 case MSG_USER_INFO:
                     JSONObject jsonObject=(JSONObject)msg.obj;
                     try{
-                        if(!jsonObject.get("mobile").toString().equals(""))
-                            mUserNameTv.setText(jsonObject.get("mobile").toString()+"");
-                        if(!jsonObject.get("name").toString().equals(""))
+                        if(!jsonObject.isNull("mobile")){
+                            mUserNameTv.setText(jsonObject.get("mobile").toString());
+                            UserInfo.setMobilePhoneStr(jsonObject.get("mobile").toString());
+                        }
+                        if(!jsonObject.isNull("name")){
                             mPhoneTv.setText(jsonObject.get("name").toString());
-                        if(jsonObject.get("headPortrait").toString()!=null)
-                            System.out.println(jsonObject.get("headPortrait").toString()==null);
-                        //    userImg.setImageBitmap(stringtoBitmap(jsonObject.get("headPortrait").toString()));
+                            UserInfo.setNameStr(jsonObject.get("name").toString());
+                        }
+                        if(!jsonObject.isNull("headPortrait")){
+                            userImg.setImageBitmap(stringtoBitmap(jsonObject.get("headPortrait").toString()));
+                            UserInfo.setHeadPortrait(stringtoBitmap(jsonObject.get("headPortrait").toString()));
+                        }
+                        if(!jsonObject.isNull("carId")){
+                            UserInfo.setCarIdStr(jsonObject.get("carId").toString());
+                        }
                     }catch (Exception e){
                         e.printStackTrace();
                     }

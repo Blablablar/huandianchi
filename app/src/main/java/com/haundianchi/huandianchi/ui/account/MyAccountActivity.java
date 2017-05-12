@@ -32,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.data.UserInfo;
 import com.haundianchi.huandianchi.ui.HomePageActivity;
 import com.haundianchi.huandianchi.ui.LoginActivity;
 import com.haundianchi.huandianchi.ui.RegisterActivity;
@@ -55,7 +56,6 @@ import butterknife.OnClick;
 import butterknife.internal.Utils;
 
 public class MyAccountActivity extends AppCompatActivity {
-
     @BindView(R.id.titleBar)
     TitleBar titleBar;
     @BindView(R.id.user_img)
@@ -89,10 +89,17 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
         ButterKnife.bind(this);
-        init();
     }
 
     private void init() {
+        if(UserInfo.getHeadPortrait()!=null)
+            userImg.setImageBitmap(UserInfo.getHeadPortrait());
+        if(UserInfo.getNameStr()!=null)
+            userName.setText(UserInfo.getNameStr());
+        if(UserInfo.getMobilePhoneStr()!=null)
+            userPhone.setText(UserInfo.getMobilePhoneStr());
+        if(UserInfo.getMobilePhoneStr()!=null)
+            carId.setText(UserInfo.getCarIdStr());
         titleBar.bindActivity(this);
         mQueue = Volley.newRequestQueue(this);
         mLogOutBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +109,6 @@ public class MyAccountActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.clear();
                 editor.commit();
-                //finish();
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -350,13 +356,13 @@ public class MyAccountActivity extends AppCompatActivity {
                 case MSG_USER_INFO:
                     JSONObject jsonObject=(JSONObject)msg.obj;
                     try{
-                        if(!jsonObject.get("name").toString().equals(""))
+                        if(!jsonObject.isNull("name"))
                             userName.setText(jsonObject.get("name").toString());
-                        if(!jsonObject.get("mobile").toString().equals(""))
+                        if(!jsonObject.isNull("mobile"))
                             userPhone.setText(jsonObject.get("mobile").toString());
-                        if(!jsonObject.get("carId").toString().equals(""))
+                        if(!jsonObject.isNull("carId"))
                             carId.setText(jsonObject.get("carId").toString());
-                        if(!jsonObject.get("headPortrait").toString().equals(""))
+                        if(!jsonObject.isNull("headPortrait"))
                             userImg.setImageBitmap(stringtoBitmap(jsonObject.get("headPortrait").toString()));
                     }catch (Exception e){
                         e.printStackTrace();
@@ -383,6 +389,8 @@ public class MyAccountActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.out.println("Resume");
+        init();
         getUserInfo();
     }
 }

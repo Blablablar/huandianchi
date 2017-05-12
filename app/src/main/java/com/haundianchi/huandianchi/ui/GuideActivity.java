@@ -15,7 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.data.UserInfo;
 
 import org.json.JSONObject;
 
@@ -51,6 +53,7 @@ public class GuideActivity extends Activity{
                             @Override
                             public void onFinish() {
                                 finish();
+                                VolleyRequest.setToken(getApplicationContext());
                                 Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
                                 startActivity(intent);
                             }

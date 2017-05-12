@@ -119,6 +119,7 @@
                 android:layout_height="match_parent"
                 android:text="优惠券折扣"/>
             <TextView
+                android:id="@+id/tv_ticket_money"
                 android:gravity="center"
                 android:layout_marginEnd="10dp"
                 android:layout_toLeftOf="@+id/youhuiquan"
@@ -168,24 +169,26 @@
                 <!--android:src="@mipmap/arrow_grey"/>-->
         <!--</RelativeLayout>-->
     </LinearLayout>
-    <LinearLayout
-        android:layout_below="@+id/ll_detail"
-        android:layout_above="@+id/rl_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="距离失效时间:"
-            android:textSize="20sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="29:30"
-            android:textColor="@color/red"
-            android:textSize="25sp"/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_below="@+id/ll_detail"-->
+        <!--android:layout_above="@+id/rl_confirm"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@color/white">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="距离失效时间:"-->
+            <!--android:textSize="20sp"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="29:30"-->
+            <!--android:textColor="@color/red"-->
+            <!--android:textSize="25sp"/>-->
+    <!--</LinearLayout>-->
     <RelativeLayout
         android:id="@+id/rl_confirm"
         android:layout_above="@+id/btn_pay_confirm"

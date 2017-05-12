@@ -48,7 +48,6 @@ public class OrderToTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_to_ticket);
 
         ButterKnife.bind(this);
-
         init();
     }
 

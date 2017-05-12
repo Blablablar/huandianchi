@@ -28,20 +28,20 @@ public class CodeWindow extends PopupWindow {
         // TODO Auto-generated method stub
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mView = mInflater.inflate(R.layout.window_code,null);
-        EditText mCodeEt = (EditText) mView.findViewById(R.id.et_code);
         ImageView mQuitIv = (ImageView) mView.findViewById(R.id.iv_quit);
         Button mSubmitBtn = (Button) mView.findViewById(R.id.btn_submit);
 
-        mSubmitBtn.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                //销毁弹出框
-                dismiss();
-                backgroundAlpha(context, 1f);
-            }
-        });
+//        mSubmitBtn.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                //销毁弹出框
+//                //dismiss();
+//                backgroundAlpha(context, 1f);
+//            }
+//        });
         //设置按钮监听
         mQuitIv.setOnClickListener(itemsOnClick);
+        mSubmitBtn.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -62,7 +62,6 @@ public class CodeWindow extends PopupWindow {
         this.setBackgroundDrawable(dw);
         backgroundAlpha(context,0.5f);//0.0-1.0
         this.setOnDismissListener(new OnDismissListener() {
-
             @Override
             public void onDismiss() {
                 // TODO Auto-generated method stub
@@ -82,4 +81,8 @@ public class CodeWindow extends PopupWindow {
         context.getWindow().setAttributes(lp);
     }
 
+    public String getCode() {
+        EditText mCodeEt = (EditText) mView.findViewById(R.id.et_code);
+        return mCodeEt.getText().toString();
+    }
 }
