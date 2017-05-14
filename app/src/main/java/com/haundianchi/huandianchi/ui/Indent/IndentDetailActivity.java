@@ -104,7 +104,7 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
     public void cancel(){
         Map<String, String> params=new HashMap<>();
         params.put("status","2");
-        //params.put("orderNums",);
+        params.put("orderNums",getIntent().getStringExtra("orderNum"));
         VolleyRequest.RequestPost(getApplicationContext(), "/Order/updateStatus","3",params,
                 new VolleyListenerInterface(getApplicationContext(),VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
                     @Override
