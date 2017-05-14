@@ -119,7 +119,7 @@ public class HistoryTicketsActivity extends AppCompatActivity {
                                     JSONObject res = arrs.getJSONObject(i);
                                     Date date = new Date(Long.parseLong(res.getString("createTime")));
                                     mTicketModels.add(new TicketModel(res.getString("id"), res.getString("body"), sdf.format(date),
-                                            res.getString("address"), "test"/*res.getString("title")*/, res.getString("amount")));
+                                            res.getString("address"), res.getString("title"), res.getString("amount")));
 
                                     JSONArray orderArr = new JSONArray(res.getString("orderList"));
                                     orderModels[i] = new ArrayList<OrderModel>();
