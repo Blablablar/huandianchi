@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.haundianchi.huandianchi.widget.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isShowBack="true"
-        app:titleText="选择订单"/>
+        app:titleText="选择订单" />
 
-        <RelativeLayout
-            android:id="@+id/subtitle"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleBar"
+        android:background="@color/background"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/background"
-            android:layout_below="@id/titleBar"
-            android:padding="8dp">
+            android:text="2017.03月"
+            android:textColor="@color/register_text"
+            android:textSize="@dimen/small_size" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2017.03月"
-                android:textColor="@color/register_text"
-                android:textSize="@dimen/small_size" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="开票说明|开票历史"
+            android:textColor="@color/register_text"
+            android:textSize="@dimen/extra_small_size" />
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="开票说明|开票历史"
-                android:textColor="@color/register_text"
-                android:textSize="@dimen/extra_small_size" />
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subtitle"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="加载中......" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vg_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@id/subtitle" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:background="@color/background"
         android:gravity="center"
-        android:background="@color/background">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
             android:layout_margin="10dp"
+            android:layout_weight="0.7"
             android:orientation="vertical">
 
             <LinearLayout
@@ -63,27 +71,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
+
                 <CheckBox
                     android:id="@+id/cb_select_all"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
+                    android:background="@drawable/checkbox"
                     android:button="@null"
-                    android:clickable="false"
-                    android:background="@drawable/checkbox"/>
+                    android:clickable="false" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="全选"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_select_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="2个订单，共计费用500.00元"/>
+                android:text="2个订单，共计费用500.00元"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <Button
@@ -91,8 +101,8 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/button"
             android:text="下一步"
-            android:textColor="@color/white"
-            android:background="@drawable/button"/>
+            android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>

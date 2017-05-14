@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +30,14 @@ import butterknife.OnClick;
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketViewHolder> {
     private Context context;
     private ArrayList<TicketModel> models;
+    private ArrayList<OrderModel>[] orderModels;
     private OnTicketDetailClickListener listener;
     private Boolean[] visible;
 
-    public TicketAdapter(Context context, ArrayList<TicketModel> models, OnTicketDetailClickListener listener) {
+    public TicketAdapter(Context context, ArrayList<TicketModel> models, ArrayList<OrderModel>[] orderModels, OnTicketDetailClickListener listener) {
         this.context = context;
         this.models = models;
+        this.orderModels = orderModels;
         this.listener = listener;
         visible = new Boolean[models.size()];
         for (int i = 0; i < models.size(); ++i) {
@@ -50,7 +53,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(TicketViewHolder holder, int position) {
-        holder.bindData(models.get(position), position);
+        holder.bindData(models.get(position), position, orderModels[position]);
     }
 
     @Override
@@ -64,6 +67,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
                 visible[i] = false;
         }
         visible[position] = !visible[position];
+        notifyDataSetChanged();
+    }
+
+    public void update(ArrayList<TicketModel> models, ArrayList<OrderModel>[] orderModels) {
+        this.models = models;
+        this.orderModels = orderModels;
+        visible = new Boolean[models.size()];
+        for (int i = 0; i < models.size(); ++i) {
+            visible[i] = false;
+        }
         notifyDataSetChanged();
     }
 
@@ -99,10 +112,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         public TicketViewHolder(View itemView, Context context) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            mOrderModels.add(new OrderModel("2017.02.03 周五 19：31", "曹阳路500号电站", "消费电量20%", 200.00));
-            mOrderModels.add(new OrderModel("2017.02.03 周五 19：31", "曹阳路500号电站", "消费电量20%", 200.00));
-
             mOrderAdapter = new OrderAdapter(context, mOrderModels);
 
             mOrderContainer.setLayoutManager(new LinearLayoutManager(context));
@@ -112,7 +121,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        public void bindData(TicketModel model, int position) {
+        public void bindData(TicketModel model, int position, ArrayList<OrderModel> mOrderModels) {
+            this.mOrderModels = mOrderModels;
+            mOrderAdapter.update(mOrderModels);
+
             mTicketName.setText(model.name);
             mTicketTime.setText(model.date);
             mTicketCity.setText(model.city);

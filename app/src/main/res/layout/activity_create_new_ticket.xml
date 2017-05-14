@@ -62,10 +62,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="@string/paper_ticket"
+                        android:text="发票类型："
                         android:textColor="@color/black" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_ticket_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -111,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_content_hint"
+                        android:maxLines="1"
                         android:background="@null"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
@@ -138,12 +139,12 @@
                         android:text="@string/ticket_money"
                         android:textColor="@color/black" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_ticket_money"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/ticket_money_hint"
                         android:background="@null"
+                        android:hint="@string/ticket_money_hint"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -174,8 +175,9 @@
                         android:id="@+id/et_ticket_property"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/ticket_property_hint"
                         android:background="@null"
+                        android:maxLines="1"
+                        android:hint="@string/ticket_property_hint"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -217,6 +219,7 @@
                         android:hint="@string/receive_info_hint"
                         android:background="@null"
                         android:textColor="@color/black"
+                        android:maxLines="1"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
                 </LinearLayout>
@@ -248,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/receiver_phone_hint"
                         android:background="@null"
-                        android:text="15900929016"
+                        android:maxLines="1"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
@@ -266,7 +269,8 @@
                     android:layout_height="40dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -315,7 +319,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/detail_address_hint"
                         android:background="@null"
-                        android:textColor="@color/dark_gray"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />
                 </LinearLayout>
@@ -347,7 +352,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/ticket_mail_hint"
                         android:background="@null"
-                        android:text="2373775880@qq.com"
+                        android:maxLines="1"
                         android:textColor="@color/black"
                         android:textColorHint="@color/dark_gray"
                         android:textSize="@dimen/common_size" />

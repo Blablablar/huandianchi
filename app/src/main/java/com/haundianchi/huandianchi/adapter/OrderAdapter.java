@@ -58,6 +58,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.bindData(models.get(position), position);
     }
 
+    public void update(ArrayList<OrderModel> models){
+        this.models = models;
+        isChecked = new Boolean[models.size()];
+        for (int i = 0; i < models.size(); ++i) {
+            isChecked[i] = false;
+        }
+        notifyDataSetChanged();
+    }
+
     public double getTotalPrice() {
         double total = 0;
         for (int i = 0; i < models.size(); ++i) {
@@ -78,6 +87,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             isChecked[i] = true;
         }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<OrderModel> getCheckedOrders() {
+        ArrayList<OrderModel> tmpModels = new ArrayList<>();
+        for (int i = 0; i < models.size(); ++i) {
+            if (isChecked[i]){
+                tmpModels.add(models.get(i));
+            }
+        }
+        return  tmpModels;
     }
 
     @Override
@@ -132,7 +151,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         @OnClick(R.id.vg_root)
         public void onViewClicked() {
-            mCheck.setChecked(!mCheck.isChecked());
+            isChecked[position] = !mCheck.isChecked();
+            mCheck.setChecked(isChecked[position]);
         }
     }
 

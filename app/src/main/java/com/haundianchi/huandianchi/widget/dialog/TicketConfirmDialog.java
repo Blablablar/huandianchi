@@ -7,7 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
+import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.model.OrderModel;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +33,7 @@ public class TicketConfirmDialog extends AlertDialog {
     }
 
     public static class Builder {
+        private final HashMap<String, String> params;
         @BindView(R.id.tv_ticket_type)
         TextView tvTicketType;
         @BindView(R.id.tv_ticket_property)
@@ -38,17 +49,23 @@ public class TicketConfirmDialog extends AlertDialog {
 
         private AlertDialog.Builder mBuilder;
         private AlertDialog mDialog;
+        private OnConfirmClickedListener listener;
 
-        public Builder(@NonNull Context context) {
+        public Builder(@NonNull Context context, HashMap<String, String> params, OnConfirmClickedListener listener) {
+            this.listener = listener;
+            this.params = params;
             mBuilder = new AlertDialog.Builder(context);
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_confirm_ticket, null);
             ButterKnife.bind(this, view);
             mBuilder.setView(view);
+            tvTicketType.setText(params.get("type"));
+            tvTicketProperty.setText(params.get("title"));
+            tvTicketReceiverInfo.setText(params.get("receiver") + " " + params.get("mobile"));
+            tvTicketDetailAddress.setText(params.get("address"));
         }
 
         public void show() {
             mDialog = mBuilder.create();
-            //mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             mDialog.show();
         }
 
@@ -59,8 +76,13 @@ public class TicketConfirmDialog extends AlertDialog {
 
         @OnClick(R.id.btn_confirm)
         public void onBtnConfirmClicked() {
+            listener.onClick();
             mDialog.dismiss();
         }
+    }
+
+    public interface OnConfirmClickedListener{
+        void onClick();
     }
 }
 
