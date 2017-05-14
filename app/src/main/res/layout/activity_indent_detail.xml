@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/white">
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,203 +12,267 @@
         android:orientation="vertical">
 
         <include layout="@layout/header"></include>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="电站1：电站"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="订单编号：91298483275" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white">
+            <ImageView
+                android:id="@+id/iv_location"
+                android:padding="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/detial_location"/>
             <TextView
+                android:id="@+id/tv_station_name"
+                android:layout_toRightOf="@+id/iv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="预约保留时长：" />
-
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textSize="18sp" />
             <TextView
+                android:id="@+id/tv_order_num"
+                android:layout_below="@+id/tv_station_name"
+                android:layout_toRightOf="@+id/iv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="29：21"
-                android:textColor="@color/red"
-                android:textSize="25sp" />
-        </LinearLayout>
-
+                android:layout_marginTop="5dp"
+                android:text="" />
+        </RelativeLayout>
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:background="@color/white">
+            <ImageView
+                android:id="@+id/iv_time"
+                android:padding="10dp"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="预约状态:"
-                android:textSize="18sp" />
-
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/detail_time"/>
             <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/tv_time_title"
+                android:layout_toRightOf="@+id/iv_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="成功预约"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:text="预约保留时长 "
                 android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tv_time"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/tv_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:text="00:00"
+                android:textSize="20sp"
+                android:textColor="@color/red"/>
         </RelativeLayout>
-
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="预约状态"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:id="@+id/tv_status"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="XXXXX"
+                android:textSize="16sp" />
+        </RelativeLayout>
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
+            android:layout_height="40dp"
+            android:background="@color/white">
             <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="电池型号:"
-                android:textSize="18sp" />
-
+                android:layout_height="match_parent"
+                android:text="电池型号"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="ASDF"
-                android:textSize="18sp" />
+                android:layout_marginEnd="15dp"
+                android:text="XXXXXXXXX"
+                android:textSize="16sp" />
         </RelativeLayout>
-
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
+            android:layout_height="40dp"
+            android:background="@color/white">
             <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="是否可换:"
-                android:textSize="18sp" />
-
+                android:layout_height="match_parent"
+                android:text="是否可更换"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="剩余八块电池可换"
-                android:textSize="18sp" />
+                android:layout_marginEnd="15dp"
+                android:text="XXXXXXX"
+                android:textSize="16sp" />
         </RelativeLayout>
-
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
+            android:layout_height="40dp"
+            android:background="@color/white">
             <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="当前电池状态:"
-                android:textSize="18sp" />
-
+                android:layout_height="match_parent"
+                android:text="电池当前状态"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="10%"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
+                android:layout_marginEnd="15dp"
+                android:text="良好"
+                android:textSize="16sp"
+                android:textColor="@color/themeColor"/>
         </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/background"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
+            android:layout_height="40dp"
+            android:background="@color/white">
             <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="预约时剩余电量"
-                android:textSize="18sp" />
-
+                android:layout_height="match_parent"
+                android:text="剩余电量"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="18%"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
+                android:layout_marginEnd="15dp"
+                android:text="13%"
+                android:textSize="16sp" />
         </RelativeLayout>
-
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
+            android:layout_height="40dp"
+            android:background="@color/white">
             <TextView
+                android:gravity="center_vertical"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="续航里程数:"
-                android:textSize="18sp" />
-
+                android:layout_height="match_parent"
+                android:text="可续航里程数"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
             <TextView
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="15公里"
-                android:textSize="18sp" />
+                android:layout_marginEnd="15dp"
+                android:text="30km"
+                android:textSize="16sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:text="预估费用:"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:text="300.0元"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
-        </RelativeLayout>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_above="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="预估费用:"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/tv_price"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:text="0.0元"
+            android:textColor="@color/red"
+            android:textSize="18sp" />
+    </RelativeLayout>
     <Button
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_cancel"
         android:layout_alignParentBottom="true"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="取消预约"
         android:textColor="@color/white"
         android:background="@drawable/button"/>

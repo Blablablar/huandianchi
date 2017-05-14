@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="150.5dp"
+    android:background="@color/white"
+    android:id="@+id/vg_root"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@mipmap/dianzhan" />
+
+                <TextView
+                    android:id="@+id/tv_station_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="bottom"
+                    android:text="某某电站XXXXX"
+                    android:textSize="@dimen/small_size" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="预约成功" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dianliang"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="预计消费：18%剩余电量"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp">
+
+                <TextView
+                    android:id="@+id/tv_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="合计：300元" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"></View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+            <TextView
+                android:id="@+id/tv_count_down"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/red"
+                android:textSize="15sp" />
+            <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                android:focusable="false"
+                android:background="@color/themeColor"
+                android:text="确认支付"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

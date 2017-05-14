@@ -130,6 +130,7 @@
         </RelativeLayout>
     </LinearLayout>
     <Button
+        android:id="@+id/btn_pay_confirm"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"

@@ -59,7 +59,6 @@ public class IndentActivity extends Activity implements View.OnClickListener{
     }
 
     public void init(){
-
         mUnPayll = (LinearLayout) findViewById(R.id.ll_unpay);
         mPayedll = (LinearLayout) findViewById(R.id.ll_payed);
         mUnPayll.setOnClickListener(this);

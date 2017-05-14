@@ -64,6 +64,10 @@ public class IndentConfirmActivity extends Activity implements View.OnClickListe
                 break;
             case R.id.btn_pay_confirm:
                 Intent intent=new Intent(this,PayMethodActivity.class);
+                intent.putExtra("id",getIntent().getStringExtra("id"));
+                intent.putExtra("orderNum",getIntent().getStringExtra("orderNum"));
+                intent.putExtra("orderType","0");
+                intent.putExtra("price",getIntent().getStringExtra("price"));
                 startActivity(intent);
                 break;
             default:
