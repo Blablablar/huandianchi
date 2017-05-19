@@ -368,13 +368,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     addMarker(location);//添加定位图标
                     mSensorHelper.setCurrentMarker(mLocMarker);//定位图标旋转
                     //标记车站
-                    LatLng[] latlngs = new LatLng[3];
-                    latlngs[0]= new LatLng(amapLocation.getLatitude() + 0.003, amapLocation.getLongitude() + 0.003);
-                    latlngs[1] = new LatLng(amapLocation.getLatitude() - 0.003, amapLocation.getLongitude() - 0.003);
-                    latlngs[2] = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude() - 0.003);
-                    models.get(0).setLng(latlngs[0]);
-                    models.get(1).setLng(latlngs[1]);
-                    mAdapter.updateAdapter(models);
+                    LatLng[] latlngs = getLatLngs();
                     addPosMarkers(latlngs);
                 } else {
                     mCircle.setCenter(location);
@@ -398,6 +392,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         }
         return latlngs;
     }
+
+    public void clearMarkers(){
+    }
+
     /**
      * 激活定位
      */

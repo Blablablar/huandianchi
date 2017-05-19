@@ -90,6 +90,7 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
             return;
         }
         String stationId = model.id;
-        new OrderConfirmActivity.Builder(context, stationId).start();
+        String stationName = model.name;
+        new OrderConfirmActivity.Builder(context, stationId, stationName).start();
     }
 }
