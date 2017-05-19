@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.data.UserInfo;
 
 /**
  * Created by blablabla on 2017/4/24.
@@ -14,7 +15,7 @@ import com.haundianchi.huandianchi.R;
 
 public class CarInfoActivity extends Activity implements View.OnClickListener{
     private ImageButton backBtn;
-    TextView mCarId;
+    private TextView carIdTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class CarInfoActivity extends Activity implements View.OnClickListener{
     }
     public void init(){
         ((TextView)findViewById(R.id.tv_title)).setText("车辆信息");
-        mCarId=(TextView)findViewById(R.id.tv_car_id);
+        carIdTv=(TextView)findViewById(R.id.tv_car_id);
+        carIdTv.setText(UserInfo.getCarIdStr());
     }
 }

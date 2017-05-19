@@ -95,6 +95,9 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
                             JSONObject jsonObject = new JSONObject(result);
                             if(jsonObject.get("code").toString().equals("200")){
                                 Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mContext, IndentActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         }catch (Exception e){

@@ -3,6 +3,7 @@ package com.haundianchi.huandianchi.ui.Indent;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
@@ -37,11 +38,14 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
     private ImageButton backBtn;
     private Button cancelBtn;
     private static final int MSG_INDENT_DETAIL= 1;
+    private static final int MSG_COUNT_DOWN= 2;
     private TextView stationTv;
     private TextView orderNumTv;
     private TextView timeTv;
     private TextView statusTv;
     private TextView priceTv;
+    private String time;
+    CountDownTimer timer;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indent_detail);
@@ -71,6 +75,24 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
         timeTv=(TextView)findViewById(R.id.tv_time);
         statusTv=(TextView)findViewById(R.id.tv_status);
         priceTv=(TextView)findViewById(R.id.tv_price);
+        if(getIntent().getStringExtra("status").equals("0"))
+        {
+            time=getIntent().getStringExtra("time");
+            timer = new CountDownTimer(30*60*1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    mHandler.sendEmptyMessage(MSG_COUNT_DOWN);
+                }
+                @Override
+                public void onFinish() {
+
+                }
+            };
+            timer.start();
+        }
+        else
+            mHandler.sendEmptyMessage(3);
+
     }
 
     public void getDetail(){
@@ -92,7 +114,6 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-
                     }
                     @Override
                     public void onMyError(VolleyError error) {
@@ -114,6 +135,8 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
                             JSONObject jsonObject = new JSONObject(result);
                             if(jsonObject.get("code").toString().equals("200")){
                                 Toast.makeText(getApplicationContext(), "预约取消成功", Toast.LENGTH_SHORT).show();
+                                mHandler.sendEmptyMessage(MSG_COUNT_DOWN);
+                                getDetail();
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         }catch (Exception e){
@@ -136,8 +159,10 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
                             stationTv.setText((new JSONObject(jsonObject.get("station").toString())).get("address").toString());
                         if(!jsonObject.isNull("orderNum"))
                             orderNumTv.setText("订单编号："+jsonObject.get("orderNum").toString());
-                        if(!jsonObject.isNull("payTimeRemain"))
+                        if(!jsonObject.isNull("payTimeRemain")){
+                            time=getTime(jsonObject.get("payTimeRemain").toString());
                             timeTv.setText(getTime(jsonObject.get("payTimeRemain").toString()));
+                        }
                         if(!jsonObject.isNull("status")){
                             statusTv.setText(getStatus(jsonObject.get("status").toString()));
                         }
@@ -150,7 +175,17 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
+                    break;
+                case MSG_COUNT_DOWN:
+                    Long currentTime=Long.parseLong(time);
+                    if(currentTime-1>0){
+                        time=(Long.parseLong(time)-1)+"";
+                        timeTv.setText(getTime(time));
+                    }else
+                        timeTv.setText(getTime("00:00"));
+                    break;
+                case 3:
+                    timeTv.setText("00:00");
                     break;
             }
         }
@@ -164,7 +199,7 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
 
     public String getTime(String payTimeRemain){
         //倒计时
-        int time = Integer.parseInt(payTimeRemain);
+        Long time = Long.parseLong(payTimeRemain);
         final String hourStr;
         final String minStr;
         if(time/60<10)
@@ -190,5 +225,12 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
         else if(code.equals("4"))
             return "已开票";
         return "";
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(getIntent().getStringExtra("status").equals("0"))
+            timer.cancel();
     }
 }

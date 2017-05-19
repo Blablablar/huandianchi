@@ -63,6 +63,7 @@ public class PayedFragment extends Fragment implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(), IndentDetailActivity.class);
                 intent.putExtra("orderNum",mIndentModels.get(position).getOrderNum());
+                intent.putExtra("status",mIndentModels.get(position).getStatus());
                 getActivity().startActivity(intent);
             }
         });
