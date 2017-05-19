@@ -28,4 +28,8 @@ public class CarPositionModel {
         this.lat = String.valueOf(lng.latitude);
         this.lon = String.valueOf(lng.longitude);
     }
+
+    public LatLng getLng(){
+        return new LatLng(Double.parseDouble(lat), Double.parseDouble(lon));
+    }
 }

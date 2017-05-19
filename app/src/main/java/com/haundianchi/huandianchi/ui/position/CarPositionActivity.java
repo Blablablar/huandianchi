@@ -390,6 +390,14 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         }
     }
 
+    public LatLng[] getLatLngs(){
+        LatLng[] latlngs = new LatLng[models.size()];
+        int i = 0;
+        for(CarPositionModel model : models){
+            latlngs[i++] = model.getLng();
+        }
+        return latlngs;
+    }
     /**
      * 激活定位
      */

@@ -51,13 +51,6 @@
             android:layout_height="wrap_content"
             android:text="推荐电站点"/>
 
-        <ImageView
-            android:paddingLeft="10dp"
-            android:paddingEnd="5dp"
-            android:layout_width="30dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:src="@mipmap/arrow_down"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
