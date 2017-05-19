@@ -43,16 +43,24 @@ import com.amap.api.maps2d.model.CircleOptions;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.android.volley.VolleyError;
+import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
+import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.adapter.CarPositionAdapter;
 import com.haundianchi.huandianchi.model.CarPositionModel;
+import com.haundianchi.huandianchi.model.OrderModel;
+import com.haundianchi.huandianchi.model.TicketModel;
+import com.haundianchi.huandianchi.ui.tickets.HistoryTicketsActivity;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
 import com.haundianchi.huandianchi.utils.SensorEventHelper;
 import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
 import com.haundianchi.huandianchi.widget.TitleBar;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -178,11 +186,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         mTitleBar.bindActivity(this);
         initSearchView();
         mSearchResult.setOnTouchListener(this);
-
-        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
+        getStationModels();
+//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
+//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
+//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
+//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
         //init adapter
         mAdapter = new CarPositionAdapter(this, models);
 
@@ -204,6 +212,43 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
             initMap();
         }
 
+    }
+
+    public void getStationModels() {
+        VolleyRequest.RequestGet(getApplicationContext(), "/Station/list", "getStationModels",
+                new VolleyListenerInterface(getApplicationContext(),VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
+                    @Override
+                    public void onMySuccess(String result) {
+                        try{
+                            System.out.println(result);
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+                            JSONObject jsonObject = new JSONObject(result);
+                            if (jsonObject.getString("code").equals("200")){
+                                JSONArray arrs = new JSONArray(jsonObject.getString("result"));
+                                models.clear();
+
+                                for (int i = 0; i < arrs.length(); ++i){
+                                    JSONObject res = arrs.getJSONObject(i);
+                                    CarPositionModel model = new CarPositionModel(res.getString("id"), res.getString("name"), res.getString("address"));
+                                    model.setLng(res.getString("lat"), res.getString("lng"));
+                                    models.add(model);
+                                }
+                                mAdapter.updateAdapter(models);
+
+                            }else{
+                                Toast.makeText(CarPositionActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(CarPositionActivity.this, "JSON处理失败", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+
+                    }
+                    @Override
+                    public void onMyError(VolleyError error) {
+
+                    }
+                });
     }
 
     private void initSearchView() {
@@ -329,8 +374,6 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     latlngs[2] = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude() - 0.003);
                     models.get(0).setLng(latlngs[0]);
                     models.get(1).setLng(latlngs[1]);
-                    models.get(2).setLng(latlngs[2]);
-                    models.get(3).setLng(latlngs[2]);
                     mAdapter.updateAdapter(models);
                     addPosMarkers(latlngs);
                 } else {

@@ -7,12 +7,14 @@ import com.amap.api.maps2d.model.LatLng;
  */
 
 public class CarPositionModel {
+    public String id;
     public String lat;
     public String lon;
     public String name;
     public String detail;
 
-    public CarPositionModel(String name, String detail) {
+    public CarPositionModel(String id, String name, String detail) {
+        this.id = id;
         this.name = name;
         this.detail = detail;
     }

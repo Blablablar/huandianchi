@@ -6,15 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
 import com.haundianchi.huandianchi.ui.position.NavigationActivity;
-import com.haundianchi.huandianchi.ui.tickets.CreateNewTicketActivity;
-import com.haundianchi.huandianchi.ui.tickets.HistoryTicketsActivity;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

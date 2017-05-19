@@ -34,7 +34,7 @@ public class CreateNewTicketActivity extends AppCompatActivity {
     @BindView(R.id.et_ticket_type)
     TextView mTicketType;
     @BindView(R.id.et_ticket_content)
-    EditText mTicketContent;
+    TextView mTicketContent;
     @BindView(R.id.et_ticket_money)
     TextView mTicketMoney;
     @BindView(R.id.et_ticket_property)

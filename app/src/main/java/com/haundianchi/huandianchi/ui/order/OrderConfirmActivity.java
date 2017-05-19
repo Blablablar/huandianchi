@@ -45,9 +45,9 @@ public class OrderConfirmActivity extends AppCompatActivity {
     @OnClick(R.id.btn_order)
     public void onViewClicked() {
         Map<String, String> params = new HashMap<>();
-        params.put("stationId", "111359bb-4cbb-4b4f-a407-d0148468140d");
+        params.put("stationId", getIntent().getStringExtra("stationId"));
         params.put("orderNum", String.valueOf(new Date().getTime()));
-        params.put("price", "123");
+        params.put("price", "300");
         VolleyRequest.RequestPost(getApplicationContext(), "/Order/create", "getOrderModels", params,
                 new VolleyListenerInterface(getApplicationContext(),VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
                     @Override
@@ -73,14 +73,18 @@ public class OrderConfirmActivity extends AppCompatActivity {
     }
 
     public static class Builder extends ActivityBuilder {
+        public String stationId;
 
-        public Builder(Context context) {
+        public Builder(Context context, String stationId) {
             super(context);
+            this.stationId = stationId;
         }
 
         @Override
         public Intent create() {
-            return new Intent(getContext(), OrderConfirmActivity.class);
+            Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
+            intent.putExtra("stationId", stationId);
+            return intent;
         }
     }
 }

@@ -106,11 +106,11 @@
                         android:text="@string/ticket_content"
                         android:textColor="@color/black" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_ticket_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/ticket_content_hint"
+                        android:text="@string/ticket_content_hint"
                         android:maxLines="1"
                         android:background="@null"
                         android:textColor="@color/black"
@@ -297,7 +297,8 @@
                     android:layout_height="1dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -343,7 +344,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="邮         箱："
+                        android:text="邮        箱："
                         android:textColor="@color/black" />
 
                     <EditText

@@ -71,6 +71,8 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
 
     public void bindData(CarPositionModel model) {
         this.model = model;
+        mPositionName.setText(model.name);
+        mPositionDetail.setText(model.detail);
     }
 
     @OnClick(R.id.btn_view_more)
@@ -84,9 +86,10 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
         SharedPreferencesHelper.getInstance(context).putString("tLon", String.valueOf(model.lon));
 
         if (SharedPreferencesHelper.getInstance(context).getString("sLat") == null){
-            Toast.makeText(context, "请先定位当前位置", Toast.LENGTH_SHORT);
+            Toast.makeText(context, "请先定位当前位置", Toast.LENGTH_SHORT).show();
             return;
         }
-        new OrderConfirmActivity.Builder(context).start();
+        String stationId = model.id;
+        new OrderConfirmActivity.Builder(context, stationId).start();
     }
 }
