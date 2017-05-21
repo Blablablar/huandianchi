@@ -10,4 +10,5 @@ public class CarInfo {
     public static String endAddressX;
     public static String endAddressY;
     public static String speed;
+    public static String batteryState;
 }

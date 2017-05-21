@@ -47,6 +47,7 @@ public class OrderConfirmDialog extends AlertDialog {
             mDialog.dismiss();
             Intent intent = new Intent(mContext, IndentActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("fragment","unpay");
             mContext.startActivity(intent);
         }
 

@@ -190,6 +190,7 @@ public class GuideActivity extends Activity{
                     CarInfo.endAddressX=result.get("endAddressX").toString();
                     CarInfo.endAddressY=result.get("endAddressY").toString();
                     CarInfo.speed=result.get("speed").toString();
+                    CarInfo.batteryState=result.get("batteryState").toString();
                     //跳转到主页
                     finish();
                     Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
