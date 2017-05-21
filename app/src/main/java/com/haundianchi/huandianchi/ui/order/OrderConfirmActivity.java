@@ -86,7 +86,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
         tvDate.setText(sdf.format(new Date()));
         tvBatteryType.setText(model.batteryType);
         tvTimeDistance.setText(distance + "公里 " + distance / speed * 60 + "分钟");
-        tvDistance.setText(String.valueOf(SystemConfig.mileage * (100 - Double.valueOf(CarInfo.batteryPercent) / 100)) + "公里");
+        tvDistance.setText(String.valueOf(SystemConfig.mileage * (100 - Double.valueOf(CarInfo.batteryPercent)) / 100) + "公里");
         tvMoney.setText(String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))) + "元");
         if (Double.valueOf(CarInfo.batteryState) > 0){
             tvStatus.setText("良好");
