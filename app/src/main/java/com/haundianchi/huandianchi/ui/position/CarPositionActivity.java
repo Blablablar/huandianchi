@@ -43,11 +43,18 @@ import com.amap.api.maps2d.model.CircleOptions;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.android.volley.VolleyError;
 import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
 import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.adapter.CarPositionAdapter;
+import com.haundianchi.huandianchi.cache.CarInfo;
+import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.model.CarPositionModel;
 import com.haundianchi.huandianchi.model.OrderModel;
 import com.haundianchi.huandianchi.model.TicketModel;
@@ -70,7 +77,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CarPositionActivity extends AppCompatActivity implements LocationSource, View.OnTouchListener,
-        AMapLocationListener, AMap.OnMarkerClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
+        AMapLocationListener, AMap.OnMarkerClickListener, ActivityCompat.OnRequestPermissionsResultCallback,
+        GeocodeSearch.OnGeocodeSearchListener {
     @BindView(R.id.map)
     MapView mMapView;
     @BindView(R.id.search)
@@ -151,6 +159,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     private AMap aMap;
     private OnLocationChangedListener mListener;
     private AMapLocationClientOption mLocationOption;
+    private GeocodeSearch geocoderSearch;
 
     private static final int STROKE_COLOR = Color.argb(180, 3, 145, 255);
     private static final int FILL_COLOR = Color.argb(10, 0, 0, 180);
@@ -187,6 +196,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         initSearchView();
         mSearchResult.setOnTouchListener(this);
         getStationModels();
+
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+
 //        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
 //        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
 //        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
@@ -223,18 +236,22 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                             System.out.println(result);
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
                             JSONObject jsonObject = new JSONObject(result);
+
                             if (jsonObject.getString("code").equals("200")){
                                 JSONArray arrs = new JSONArray(jsonObject.getString("result"));
                                 models.clear();
+                                //清除markers
+                                clearMarkers();
+                                markers = new Marker[arrs.length()];
 
                                 for (int i = 0; i < arrs.length(); ++i){
                                     JSONObject res = arrs.getJSONObject(i);
-                                    CarPositionModel model = new CarPositionModel(res.getString("id"), res.getString("name"), res.getString("address"));
+                                    CarPositionModel model = new CarPositionModel(res.getString("id"), res.getString("name"), res.getString("address"), res.getString("validity"), res.getString("model"));
                                     model.setLng(res.getString("lat"), res.getString("lng"));
                                     models.add(model);
                                 }
                                 mAdapter.updateAdapter(models);
-
+                                addPosMarkers(getLatLngs());
                             }else{
                                 Toast.makeText(CarPositionActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
                             }
@@ -358,7 +375,13 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
-                LatLng location = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                //清除标记
+                aMap.clear();
+                LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
+
+                geocoderSearch.getFromLocationAsyn(query);
 
                 SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(amapLocation.getLatitude()));
                 SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(amapLocation.getLongitude()));
@@ -394,6 +417,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     }
 
     public void clearMarkers(){
+        if (markers == null || markers.length == 0)
+            return;
+        for (Marker marker : markers){
+            marker.remove();
+        }
     }
 
     /**
@@ -543,6 +571,16 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        mPositionCar.setText(regeocodeResult.getRegeocodeAddress().getFormatAddress());
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 
     public static class Builder extends ActivityBuilder {

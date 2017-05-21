@@ -89,8 +89,6 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
             Toast.makeText(context, "请先定位当前位置", Toast.LENGTH_SHORT).show();
             return;
         }
-        String stationId = model.id;
-        String stationName = model.name;
-        new OrderConfirmActivity.Builder(context, stationId, stationName).start();
+        new OrderConfirmActivity.Builder(context, model).start();
     }
 }

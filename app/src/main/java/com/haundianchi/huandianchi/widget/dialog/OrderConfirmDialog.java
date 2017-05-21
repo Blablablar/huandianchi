@@ -10,6 +10,7 @@ import android.view.View;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
 import com.haundianchi.huandianchi.ui.position.NavigationActivity;
+import com.haundianchi.huandianchi.ui.position.RestRouteShowActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,7 +55,8 @@ public class OrderConfirmDialog extends AlertDialog {
         @OnClick(R.id.btn_confirm)
         public void onBtnConfirmClicked() {
             mDialog.dismiss();
-            new NavigationActivity.Builder(mContext).start();
+            new RestRouteShowActivity.Builder(mContext).start();
+            //new NavigationActivity.Builder(mContext).start();
         }
     }
 }

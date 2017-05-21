@@ -9,16 +9,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
 import com.android.volley.VolleyError;
 import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
 import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.cache.CarInfo;
+import com.haundianchi.huandianchi.cache.SystemConfig;
+import com.haundianchi.huandianchi.model.CarPositionModel;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
+import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
 import com.haundianchi.huandianchi.widget.TitleBar;
 import com.haundianchi.huandianchi.widget.dialog.OrderConfirmDialog;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,12 +42,24 @@ public class OrderConfirmActivity extends AppCompatActivity {
     TextView tvPositionName;
     @BindView(R.id.vg_data)
     LinearLayout vgData;
-    @BindView(R.id.user_name)
-    TextView userName;
-    @BindView(R.id.vg_edit_username)
-    LinearLayout vgEditUsername;
+    @BindView(R.id.battery_info)
+    TextView batteryInfo;
     @BindView(R.id.btn_order)
     Button btnOrder;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.tv_battery_type)
+    TextView tvBatteryType;
+    @BindView(R.id.tv_time_distance)
+    TextView tvTimeDistance;
+    @BindView(R.id.tv_distance)
+    TextView tvDistance;
+    @BindView(R.id.tv_money)
+    TextView tvMoney;
+    @BindView(R.id.tv_status)
+    TextView tvStatus;
+
+    private int distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +71,41 @@ public class OrderConfirmActivity extends AppCompatActivity {
 
     private void init() {
         mTitleBar.bindActivity(this);
-        tvPositionName.setText(getIntent().getStringExtra("stationName"));
+
+        double speed = Double.valueOf(CarInfo.speed) < 30 ? 30 : Double.valueOf(CarInfo.speed);
+        LatLng sLng = new LatLng(Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("sLat")),
+                Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("sLon")));
+        LatLng eLng = new LatLng(Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("tLat")),
+                Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("tLon")));
+        distance = (int) (AMapUtils.calculateLineDistance(sLng,eLng) / 1000);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        CarPositionModel model = (CarPositionModel) getIntent().getSerializableExtra("station");
+        tvPositionName.setText(model.name);
+        batteryInfo.setText(model.validity.equals("1") ? "电池可更换" : "电池不可更换");
+        tvDate.setText(sdf.format(new Date()));
+        tvBatteryType.setText(model.batteryType);
+        tvTimeDistance.setText(distance + "公里 " + distance / speed * 60 + "分钟");
+        tvDistance.setText(String.valueOf(SystemConfig.mileage * (100 - Double.valueOf(CarInfo.batteryPercent) / 100)) + "公里");
+        tvMoney.setText(String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))) + "元");
+        if (Double.valueOf(CarInfo.batteryState) > 0){
+            tvStatus.setText("良好");
+            tvStatus.setTextColor(getResources().getColor(R.color.underline));
+        }else{
+            tvStatus.setText("损坏");
+            tvStatus.setTextColor(getResources().getColor(R.color.red));
+        }
+
     }
 
     @OnClick(R.id.btn_order)
     public void onViewClicked() {
+        CarPositionModel model = (CarPositionModel) getIntent().getSerializableExtra("station");
         Map<String, String> params = new HashMap<>();
-        params.put("stationId", getIntent().getStringExtra("stationId"));
+        params.put("stationId", model.id);
         params.put("orderNum", String.valueOf(new Date().getTime()));
-        params.put("price", "300");
+        params.put("price", String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))));
+
         VolleyRequest.RequestPost(getApplicationContext(), "/Order/create", "getOrderModels", params,
                 new VolleyListenerInterface(getApplicationContext(), VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
                     @Override
@@ -87,20 +132,17 @@ public class OrderConfirmActivity extends AppCompatActivity {
     }
 
     public static class Builder extends ActivityBuilder {
-        public String stationId;
-        public String stationName;
+        public CarPositionModel model;
 
-        public Builder(Context context, String stationId, String stationName) {
+        public Builder(Context context, CarPositionModel model) {
             super(context);
-            this.stationId = stationId;
-            this.stationName = stationName;
+            this.model = model;
         }
 
         @Override
         public Intent create() {
             Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
-            intent.putExtra("stationId", stationId);
-            intent.putExtra("stationName", stationName);
+            intent.putExtra("station", model);
             return intent;
         }
     }

@@ -105,6 +105,7 @@
         <activity android:name=".ui.order.OrderConfirmActivity" />
         <activity android:name=".ui.order.OrderToTicketActivity"></activity>
         <activity android:name=".ui.position.NavigationActivity" />
+        <activity android:name=".ui.position.RestRouteShowActivity" />
     </application>
 
 </manifest>
