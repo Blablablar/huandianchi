@@ -83,6 +83,9 @@ public class CreateNewTicketActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_submit_ticket)
     public void onBtnSubmitTicketClicked() {
+        if(!validate()){
+            return ;
+        }
         HashMap<String, String> params = new HashMap<>();
         params.put("type", mTicketType.getText().toString());
         params.put("title", mTicketProperty.getText().toString());
@@ -97,6 +100,30 @@ public class CreateNewTicketActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    /**
+     * 验证发票信息
+     * @return true／false
+     */
+    private boolean validate() {
+        if (mTicketProperty.getText().toString().equals("")){
+            Toast.makeText(this, "请输入发票抬头", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (mTicketReceiverName.getText().toString().equals("")){
+            Toast.makeText(this, "请输入收件人姓名", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (mTicketPhone.getText().toString().equals("")){
+            Toast.makeText(this, "请输入收件人手机号", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (mTicketDetailAddress.getText().toString().equals("")){
+            Toast.makeText(this, "请输入收件人详细地址", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @OnClick(R.id.et_ticket_type)
