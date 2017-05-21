@@ -8,7 +8,7 @@
             android:icon="@mipmap/dianzhan"
             android:title="电站预约"/>
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_order"
             android:icon="@mipmap/dingdan"
             android:title="订单查询"/>
         <item

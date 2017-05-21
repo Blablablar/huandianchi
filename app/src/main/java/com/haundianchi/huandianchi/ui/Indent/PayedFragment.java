@@ -75,7 +75,7 @@ public class PayedFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onMySuccess(String result) {
                         try{
-                            System.out.println(result);
+                            System.out.println("已完成 "+result);
                             JSONObject jsonObject = new JSONObject(result);
                             mIndentModels.clear();
                             if(jsonObject.get("code").toString().equals("200")){
@@ -109,6 +109,7 @@ public class PayedFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("onResume");
         getData();
     }
 

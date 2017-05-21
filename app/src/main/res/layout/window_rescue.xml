@@ -11,7 +11,7 @@
         android:id="@+id/btn_call"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="救援电话：021-11111111"
+        android:text="救援电话："
         android:textColor="@color/themeColor"
         android:background="@drawable/button_phone"/>
     <Button

@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.ui.HomePageActivity;
 
 /**
  * Created by blablabla on 2017/4/20.
@@ -21,8 +23,6 @@ import com.haundianchi.huandianchi.R;
 
 public class IndentActivity extends Activity implements View.OnClickListener{
     private ImageButton backBtn;
-
-
     private UnPayFragment mTab01;
     private PayedFragment mTab02;
     private LinearLayout mUnPayll;
@@ -41,7 +41,9 @@ public class IndentActivity extends Activity implements View.OnClickListener{
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.btn_back:
-                finish();
+                Intent intent=new Intent(this, HomePageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case R.id.btn_confirm:
                 Intent intent2 = new Intent(this.getApplicationContext(),IndentConfirmActivity.class);
@@ -65,6 +67,10 @@ public class IndentActivity extends Activity implements View.OnClickListener{
         mPayedll.setOnClickListener(this);
         mUnPayll.callOnClick();
         ((TextView)findViewById(R.id.tv_title)).setText("订单查询");
+        if(getIntent().getStringExtra("fragment").equals("unpay"))
+            setTabSelection(0);
+        else
+            setTabSelection(1);
     }
     private void setTabSelection(int index)
     {
@@ -140,5 +146,18 @@ public class IndentActivity extends Activity implements View.OnClickListener{
         {
             transaction.hide(mTab02);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Intent intent=new Intent(this, HomePageActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 }

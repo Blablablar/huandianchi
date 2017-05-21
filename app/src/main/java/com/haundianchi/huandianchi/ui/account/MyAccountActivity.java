@@ -89,6 +89,7 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
         ButterKnife.bind(this);
+        init();
     }
 
     private void init() {
@@ -389,8 +390,6 @@ public class MyAccountActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("Resume");
-        init();
         getUserInfo();
     }
 }

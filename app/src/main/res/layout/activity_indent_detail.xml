@@ -155,7 +155,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
-                android:text="XXXXXXX"
+                android:text="可更换"
                 android:textSize="16sp" />
         </RelativeLayout>
         <View
@@ -243,37 +243,43 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <RelativeLayout
-        android:layout_above="@+id/btn_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            android:text="预估费用:"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_price"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:text="0.0元"
-            android:textColor="@color/red"
-            android:textSize="18sp" />
-    </RelativeLayout>
-    <Button
-        android:id="@+id/btn_cancel"
+    <LinearLayout
         android:layout_alignParentBottom="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="取消预约"
-        android:textColor="@color/white"
-        android:background="@drawable/button"/>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_above="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:text="预估费用:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:text="0.0元"
+                android:textColor="@color/red"
+                android:textSize="18sp" />
+        </RelativeLayout>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="取消预约"
+            android:textColor="@color/white"
+            android:background="@drawable/button"/>
+    </LinearLayout>
 </RelativeLayout>

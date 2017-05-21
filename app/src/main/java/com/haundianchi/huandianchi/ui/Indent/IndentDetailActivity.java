@@ -77,6 +77,7 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
         priceTv=(TextView)findViewById(R.id.tv_price);
         if(getIntent().getStringExtra("status").equals("0"))
         {
+            cancelBtn.setVisibility(View.VISIBLE);
             time=getIntent().getStringExtra("time");
             timer = new CountDownTimer(30*60*1000, 1000) {
                 @Override
@@ -126,7 +127,7 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
         Map<String, String> params=new HashMap<>();
         params.put("status","2");
         params.put("orderNums",getIntent().getStringExtra("orderNum"));
-        VolleyRequest.RequestPost(getApplicationContext(), "/Order/updateStatus","3",params,
+        VolleyRequest.RequestPost(getApplicationContext(), "/Order/updateStatusByOrderId","3",params,
                 new VolleyListenerInterface(getApplicationContext(),VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
                     @Override
                     public void onMySuccess(String result) {

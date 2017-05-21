@@ -59,11 +59,15 @@ public class IndentAdapter extends BaseAdapter {
         TextView status = (TextView)convertView.findViewById(R.id.tv_status);
         TextView dianliang=(TextView)convertView.findViewById(R.id.tv_dianliang);
         TextView sumPrice=(TextView)convertView.findViewById(R.id.tv_sum);
+        TextView tradeTime=(TextView)convertView.findViewById(R.id.tv_time);
         final TextView countDown=(TextView)convertView.findViewById(R.id.tv_count_down);
         Button button=(Button)convertView.findViewById(R.id.btn_pay);
         button.setEnabled(false);
+        button.setVisibility(GONE);
         stationName.setText(models.get(position).getStation());
+        status.setTextColor(Color.rgb(141, 141, 141));
         if(models.get(position).getStatus().equals("0")) {
+            dianliang.setText("距离预约失效还有");
             status.setText("预约中");
             status.setTextColor(Color.rgb(126, 195, 14));
             //倒计时
@@ -79,17 +83,24 @@ public class IndentAdapter extends BaseAdapter {
             else
                 minStr=time%60+"";
             countDown.setText(hourStr+":"+minStr);
+            button.setVisibility(View.VISIBLE);
             button.setBackgroundColor(Color.rgb(191, 191, 191));
         }
         else if(models.get(position).getStatus().equals("1"))
         {
+            dianliang.setText("电站已成功换电，请前去支付");
+            dianliang.setTextColor(Color.rgb(255, 0, 0));
             status.setText("待支付");
             status.setTextColor(Color.rgb(126, 195, 14));
+            button.setVisibility(View.VISIBLE);
             button.setEnabled(true);
+            countDown.setText("");
         }
         else if(models.get(position).getStatus().equals("2")){
+            dianliang.setText("订单已取消，请重新预约");
             status.setText("已取消");
-            button.setBackgroundColor(Color.rgb(191, 191, 191));
+            button.setVisibility(GONE);
+            countDown.setText("");
         }
         else if(models.get(position).getStatus().equals("3")){
             status.setText("已支付");
@@ -98,11 +109,21 @@ public class IndentAdapter extends BaseAdapter {
             Date date = new Date(time);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr = sdf.format(date);
-            countDown.setText(dateStr);
-            countDown.setTextColor(Color.rgb(191, 191, 191));
+            tradeTime.setText(dateStr);
+            tradeTime.setTextColor(Color.rgb(191, 191, 191));
+            countDown.setText("");
         }
-        else if(models.get(position).getStatus().equals("4"))
+        else if(models.get(position).getStatus().equals("4")){
+            long time = Long.parseLong(models.get(position).getTradeTime());
+            Date date = new Date(time);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = sdf.format(date);
+            tradeTime.setText(dateStr);
+            tradeTime.setTextColor(Color.rgb(191, 191, 191));
+            button.setVisibility(GONE);
             status.setText("已开票");
+            countDown.setText("");
+        }
         sumPrice.setText("合计：¥"+models.get(position).getPrice()+"元");
 
         button.setOnClickListener(new View.OnClickListener() {

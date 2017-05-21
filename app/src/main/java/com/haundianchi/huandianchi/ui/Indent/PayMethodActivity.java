@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
 import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.ui.HomePageActivity;
 
 import org.json.JSONObject;
 
@@ -96,6 +97,7 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
                             if(jsonObject.get("code").toString().equals("200")){
                                 Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(mContext, IndentActivity.class);
+                                intent.putExtra("fragment","payed");
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }else if(jsonObject.get("code").toString().equals("400"))

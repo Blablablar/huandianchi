@@ -17,8 +17,10 @@ import com.haundianchi.huandianchi.R;
 
 public class RescueWindow extends PopupWindow {
     private View mView;
-    public RescueWindow(Activity context, View.OnClickListener itemsOnClick){
+    private String phoneStr;
+    public RescueWindow(Activity context, View.OnClickListener itemsOnClick,String Phone){
         super(context);
+        phoneStr=Phone;
         initView(context,itemsOnClick);
     }
 
@@ -28,7 +30,7 @@ public class RescueWindow extends PopupWindow {
         mView = mInflater.inflate(R.layout.window_rescue,null);
         Button ll_select01 = (Button) mView.findViewById(R.id.btn_call);
         Button ll_select03 = (Button) mView.findViewById(R.id.btn_cancel);
-
+        ll_select01.setText("救援电话："+phoneStr);
         ll_select03.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -79,4 +81,7 @@ public class RescueWindow extends PopupWindow {
         context.getWindow().setAttributes(lp);
     }
 
+    public void setPhone(String phone){
+
+    }
 }

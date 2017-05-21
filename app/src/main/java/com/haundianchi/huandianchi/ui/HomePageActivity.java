@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.data.UserInfo;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
 import com.haundianchi.huandianchi.ui.MyPopupWindow.MyPopupWindow;
@@ -113,12 +114,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
                 break;
             case R.id.ll_rescue:
-                rescueWindow = new RescueWindow(this,itemsOnClick);
+                if(SystemConfig.rescueTel==null){
+                    Toast.makeText(getApplicationContext(), "救援电话获取失败", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                rescueWindow = new RescueWindow(this,itemsOnClick,SystemConfig.rescueTel);
                 rescueWindow.showAtLocation(findViewById(R.id.id_drawer_layout),
                         Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.ll_change_history:
-                new HistoryTicketsActivity.Builder(HomePageActivity.this).start();
+                Intent intent=new Intent(this,IndentActivity.class);
+                intent.putExtra("fragment","payed");
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -152,8 +159,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 //                    case R.id.nav_position:
 //                        Intent intent1=new Intent(getApplicationContext(),PhoneActivity.class);
 //                        startActivity(intent1);
-                    case R.id.nav_messages:
+                    case R.id.nav_order:
                         Intent intent1=new Intent(getApplicationContext(),IndentActivity.class);
+                        intent1.putExtra("fragment","unpay");
                         startActivity(intent1);
                         break;
                     case R.id.nav_phone:
@@ -183,10 +191,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_call:
+                    if(SystemConfig.rescueTel==null)
+                        break;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if(getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED) {
                             Intent callIntent = new Intent(Intent.ACTION_CALL);
-                            callIntent.setData(Uri.parse("tel:10086"));
+                            callIntent.setData(Uri.parse("tel:"+SystemConfig.rescueTel));
                             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(callIntent);
                         }else{
@@ -195,7 +205,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                         }
                     }else{
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:10086"));
+                        callIntent.setData(Uri.parse("tel:"+SystemConfig.rescueTel));
                         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(callIntent);
                     }
