@@ -70,7 +70,7 @@
         <!-- 高德地图api -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="90d7911aa9c61aa96a74e98fdb1ad589" />
+            android:value="90d7911aa9c61aa96a74e98fdb1ad589" /><!--c776b90b6f9c980cce2b0ec84e500588--><!--90d7911aa9c61aa96a74e98fdb1ad589-->
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -79,7 +79,6 @@
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

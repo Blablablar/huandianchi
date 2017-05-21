@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.maps2d.AMapUtils;
+import com.amap.api.maps2d.model.LatLng;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.cache.CarInfo;
+import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.model.CarPositionModel;
 import com.haundianchi.huandianchi.ui.order.OrderConfirmActivity;
 import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
@@ -62,6 +66,7 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
     private CarPositionModel model;
+    private int distance;
 
     public CarPositionViewHolder(View itemView, Context context) {
         super(itemView);
@@ -72,7 +77,9 @@ class CarPositionViewHolder extends RecyclerView.ViewHolder {
     public void bindData(CarPositionModel model) {
         this.model = model;
         mPositionName.setText(model.name);
-        mPositionDetail.setText(model.detail);
+        distance = (int) AMapUtils.calculateLineDistance(new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY)),
+                new LatLng(Double.parseDouble(model.lat), Double.parseDouble(model.lon))) / 1000;
+        mPositionDetail.setText("距离" + distance + "公里，" + model.detail);
     }
 
     @OnClick(R.id.btn_view_more)

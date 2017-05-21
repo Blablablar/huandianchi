@@ -271,14 +271,14 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     private void initSearchView() {
         mSearch.clearFocus();
         mSearch.setIconified(false);
-        SearchView.SearchAutoComplete mEdit = (SearchView.SearchAutoComplete) mSearch.findViewById(R.id.search_src_text);
         mSearch.setIconifiedByDefault(false);
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (mSearchResult.getVisibility() == View.GONE)
                     mSearchResult.setVisibility(View.VISIBLE);
-                mAdapter.updateAdapter(models);
+                ArrayList<CarPositionModel> filterModels = searchFilter(models, query);
+                mAdapter.updateAdapter(filterModels);
                 if (mSearchResult.getTranslationY() > 0) {//向上滑动
                     ObjectAnimator.ofFloat(mSearchResult, "translationY", mSearchResult.getTranslationY(), 0).setDuration(100).start();
                 }
@@ -293,16 +293,24 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         setOnCloseListener(mSearch, new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                mSearchResult.setVisibility(View.GONE);
-                mSearchResult.clearFocus();
+                mAdapter.updateAdapter(models);
                 return false;
             }
         });
     }
 
+    private ArrayList<CarPositionModel> searchFilter(ArrayList<CarPositionModel> models, String query) {
+        ArrayList<CarPositionModel> filterModels = new ArrayList<>();
+        for(CarPositionModel model : models){
+            if(model.name.contains(query)){
+                filterModels.add(model);
+            }
+        }
+        return filterModels;
+    }
+
     public static boolean setOnCloseListener(final SearchView search, final SearchView.OnCloseListener listener) {
         try {
-            //final int id = Resources.getSystem().getIdentifier("search_close_btn", "id", "android");
             final ImageView close = (ImageView) search.findViewById(R.id.search_close_btn);
             close.setOnClickListener(new View.OnClickListener() {
 
