@@ -5,7 +5,7 @@ package com.haundianchi.huandianchi.cache;
  */
 
 public class SystemConfig {
-    public static int mileage;
+    public static int mileage=-1;
     public static String rescueTel;
     public static String serviceTel;
     public static String unitPrice;

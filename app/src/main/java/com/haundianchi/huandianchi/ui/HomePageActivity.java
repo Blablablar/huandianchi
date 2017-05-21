@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.haundianchi.huandianchi.R;
+import com.haundianchi.huandianchi.cache.CarInfo;
 import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.data.UserInfo;
 import com.haundianchi.huandianchi.ui.Indent.IndentActivity;
@@ -82,6 +83,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     TextView mUserNameTv;
     TextView mPhoneTv;
     ImageView userImg;//用户头像
+    TextView batteryPercentTv;
+    TextView pastDisTv;
+    TextView remainDisTv;
     private static final int MSG_USER_INFO = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         mChangeHistoryll.setOnClickListener(this);
         mRescuell.setOnClickListener(this);
         ButterKnife.bind(this);
-
         init();
     }
 
@@ -139,6 +142,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         userImg= (ImageView) header.findViewById(R.id.iv_avatar);
         mUserNameTv=(TextView)header.findViewById(R.id.tv_username);
         mPhoneTv=(TextView)header.findViewById(R.id.tv_phone_number);
+        batteryPercentTv=(TextView)findViewById(R.id.tv_batteryPercent);
+        pastDisTv=(TextView)findViewById(R.id.tv_past_distance);
+        remainDisTv=(TextView)findViewById(R.id.tv_remain_distance);
+        if(CarInfo.batteryPercent!=null){
+            batteryPercentTv.setText(CarInfo.batteryPercent+"%");
+            if(SystemConfig.mileage!=-1){
+                int percent=Integer.parseInt(CarInfo.batteryPercent);
+                int mileage=SystemConfig.mileage;
+                pastDisTv.setText(percent*mileage+"");
+                remainDisTv.setText(mileage-percent*mileage+"");
+            }
+        }
         userImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

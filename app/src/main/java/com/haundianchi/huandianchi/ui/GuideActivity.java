@@ -21,6 +21,7 @@ import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.LIMSApplication;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.adapter.IndentAdapter;
+import com.haundianchi.huandianchi.cache.CarInfo;
 import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.data.UserInfo;
 import com.haundianchi.huandianchi.model.IndentModel;
@@ -151,9 +152,8 @@ public class GuideActivity extends Activity{
                     SystemConfig.mileage=Integer.parseInt(result.get("mileage").toString());
                     SystemConfig.rescueTel=result.get("rescueTel").toString();
                     SystemConfig.serviceTel=result.get("serviceTel").toString();
-                    finish();
-                    Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
-                    startActivity(intent);
+                    //获取汽车状态
+                    getCarInfo();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "系统参数获取失败", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -164,6 +164,46 @@ public class GuideActivity extends Activity{
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG", error.getMessage(), error);
                 Toast.makeText(getApplicationContext(), "系统参数获取失败", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("MK-AUTH", phoneNumberStr+"-"+tokenStr);
+                return headers;
+            }
+        };
+        mQueue.add(stringRequest);
+    }
+
+    public void getCarInfo(){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                "http://116.62.56.64/test/Car/position", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("TAG", response);
+                try{
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject result=new JSONObject(jsonObject.get("result").toString());
+                    CarInfo.batteryPercent=result.get("batteryPercent").toString();
+                    CarInfo.batteryType=result.get("batteryType").toString();
+                    CarInfo.endAddressX=result.get("endAddressX").toString();
+                    CarInfo.endAddressY=result.get("endAddressY").toString();
+                    CarInfo.speed=result.get("speed").toString();
+                    //跳转到主页
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
+                    startActivity(intent);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+                Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
