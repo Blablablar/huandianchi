@@ -381,18 +381,18 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         if (mListener != null && amapLocation != null) {
+            LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+            // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+            RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
+            geocoderSearch.getFromLocationAsyn(query);
+
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
                 //清除标记
                 aMap.clear();
-                LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
-                // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-                RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
 
-                geocoderSearch.getFromLocationAsyn(query);
-
-                SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(amapLocation.getLatitude()));
-                SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(amapLocation.getLongitude()));
+                SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(location.latitude));
+                SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(location.longitude));
                 if (!mFirstFix) {
                     mFirstFix = true;
                     addCircle(location, amapLocation.getAccuracy());//添加定位精度圆
@@ -406,7 +406,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     mCircle.setRadius(amapLocation.getAccuracy());
                     mLocMarker.setPosition(location);
                 }
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
                 Toast.makeText(this, errText, Toast.LENGTH_SHORT).show();
