@@ -91,9 +91,11 @@ public class OrderConfirmActivity extends AppCompatActivity {
         if (Double.valueOf(CarInfo.batteryState) > 0){
             tvStatus.setText("良好");
             tvStatus.setTextColor(getResources().getColor(R.color.underline));
+            btnOrder.setEnabled(true);
         }else{
             tvStatus.setText("损坏");
             tvStatus.setTextColor(getResources().getColor(R.color.red));
+            btnOrder.setEnabled(false);
         }
 
     }

@@ -32,6 +32,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMapUtils;
+import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
@@ -44,21 +46,25 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.android.volley.VolleyError;
 import com.haundianchi.huandianchi.Http.VolleyListenerInterface;
 import com.haundianchi.huandianchi.Http.VolleyRequest;
 import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.adapter.CarPositionAdapter;
+import com.haundianchi.huandianchi.adapter.TipAdapter;
 import com.haundianchi.huandianchi.cache.CarInfo;
-import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.model.CarPositionModel;
-import com.haundianchi.huandianchi.model.OrderModel;
-import com.haundianchi.huandianchi.model.TicketModel;
-import com.haundianchi.huandianchi.ui.tickets.HistoryTicketsActivity;
+import com.haundianchi.huandianchi.model.TipModel;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
 import com.haundianchi.huandianchi.utils.SensorEventHelper;
 import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
@@ -70,6 +76,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -78,7 +85,7 @@ import butterknife.OnClick;
 
 public class CarPositionActivity extends AppCompatActivity implements LocationSource, View.OnTouchListener,
         AMapLocationListener, AMap.OnMarkerClickListener, ActivityCompat.OnRequestPermissionsResultCallback,
-        GeocodeSearch.OnGeocodeSearchListener {
+        GeocodeSearch.OnGeocodeSearchListener, Inputtips.InputtipsListener {
     @BindView(R.id.map)
     MapView mMapView;
     @BindView(R.id.search)
@@ -93,6 +100,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     ViewGroup mSearchResult;
     @BindView(R.id.titleBar)
     TitleBar mTitleBar;
+    @BindView(R.id.vg_search_poi)
+    RecyclerView vgSearchPoi;
+    @BindView(R.id.btn_more)
+    LinearLayout btnMore;
 
 
     @OnClick(R.id.btn_more)
@@ -140,10 +151,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     public void onViewClicked() {
         //函数节流
         newClick = new Date();
-        if ((newClick.getTime() - lastClick.getTime()) > 2000){
+        if ((newClick.getTime() - lastClick.getTime()) > 2000) {
             mLocationClient.startLocation();
             lastClick = new Date();
-        }else {
+        } else {
             Toast.makeText(this, "请勿短时间内连续定位", Toast.LENGTH_SHORT).show();
         }
     }
@@ -164,14 +175,14 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     private static final int STROKE_COLOR = Color.argb(180, 3, 145, 255);
     private static final int FILL_COLOR = Color.argb(10, 0, 0, 180);
     private boolean mFirstFix = false;
-    private Marker mLocMarker;
     private String locationId;
 
     private SensorEventHelper mSensorHelper;
     private Circle mCircle;
-    public static final String LOCATION_MARKER_FLAG = "mylocation";
-    public static final String POSITION_MARKER_FLAG = "car_position";
+
+    private Marker mLocMarker;
     private Marker[] markers;
+    private Marker tipMarker;
 
 
     private int lastX;
@@ -179,6 +190,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
 
     private Date lastClick;
     private Date newClick;
+    private String cityCode;
+
+    private ArrayList<TipModel> tipModels = new ArrayList<>();
+    private TipAdapter mTipAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,15 +228,39 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         mContainer.setAdapter(mAdapter);
         adjustRecycleView();
 
+        mTipAdapter = new TipAdapter(this, tipModels, new TipAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(TipModel model) {
+                //隐藏软键盘
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(CarPositionActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                //标记地点，搜索附近直线距离50公里内站点
+                addTipMarker(model.latLng);
+
+                ArrayList<CarPositionModel> filterModels = searchFilter(model.latLng);
+                if (filterModels.size() == 0){
+                    Toast.makeText(CarPositionActivity.this, "很抱歉，附近没有电站点", Toast.LENGTH_SHORT).show();
+                }
+                mAdapter.updateAdapter(filterModels);
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(model.latLng, 14));
+                vgSearchPoi.setVisibility(View.GONE);
+            }
+        });
+
+        vgSearchPoi.setLayoutManager(new LinearLayoutManager(this));
+        vgSearchPoi.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+        vgSearchPoi.setAdapter(mTipAdapter);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION);
             if (hasPermission == PackageManager.PERMISSION_GRANTED) {
                 initMap();
-            }else{
+            } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
             }
-        }else{
+        } else {
             initMap();
         }
 
@@ -229,22 +268,22 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
 
     public void getStationModels() {
         VolleyRequest.RequestGet(getApplicationContext(), "/Station/list", "getStationModels",
-                new VolleyListenerInterface(getApplicationContext(),VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
+                new VolleyListenerInterface(getApplicationContext(), VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
                     @Override
                     public void onMySuccess(String result) {
-                        try{
+                        try {
                             System.out.println(result);
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
                             JSONObject jsonObject = new JSONObject(result);
 
-                            if (jsonObject.getString("code").equals("200")){
+                            if (jsonObject.getString("code").equals("200")) {
                                 JSONArray arrs = new JSONArray(jsonObject.getString("result"));
                                 models.clear();
                                 //清除markers
                                 clearMarkers();
                                 markers = new Marker[arrs.length()];
 
-                                for (int i = 0; i < arrs.length(); ++i){
+                                for (int i = 0; i < arrs.length(); ++i) {
                                     JSONObject res = arrs.getJSONObject(i);
                                     CarPositionModel model = new CarPositionModel(res.getString("id"), res.getString("name"), res.getString("address"), res.getString("validity"), res.getString("model"));
                                     model.setLng(res.getString("lat"), res.getString("lng"));
@@ -252,15 +291,16 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                                 }
                                 mAdapter.updateAdapter(models);
                                 addPosMarkers(getLatLngs());
-                            }else{
+                            } else {
                                 Toast.makeText(CarPositionActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(CarPositionActivity.this, "JSON处理失败", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
 
                     }
+
                     @Override
                     public void onMyError(VolleyError error) {
 
@@ -275,34 +315,62 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (mSearchResult.getVisibility() == View.GONE)
-                    mSearchResult.setVisibility(View.VISIBLE);
-                ArrayList<CarPositionModel> filterModels = searchFilter(models, query);
-                mAdapter.updateAdapter(filterModels);
-                if (mSearchResult.getTranslationY() > 0) {//向上滑动
-                    ObjectAnimator.ofFloat(mSearchResult, "translationY", mSearchResult.getTranslationY(), 0).setDuration(100).start();
-                }
+//                if (mSearchResult.getVisibility() == View.GONE)
+//                    mSearchResult.setVisibility(View.VISIBLE);
+//                ArrayList<CarPositionModel> filterModels = searchFilter(models, query);
+//                mAdapter.updateAdapter(filterModels);
+//                if (mSearchResult.getTranslationY() > 0) {//向上滑动
+//                    ObjectAnimator.ofFloat(mSearchResult, "translationY", mSearchResult.getTranslationY(), 0).setDuration(100).start();
+//                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                vgSearchPoi.setVisibility(View.VISIBLE);
+                InputtipsQuery inputquery = new InputtipsQuery(newText, cityCode);
+                inputquery.setCityLimit(true);//限制在当前城市
+                Inputtips inputTips = new Inputtips(CarPositionActivity.this, inputquery);
+                inputTips.setInputtipsListener(CarPositionActivity.this);
+
+                inputTips.requestInputtipsAsyn();
+                if (newText.equals("")){
+                    vgSearchPoi.setVisibility(View.GONE);
+                }
+
                 return false;
+            }
+        });
+        mSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    vgSearchPoi.setVisibility(View.VISIBLE);
+                    InputtipsQuery inputquery = new InputtipsQuery(mSearch.getQuery().toString(), cityCode);
+                    inputquery.setCityLimit(true);//限制在当前城市
+                    Inputtips inputTips = new Inputtips(CarPositionActivity.this, inputquery);
+                    inputTips.setInputtipsListener(CarPositionActivity.this);
+
+                    inputTips.requestInputtipsAsyn();
+                }else{
+                    vgSearchPoi.setVisibility(View.GONE);
+                }
             }
         });
         setOnCloseListener(mSearch, new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 mAdapter.updateAdapter(models);
+                vgSearchPoi.setVisibility(View.GONE);
                 return false;
             }
         });
     }
 
-    private ArrayList<CarPositionModel> searchFilter(ArrayList<CarPositionModel> models, String query) {
+    private ArrayList<CarPositionModel> searchFilter(LatLng latLng) {
         ArrayList<CarPositionModel> filterModels = new ArrayList<>();
-        for(CarPositionModel model : models){
-            if(model.name.contains(query)){
+        for (CarPositionModel model : models) {
+            if (AMapUtils.calculateLineDistance(model.getLng(), latLng) / 1000 < 30) {
                 filterModels.add(model);
             }
         }
@@ -364,13 +432,13 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
     }
 
-    private void startLocation(){
+    private void startLocation() {
     }
 
-    private void adjustRecycleView(){
-        if (mAdapter.getItemCount() >= 3){
+    private void adjustRecycleView() {
+        if (mAdapter.getItemCount() >= 3) {
             mContainer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.pos_recycle_height)));
-        }else {
+        } else {
             mContainer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
     }
@@ -391,6 +459,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                 //清除标记
                 aMap.clear();
 
+                cityCode = amapLocation.getCityCode();
                 SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(location.latitude));
                 SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(location.longitude));
                 if (!mFirstFix) {
@@ -415,19 +484,19 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         }
     }
 
-    public LatLng[] getLatLngs(){
+    public LatLng[] getLatLngs() {
         LatLng[] latlngs = new LatLng[models.size()];
         int i = 0;
-        for(CarPositionModel model : models){
+        for (CarPositionModel model : models) {
             latlngs[i++] = model.getLng();
         }
         return latlngs;
     }
 
-    public void clearMarkers(){
+    public void clearMarkers() {
         if (markers == null || markers.length == 0)
             return;
-        for (Marker marker : markers){
+        for (Marker marker : markers) {
             marker.remove();
         }
     }
@@ -497,6 +566,21 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         locationId = mLocMarker.getId();
     }
 
+    private void addTipMarker(LatLng latlng) {
+        if (tipMarker != null) {
+            tipMarker.remove();
+        }
+        //Bitmap bMap = BitmapFactory.decodeResource(this.getResources(),
+        //        R.mipmap.navi_map_gps_locked);
+        //BitmapDescriptor des = BitmapDescriptorFactory.fromBitmap(bMap);
+
+        MarkerOptions options = new MarkerOptions();
+        options.anchor(0.5f, 0.5f);
+        options.position(latlng);
+        tipMarker = aMap.addMarker(options);
+        tipMarker.setZIndex(5);
+    }
+
     private void addPosMarkers(LatLng[] latlngs) {
         markers = new Marker[latlngs.length];
         int i = 0;
@@ -516,7 +600,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(Objects.equals(marker.getId(), locationId)) return false;
+        if (Objects.equals(marker.getId(), locationId)) return false;
         ArrayList<CarPositionModel> modelList = new ArrayList<>();
         modelList.add(models.get(0));
         mAdapter.updateAdapter(modelList);
@@ -589,6 +673,18 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     @Override
     public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> list, int i) {
+        if (1000 == i){
+            tipModels.clear();
+            for (Tip tip : list){
+                if (tip.getPoiID() != null && tip.getPoint() != null)
+                    tipModels.add(new TipModel(tip.getName(), tip.getAddress(), tip.getDistrict(), new LatLng(tip.getPoint().getLatitude(), tip.getPoint().getLongitude())));
+            }
+            mTipAdapter.update(tipModels);
+        }
     }
 
     public static class Builder extends ActivityBuilder {
