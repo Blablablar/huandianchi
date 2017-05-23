@@ -210,7 +210,6 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         mTitleBar.bindActivity(this);
         initSearchView();
         mSearchResult.setOnTouchListener(this);
-        getStationModels();
 
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
@@ -401,6 +400,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         if (aMap == null) {
             aMap = mMapView.getMap();
             setUpMap();
+
+            getStationModels();
         }
         mSensorHelper = new SensorEventHelper(this);
         if (mSensorHelper != null) {
@@ -593,8 +594,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
             options.icon(des);
             options.anchor(0.5f, 0.5f);
             options.position(latlng);
-            markers[i] = aMap.addMarker(options);
-            markers[i++].setZIndex(10);
+            if (aMap != null) {
+                markers[i] = aMap.addMarker(options);
+                markers[i++].setZIndex(10);
+            }
         }
     }
 
