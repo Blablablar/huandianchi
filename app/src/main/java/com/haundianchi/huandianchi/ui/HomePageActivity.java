@@ -199,6 +199,21 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 return true;
             }
         });
+
+        Handler popupHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case 0:
+                        if (getIntent().getBooleanExtra("callForHelp", false)){
+                            mRescuell.performClick();
+                        }
+                        break;
+                }
+            }
+
+        };
+        popupHandler.sendEmptyMessageDelayed(0, 100);
     }
 
     //为弹出窗口实现监听类

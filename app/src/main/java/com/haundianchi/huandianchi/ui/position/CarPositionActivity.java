@@ -400,9 +400,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         if (aMap == null) {
             aMap = mMapView.getMap();
             setUpMap();
-
-            getStationModels();
         }
+        getStationModels();
         mSensorHelper = new SensorEventHelper(this);
         if (mSensorHelper != null) {
             mSensorHelper.registerSensorListener();

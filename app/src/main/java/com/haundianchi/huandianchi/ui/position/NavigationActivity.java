@@ -79,7 +79,7 @@ public class NavigationActivity extends BaseNavActivity {
     @Override
     public void onCalculateRouteSuccess() {
         super.onCalculateRouteSuccess();
-        mAMapNavi.startNavi(NaviType.EMULATOR);
+        mAMapNavi.startNavi(NaviType.GPS);
     }
 
     public static class Builder extends ActivityBuilder {

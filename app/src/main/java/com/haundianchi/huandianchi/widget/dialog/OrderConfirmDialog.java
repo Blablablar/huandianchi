@@ -55,8 +55,8 @@ public class OrderConfirmDialog extends AlertDialog {
         @OnClick(R.id.btn_confirm)
         public void onBtnConfirmClicked() {
             mDialog.dismiss();
-            new RestRouteShowActivity.Builder(mContext).start();
-            //new NavigationActivity.Builder(mContext).start();
+            //new RestRouteShowActivity.Builder(mContext).start();
+            new NavigationActivity.Builder(mContext).start();
         }
     }
 }

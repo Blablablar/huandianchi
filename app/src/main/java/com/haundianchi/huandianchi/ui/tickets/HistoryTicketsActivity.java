@@ -71,8 +71,6 @@ public class HistoryTicketsActivity extends AppCompatActivity {
         orderModels = new ArrayList[mTicketModels.size()];
         for (int i = 0; i < mTicketModels.size(); ++i){
             orderModels[i] = new ArrayList<OrderModel>();
-            orderModels[i].add(new OrderModel("id", "orderNum", "1970.1.1", "假的电站", "消费电量20%", 200.00));
-            orderModels[i].add(new OrderModel("id", "orderNum", "1970.1.1", "假的电站", "消费电量20%", 200.00));
         }
 
         mAdapter = new TicketAdapter(this, mTicketModels, orderModels, new TicketAdapter.OnTicketDetailClickListener() {
@@ -128,7 +126,7 @@ public class HistoryTicketsActivity extends AppCompatActivity {
                                         JSONObject orderObj = orderArr.getJSONObject(j),
                                             stationObj = orderObj.getJSONObject("station");
                                         Date date2 = new Date(Long.parseLong(orderObj.getString("appointTime")));
-                                        orderModels[i].add(new OrderModel(orderObj.getString("id"), orderObj.getString("orderNum"), sdf.format(date2), stationObj.getString("name"), "消费电量20%", 200.00));
+                                        orderModels[i].add(new OrderModel(orderObj.getString("id"), orderObj.getString("orderNum"), sdf.format(date2), stationObj.getString("name"), "消费电量20%", Double.parseDouble(orderObj.getString("price"))));
                                     }
                                 }
                                 mAdapter.update(mTicketModels, orderModels);

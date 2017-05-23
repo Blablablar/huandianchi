@@ -18,6 +18,7 @@ import com.haundianchi.huandianchi.R;
 import com.haundianchi.huandianchi.cache.CarInfo;
 import com.haundianchi.huandianchi.cache.SystemConfig;
 import com.haundianchi.huandianchi.model.CarPositionModel;
+import com.haundianchi.huandianchi.ui.HomePageActivity;
 import com.haundianchi.huandianchi.utils.ActivityBuilder;
 import com.haundianchi.huandianchi.utils.SharedPreferencesHelper;
 import com.haundianchi.huandianchi.widget.TitleBar;
@@ -91,46 +92,53 @@ public class OrderConfirmActivity extends AppCompatActivity {
         if (Double.valueOf(CarInfo.batteryState) > 0){
             tvStatus.setText("良好");
             tvStatus.setTextColor(getResources().getColor(R.color.underline));
-            btnOrder.setEnabled(true);
+            btnOrder.setText("预约电站");
         }else{
             tvStatus.setText("损坏");
             tvStatus.setTextColor(getResources().getColor(R.color.red));
-            btnOrder.setEnabled(false);
+            btnOrder.setText("前往救援");
         }
 
     }
 
     @OnClick(R.id.btn_order)
     public void onViewClicked() {
-        CarPositionModel model = (CarPositionModel) getIntent().getSerializableExtra("station");
-        Map<String, String> params = new HashMap<>();
-        params.put("stationId", model.id);
-        params.put("orderNum", String.valueOf(new Date().getTime()));
-        params.put("price", String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))));
+        if (btnOrder.getText().equals("预约电站")){
+            CarPositionModel model = (CarPositionModel) getIntent().getSerializableExtra("station");
+            Map<String, String> params = new HashMap<>();
+            params.put("stationId", model.id);
+            params.put("orderNum", String.valueOf(new Date().getTime()));
+            params.put("price", String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))));
 
-        VolleyRequest.RequestPost(getApplicationContext(), "/Order/create", "getOrderModels", params,
-                new VolleyListenerInterface(getApplicationContext(), VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
-                    @Override
-                    public void onMySuccess(String result) {
-                        try {
-                            JSONObject obj = new JSONObject(result);
-                            if (obj.getString("code").equals("200")) {
-                                System.out.println(result);
-                                OrderConfirmDialog.Builder builder = new OrderConfirmDialog.Builder(OrderConfirmActivity.this);
-                                builder.show();
-                            } else {
-                                Toast.makeText(OrderConfirmActivity.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
+            VolleyRequest.RequestPost(getApplicationContext(), "/Order/create", "getOrderModels", params,
+                    new VolleyListenerInterface(getApplicationContext(), VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
+                        @Override
+                        public void onMySuccess(String result) {
+                            try {
+                                JSONObject obj = new JSONObject(result);
+                                if (obj.getString("code").equals("200")) {
+                                    System.out.println(result);
+                                    OrderConfirmDialog.Builder builder = new OrderConfirmDialog.Builder(OrderConfirmActivity.this);
+                                    builder.show();
+                                } else {
+                                    Toast.makeText(OrderConfirmActivity.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onMyError(VolleyError error) {
-                        Toast.makeText(OrderConfirmActivity.this, "创建失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onMyError(VolleyError error) {
+                            Toast.makeText(OrderConfirmActivity.this, "创建失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else{
+            Intent intent = new Intent(OrderConfirmActivity.this, HomePageActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("callForHelp", true);
+            startActivity(intent);
+        }
     }
 
     public static class Builder extends ActivityBuilder {
