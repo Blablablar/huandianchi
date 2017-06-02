@@ -212,10 +212,6 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
 
-//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
-//        models.add(new CarPositionModel("某某电站XX", "距离您275米，武宁路201号"));
         //init adapter
         mAdapter = new CarPositionAdapter(this, models);
 
@@ -231,7 +227,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                 //隐藏软键盘
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(CarPositionActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                //标记地点，搜索附近直线距离50公里内站点
+                //标记地点，搜索附近直线距离30公里内站点
                 addTipMarker(model.latLng);
 
                 ArrayList<CarPositionModel> filterModels = searchFilter(model.latLng);
@@ -250,7 +246,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         vgSearchPoi.setAdapter(mTipAdapter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION);
+            int hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) | ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
             if (hasPermission == PackageManager.PERMISSION_GRANTED) {
                 initMap();
             } else {
@@ -287,7 +283,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                                     models.add(model);
                                 }
                                 mAdapter.updateAdapter(models);
-                                addPosMarkers(getLatLngs());
+                                //动态设置高度
+                                adjustRecycleView();
                             } else {
                                 Toast.makeText(CarPositionActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
                             }
@@ -658,6 +655,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     // Permission Denied
                     Toast.makeText(CarPositionActivity.this, "Denied", Toast.LENGTH_SHORT)
                             .show();
+                    finish();
                 }
                 break;
             default:
