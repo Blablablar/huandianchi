@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HistoryTicketsActivity extends AppCompatActivity {
-
     @BindView(R.id.vg_container)
     RecyclerView mContainer;
     @BindView(R.id.btn_create_ticket)
@@ -124,10 +123,11 @@ public class HistoryTicketsActivity extends AppCompatActivity {
                                         JSONObject orderObj = orderArr.getJSONObject(j),
                                             stationObj = orderObj.getJSONObject("station");
                                         Date date2 = new Date(Long.parseLong(orderObj.getString("appointTime")));
-                                        orderModels[i].add(new OrderModel(orderObj.getString("id"), orderObj.getString("orderNum"), sdf.format(date2), stationObj.getString("name"), "消费电量20%", Double.parseDouble(orderObj.getString("price"))));
+                                        orderModels[i].add(new OrderModel(orderObj.getString("id"), orderObj.getString("orderNum"), sdf.format(date2), stationObj.getString("name"),
+                                                "消费电量" + (Double.valueOf(orderObj.getString("electricity")) - Double.valueOf(orderObj.getString("electricityOfBefore"))) + "%"
+                                                , Double.parseDouble(orderObj.getString("price"))));
                                     }
                                 }
-                                mAdapter.update(mTicketModels, orderModels);
 
                             }else{
                                 Toast.makeText(HistoryTicketsActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
@@ -137,6 +137,8 @@ public class HistoryTicketsActivity extends AppCompatActivity {
                             Toast.makeText(HistoryTicketsActivity.this, "JSON处理失败", Toast.LENGTH_SHORT).show();
                             tvLoading.setVisibility(View.GONE);
                             e.printStackTrace();
+                        }finally {
+                            mAdapter.update(mTicketModels, orderModels);
                         }
 
                     }
