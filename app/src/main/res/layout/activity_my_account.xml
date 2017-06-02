@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/gray"
-    tools:context="com.haundianchi.huandianchi.ui.account.MyAccountActivity">
+    tools:context=".ui.account.MyAccountActivity">
 
-    <com.haundianchi.huandianchi.widget.TitleBar
+    <com.moka.carsharing.widget.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

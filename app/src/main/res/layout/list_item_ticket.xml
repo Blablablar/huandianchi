@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textSize="18sp"
-                android:text="250元"
+                android:text="元"
                 android:textColor="@color/black"
                 />
         </LinearLayout>

@@ -61,7 +61,7 @@
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="良好"
+            android:text=""
             android:textColor="@color/themeColor"
             android:textSize="18sp"/>
     </RelativeLayout>
@@ -93,7 +93,7 @@
             android:layout_marginStart="20dp"
             android:gravity="center"
             android:paddingEnd="10dp"
-            android:text="GB9417-88"
+            android:text=""
             android:textColor="@color/dark_gray"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -121,7 +121,7 @@
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="SAAB 9000"
+            android:text=""
             android:textColor="@color/dark_gray"
             android:textSize="18sp"
             android:layout_alignParentTop="true"

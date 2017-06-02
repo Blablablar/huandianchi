@@ -9,7 +9,9 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
         <include
             layout="@layout/header">
         </include>
@@ -18,9 +20,10 @@
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="订单详情：XXXXXXX"
+            android:text="订单详情：汽车换电费用"
             android:textColor="@color/black"/>
         <TextView
+            android:id="@+id/tv_amount"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"

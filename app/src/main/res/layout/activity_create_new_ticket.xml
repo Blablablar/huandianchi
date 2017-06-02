@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     android:id="@id/vg_root">
 
-    <com.haundianchi.huandianchi.widget.TitleBar
+    <com.moka.carsharing.widget.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +43,7 @@
                         android:textSize="@dimen/small_size" />
 
                     <TextView
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

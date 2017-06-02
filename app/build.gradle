@@ -5,7 +5,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.haundianchi.huandianchi"
+        applicationId "com.moka.carsharing"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -46,4 +46,6 @@ dependencies {
     compile files('libs/AMap_Location_V3.4.0_20170427.jar')
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'cn.qqtheme.framework:WheelPicker:latest.release'
+    //微信支付
+    compile files('libs/libammsdk.jar')
 }

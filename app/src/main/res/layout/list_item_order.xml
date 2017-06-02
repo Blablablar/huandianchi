@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="消费电量20%"
+                    android:text="消费电量%"
                     android:textSize="@dimen/small_size"
                     android:textColor="@color/black"
                     />
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="@dimen/small_size"
-            android:text="¥250.00元"
+            android:text="¥元"
             android:textColor="@color/black"
             />
     </LinearLayout>
