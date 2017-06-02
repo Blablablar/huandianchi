@@ -105,7 +105,7 @@ public class PayedFragment extends Fragment implements View.OnClickListener
                                     indentModel.setElectricityOfBefore(data.get("electricityOfBefore").toString());
                                     indentModel.setPayType(data.get("payType").toString());
                                     //indentModel.setBatteryModel((new JSONObject(data.get("station").toString())).get("model").toString());
-                                    if(data.isNull("actualPrice"))
+                                    if(!data.isNull("actualPrice"))
                                         indentModel.setActualPrice(data.getString("actualPrice"));
                                     if(!data.isNull("promotionCode")){
                                         JSONObject jsonObject1=new JSONObject(data.getString("promotionCode"));

@@ -227,7 +227,7 @@ public class IndentDetailActivity extends Activity implements View.OnClickListen
             else
                 paytypeTv.setText("微信");
             TextView orderPriceTv=(TextView)findViewById(R.id.tv_order_price);
-            orderPriceTv.setText(orderList.get(position).getPrice()+"元");
+            orderPriceTv.setText(orderList.get(position).getActualPrice()+"元");
             TextView youhuiquanTv=(TextView)findViewById(R.id.tv_youhuiquan);
             if(orderList.get(position).getYouhuiPrice()!=null)
                 youhuiquanTv.setText(orderList.get(position).getYouhuiPrice()+"元");
