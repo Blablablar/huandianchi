@@ -392,11 +392,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     }
 
     private void initMap() {
+        getStationModels();
         if (aMap == null) {
             aMap = mMapView.getMap();
             setUpMap();
         }
-        getStationModels();
         mSensorHelper = new SensorEventHelper(this);
         if (mSensorHelper != null) {
             mSensorHelper.registerSensorListener();
@@ -445,6 +445,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     public void onLocationChanged(AMapLocation amapLocation) {
         if (mListener != null && amapLocation != null) {
             LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+            LatLng navLocation = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
             // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
             RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
             geocoderSearch.getFromLocationAsyn(query);
@@ -455,8 +456,8 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                 aMap.clear();
 
                 cityCode = amapLocation.getCityCode();
-                SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(location.latitude));
-                SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(location.longitude));
+                SharedPreferencesHelper.getInstance(this).putString("sLat", String.valueOf(navLocation.latitude));
+                SharedPreferencesHelper.getInstance(this).putString("sLon", String.valueOf(navLocation.longitude));
                 if (!mFirstFix) {
                     mFirstFix = true;
                     addCircle(location, amapLocation.getAccuracy());//添加定位精度圆
