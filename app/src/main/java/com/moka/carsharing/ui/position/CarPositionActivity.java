@@ -653,9 +653,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
                     initMap();
                 } else {
                     // Permission Denied
-                    Toast.makeText(CarPositionActivity.this, "Denied", Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
+//                    Toast.makeText(CarPositionActivity.this, "Denied", Toast.LENGTH_SHORT)
+//                            .show();
+                        Intent intent=new Intent(this,HomePageActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                 }
                 break;
             default:
@@ -706,6 +708,5 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         }else {
             return super.onKeyDown(keyCode, event);
         }
-
     }
 }

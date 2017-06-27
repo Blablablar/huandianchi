@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -30,11 +31,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.1'
+    //compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     testCompile 'junit:junit:4.12'
@@ -48,4 +49,7 @@ dependencies {
     compile 'cn.qqtheme.framework:WheelPicker:latest.release'
     //微信支付
     compile files('libs/libammsdk.jar')
+    compile files('libs/AMap3DMap_5.0.0_AMapNavi_5.0.1_20170410.jar')
+    compile files('libs/alipaySdk-20170407.jar')
+    compile files('libs/Msc.jar')
 }

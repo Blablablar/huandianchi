@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -78,7 +79,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener{
                             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(callIntent);
                         }else{
-                            //
+                            ActivityCompat.requestPermissions(PhoneActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
                         }
                     }else{
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -95,7 +96,7 @@ public class PhoneActivity extends Activity implements View.OnClickListener{
                             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(callIntent);
                         }else{
-                            //
+                            ActivityCompat.requestPermissions(PhoneActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
                         }
                     }else{
                         Intent callIntent = new Intent(Intent.ACTION_CALL);

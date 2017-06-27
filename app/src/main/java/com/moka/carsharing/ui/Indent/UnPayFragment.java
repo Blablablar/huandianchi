@@ -38,7 +38,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
     boolean isCountDown=false;
     View view;
     private PullToRefreshView mPullToRefreshView;
-    public static final int REFRESH_DELAY = 4000;
+    public static final int REFRESH_DELAY = 5000;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -94,6 +94,13 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
         mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mPullToRefreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Toast.makeText(getActivity(), "当前网络较差，请稍后重试", Toast.LENGTH_SHORT).show();
+                        mPullToRefreshView.setRefreshing(false);
+                    }
+                }, REFRESH_DELAY);
                 getData();
             }
         });
@@ -142,6 +149,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                                 listView.setAdapter(adapter);
                                 if(isCountDown)
                                     timer.start();
+                                System.out.println("收起");
                                 mPullToRefreshView.setRefreshing(false);
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getActivity(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();

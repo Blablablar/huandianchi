@@ -21,7 +21,8 @@
         android:padding="10dp"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_below="@id/titleBar">
+        android:layout_below="@+id/titleBar"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/tv_position_name"

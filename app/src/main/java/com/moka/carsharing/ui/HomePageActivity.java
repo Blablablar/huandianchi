@@ -42,16 +42,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.moka.carsharing.Http.VolleyListenerInterface;
+import com.moka.carsharing.Http.VolleyRequest;
 import com.moka.carsharing.cache.CarInfo;
 import com.moka.carsharing.R;
+import com.moka.carsharing.cache.Order;
 import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.data.UserInfo;
+import com.moka.carsharing.model.IndentModel;
 import com.moka.carsharing.ui.Indent.IndentActivity;
 import com.moka.carsharing.ui.MyPopupWindow.RescueWindow;
 import com.moka.carsharing.ui.account.MyAccountActivity;
 import com.moka.carsharing.ui.position.CarPositionActivity;
 import com.moka.carsharing.ui.tickets.HistoryTicketsActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -149,7 +154,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     public void init() {
         mQueue = Volley.newRequestQueue(this);
         View header = mNvMenu.getHeaderView(0);
-
+        mNvMenu.setPressed(false);
         userImg= (ImageView) header.findViewById(R.id.iv_avatar);
         mUserNameTv=(TextView)header.findViewById(R.id.tv_username);
         mPhoneTv=(TextView)header.findViewById(R.id.tv_phone_number);
@@ -259,8 +264,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(callIntent);
                         }else{
-                            //
-                            getPermossion();
+                            ActivityCompat.requestPermissions(HomePageActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
                         }
                     }else{
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -278,10 +282,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         }
 
     };
-
-    public void getPermossion(){
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
-    }
 
     public void getUserInfo(){
         if(!getToken())
@@ -316,7 +316,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("MK-AUTH", phoneNumberStr+"-"+tokenStr);
-
                 return headers;
             }
         };

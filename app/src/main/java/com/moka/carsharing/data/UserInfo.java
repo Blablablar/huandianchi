@@ -44,4 +44,10 @@ public class UserInfo {
         CarIdStr = carIdStr;
     }
 
+    public static void clear(){
+        MobilePhoneStr=null;
+        NameStr = null;
+        CarIdStr = null;
+        HeadPortrait = null;
+    }
 }

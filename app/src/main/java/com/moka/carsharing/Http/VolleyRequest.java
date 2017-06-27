@@ -35,7 +35,7 @@ public class VolleyRequest{
     public static void setToken(Context context) {
         SharedPreferences share=context.getSharedPreferences("user", Activity.MODE_PRIVATE);
         String tokenStr = share.getString("token","");
-        String phoneNumStr = share.getString("token","");
+        String phoneNumStr = share.getString("phoneNumber","");
         if (!tokenStr.equals(""))
             token=tokenStr;
         if (!tokenStr.equals(""))

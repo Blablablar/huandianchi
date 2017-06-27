@@ -89,7 +89,7 @@
         <activity android:name=".ui.Indent.IndentActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.Indent.IndentConfirmActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.Indent.IndentDetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.Indent.PayMethodActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.InstructionsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FaqActivity" android:screenOrientation="portrait"/>

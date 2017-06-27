@@ -195,7 +195,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         final int saveCount = canvas.save();
 
         // DRAW BACKGROUND.
-        canvas.drawColor(mContext.getResources().getColor(R.color.sky_background));
+        canvas.drawColor(mContext.getResources().getColor(R.color.background));
 
         if (isRefreshing) {
             // Set up new set of wind

@@ -78,7 +78,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
         LatLng eLng = new LatLng(Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("tLat")),
                 Double.valueOf(SharedPreferencesHelper.getInstance(this).getString("tLon")));
         distance = (int) (AMapUtils.calculateLineDistance(sLng,eLng) / 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         CarPositionModel model = (CarPositionModel) getIntent().getSerializableExtra("station");
         tvPositionName.setText(model.name);
         batteryInfo.setText(model.validity.equals("1") ? "电池可更换" : "电池不可更换");
