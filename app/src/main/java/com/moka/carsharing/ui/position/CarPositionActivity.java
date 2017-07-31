@@ -199,8 +199,10 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         setContentView(R.layout.activity_car_postion);
         ButterKnife.bind(this);
         mMapView.onCreate(savedInstanceState);// 此方法必须重写
-
-        init();
+        if(CarInfo.endAddressX!=null&&CarInfo.endAddressY!=null)
+            init();
+        else
+            Toast.makeText(getApplicationContext(), "车辆位置获取失败", Toast.LENGTH_SHORT).show();
     }
 
     private void init() {
@@ -704,6 +706,7 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             Intent intent=new Intent(this, HomePageActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("Activity","CarPosition");
             startActivity(intent);
             return false;
         }else {

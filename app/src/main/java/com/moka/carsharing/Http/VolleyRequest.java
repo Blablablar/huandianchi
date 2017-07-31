@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.moka.carsharing.LIMSApplication;
@@ -60,6 +61,7 @@ public class VolleyRequest{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         // 为当前请求添加标记
         stringRequest.setTag(tag);
         // 将当前请求添加到请求队列中
@@ -95,6 +97,7 @@ public class VolleyRequest{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         // 为当前请求添加标记
         stringRequest.setTag(tag);
         // 将当前请求添加到请求队列中

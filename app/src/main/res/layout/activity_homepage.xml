@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    android:id="@+id/id_drawer_layout"
+<android.support.v4.widget.DrawerLayout android:id="@+id/id_drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+        android:id="@+id/ll_state"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/rl_header"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="50dp">
             <ImageButton
                 android:id="@+id/btn_menu"
                 android:padding="10dp"
@@ -27,248 +28,202 @@
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
-                <ImageView
-                    android:visibility="invisible"
-                    android:id="@+id/location"
-                    android:scaleType="fitCenter"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/location"
-                    android:background="@color/transparent"/>
                 <TextView
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/location"
                     android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
                     android:text=""
                     android:maxLength="10"/>
             </RelativeLayout>
         </RelativeLayout>
         <FrameLayout
-            android:id="@+id/fl_homepage_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/dianliang" />
-            <TextView
-                android:layout_marginTop="30dp"
-                android:id="@+id/tv_batteryPercent"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textSize="30sp"
-                android:textColor="@color/white" />
-        </FrameLayout>
-        <LinearLayout
-            android:id="@+id/ll_homepage_down"
-            android:weightSum="2"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="@color/themeColor">
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="已行驶"
-                        android:textSize="15sp"
-                        android:textColor="@color/white"/>
-                    <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="（公里）"
-                        android:textSize="12sp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_past_distance"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
-                    android:textSize="18sp"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
-            <View
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/white">
-            </View>
-            <LinearLayout
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="可行驶"
-                        android:textSize="15sp"
-                        android:textColor="@color/white"/>
-                    <TextView
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:text="（公里）"
-                        android:textSize="12sp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_remain_distance"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text=""
-                    android:textSize="18sp"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:background="@color/white">
-            <ImageView
-                android:id="@+id/iv_hint"
-                android:scaleType="fitCenter"
-                android:padding="10dp"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:src="@mipmap/homepage_icon"/>
-            <TextView
-                android:id="@+id/tv_drive_hint"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textSize="13sp"/>
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray">
-        </View>
-        <LinearLayout
-            android:weightSum="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/ll_rescue"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:layout_marginTop="20dp">
+            <RelativeLayout
+                android:id="@+id/fl_homepage_up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
-                    android:padding="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/road_rescure"/>
-                <TextView
+                    android:id="@+id/circle_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/circle_out" />
+                <ImageView
+                    android:padding="17dp"
+                    android:id="@+id/circle_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/circle_in" />
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ll_baterry_text"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="vertical">
+                <LinearLayout
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="道路救援"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/tv_batteryPercent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="0%"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="38sp" />
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="剩余电量"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
-            <View
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/light_gray"></View>
             <LinearLayout
-                android:id="@+id/ll_change_history"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <ImageView
-                    android:padding="5dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/change_history"/>
-                <TextView
-                    android:layout_marginBottom="15dp"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="更换记录"/>
+                android:id="@+id/ll_wave"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:orientation="vertical"
+                android:gravity="center">
+                <com.moka.carsharing.utils.WaveView.WaveView
+                    android:layout_gravity="center"
+                    android:id="@+id/wave"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_below="@+id/colorChoice"
+                    android:layout_centerHorizontal="true"/>
             </LinearLayout>
-        </LinearLayout>
+
+        </FrameLayout>
+        <TextView
+            android:id="@+id/tv_hint_first"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="当前汽车剩余电量充足"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_hint_second"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(不建议预约)"
+            android:textSize="14dp"
+            android:textColor="@color/white"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/wave"
+            android:scaleType="centerCrop"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_homepage">
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/bg_img_homepage"/>
+            android:background="@color/white">
             <Button
                 android:id="@+id/btn_order"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginEnd="120dp"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="32dp"
                 android:text="预约电站"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:background="@color/themeColor"/>
+                android:textSize="16dp"
+                android:background="@drawable/button_good"/>
+            <LinearLayout
+                android:layout_marginBottom="40dp"
+                android:layout_alignParentBottom="true"
+                android:weightSum="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/ll_rescue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:src="@mipmap/icon_rescue" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="道路救援" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"></View>
+                <LinearLayout
+                    android:id="@+id/ll_change_history"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:padding="5dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/icon_record"/>
+                        <TextView
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="更换记录"/>
+                    </LinearLayout>
+                    </LinearLayout>
+
+            </LinearLayout>
         </RelativeLayout>
 
     </LinearLayout>
-    <android.support.design.widget.NavigationView
-        android:id="@+id/id_nv_menu"
-        android:layout_width="250dp"
+    <ListView
+        android:id="@+id/id_lv_left_menu"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header_navigation"
-        app:menu="@menu/menu_navigation"
-        android:background="@color/white"
-        app:itemTextColor="@color/black" />
+        android:layout_gravity="start"
+        android:paddingTop="0dp"
+        android:background="@color/bg_homepage"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:listSelector="?attr/selectableItemBackground" />
 </android.support.v4.widget.DrawerLayout>

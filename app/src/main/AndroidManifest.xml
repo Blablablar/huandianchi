@@ -76,20 +76,20 @@
 
         <activity
             android:name=".ui.GuideActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.GuidePageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.HomePageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PhoneActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.Indent.IndentActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.Indent.IndentConfirmActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Indent.IndentConfirmActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.Indent.IndentDetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".ui.Indent.PayMethodActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.InstructionsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FaqActivity" android:screenOrientation="portrait"/>

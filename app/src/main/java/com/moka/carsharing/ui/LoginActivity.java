@@ -1,18 +1,26 @@
 package com.moka.carsharing.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,6 +34,7 @@ import com.moka.carsharing.cache.Order;
 import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.model.IndentModel;
 import com.moka.carsharing.R;
+import com.moka.carsharing.utils.ClearEditText;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,12 +51,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private Button loginBtn;
     private TextView registerTv;
     private Button mMsgBtn;
-    EditText mPhoneEt;
+    ClearEditText mPhoneEt;
     EditText mCodeEt;
     RequestQueue mQueue;
     String MsgCode;
     String phoneNumberStr;
     String tokenStr;
+    int status=0;//0登录 1注册
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,49 +80,91 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     Toast.makeText(this, "未输入手机号或验证码", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://116.62.56.64/test/Login/check", new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("TAG", response);
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.get("code").toString().equals("200")){
-                                SharedPreferences share=getSharedPreferences("user",Activity.MODE_PRIVATE);
-                                SharedPreferences.Editor edit = share.edit(); //编辑文件
-                                edit.putString("phoneNumber", mPhoneEt.getText().toString());         //根据键值对添加数据
-                                edit.putString("token", jsonObject.get("result").toString());
-                                edit.commit();  //保存数据信息
-
-
-                                phoneNumberStr=mPhoneEt.getText().toString();
-                                tokenStr=jsonObject.get("result").toString();
-                                VolleyRequest.setToken(tokenStr,phoneNumberStr);
-                                getSysInfo();
-//                                finish();
-//                                Intent intent1 = new Intent(getApplicationContext(),HomePageActivity.class);
-//                                startActivity(intent1);
-                            }else if(jsonObject.get("code").toString().equals("400"))
-                                Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
-                        }catch (Exception e){
-                            e.printStackTrace();
+                //隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                if(status==0){
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                            "http://116.62.56.64/test/Login/check", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("TAG", response);
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                if(jsonObject.get("code").toString().equals("200")){
+                                    SharedPreferences share=getSharedPreferences("user",Activity.MODE_PRIVATE);
+                                    SharedPreferences.Editor edit = share.edit(); //编辑文件
+                                    edit.putString("phoneNumber", mPhoneEt.getText().toString());         //根据键值对添加数据
+                                    edit.putString("token", jsonObject.get("result").toString());
+                                    edit.commit();  //保存数据信息
+                                    phoneNumberStr=mPhoneEt.getText().toString();
+                                    tokenStr=jsonObject.get("result").toString();
+                                    VolleyRequest.setToken(tokenStr,phoneNumberStr);
+                                    getSysInfo();
+    //                                finish();
+    //                                Intent intent1 = new Intent(getApplicationContext(),HomePageActivity.class);
+    //                                startActivity(intent1);
+                                }else if(jsonObject.get("code").toString().equals("400")){
+                                    Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("mobile", mPhoneEt.getText().toString());
-                        map.put("code", mCodeEt.getText().toString());
-                        return map;
-                    }
-                };
-                mQueue.add(stringRequest);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TAG", error.getMessage(), error);
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> map = new HashMap<String, String>();
+                            map.put("mobile", mPhoneEt.getText().toString());
+                            map.put("code", mCodeEt.getText().toString());
+                            return map;
+                        }
+                    };
+                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
+                    mQueue.add(stringRequest);
+                }else
+                {
+                    StringRequest stringRequest1 = new StringRequest(Request.Method.POST,
+                            "http://116.62.56.64/test/Login/verifyCode", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("TAG", response);
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                if(jsonObject.get("code").toString().equals("200")){
+                                    MsgCode=jsonObject.get("result").toString();
+                                    Intent intent = new Intent(getApplicationContext(),RegisterNextActivity.class);
+                                    intent.putExtra("PhoneNumber",mPhoneEt.getText().toString());
+                                    intent.putExtra("Name",mPhoneEt.getText().toString());
+                                    startActivity(intent);
+                                }else if(jsonObject.get("code").toString().equals("400"))
+                                    Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("TAG", error.getMessage(), error);
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> map = new HashMap<String, String>();
+                            map.put("mobile", mPhoneEt.getText().toString());
+                            map.put("code", mCodeEt.getText().toString());
+                            return map;
+                        }
+                    };
+                    stringRequest1.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
+                    mQueue.add(stringRequest1);
+                }
                 break;
             case R.id.tv_register:
                 Intent intent2 = new Intent(this.getApplicationContext(),RegisterActivity.class);
@@ -149,8 +201,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             if(jsonObject.get("code").toString().equals("200")){
                                 MsgCountDown();//验证码发送倒计时
                                 MsgCode=jsonObject.get("result").toString();
-                            }else if(jsonObject.get("code").toString().equals("400"))
-                                Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
+                            }else if(jsonObject.get("code").toString().equals("400")) {
+                                if(jsonObject.get("error").toString().equals("手机号未注册")){
+                                    registerMsg();
+                                    status=1;
+                                }
+                                //Toast.makeText(getApplicationContext(), , Toast.LENGTH_SHORT).show();
+                            }
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -168,6 +225,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                         return map;
                     }
                 };
+                stringRequest1.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
                 mQueue.add(stringRequest1);
                 break;
             default:
@@ -179,8 +237,39 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         mMsgBtn=(Button)findViewById(R.id.btn_sendMsg);
         mMsgBtn.setOnClickListener(this);
 
-        mPhoneEt=(EditText)findViewById(R.id.et_phone_number);
+        mPhoneEt=(ClearEditText)findViewById(R.id.et_phone_number);
         mCodeEt=(EditText)findViewById(R.id.et_code);
+        final LinearLayout ll=(LinearLayout)findViewById(R.id.ll_login);
+        final RelativeLayout rl_icon=(RelativeLayout)findViewById(R.id.ll_icon);
+        final Rect rectangle= new Rect();
+
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        //收缩键盘
+//        ll.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+//            @Override
+//            public void onGlobalLayout(){
+//                //比较Activity根布局与当前布局的大小
+//                int heightDiff = ll.getRootView().getHeight()- ll.getHeight()-rectangle.top;
+//                if(heightDiff >250){
+//                    //大小超过50时，一般为显示虚拟键盘事件
+//                    int height=rl_icon.getHeight();
+//                    LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)rl_icon.getLayoutParams();
+//                    if(height-heightDiff>0) {
+//                        params.height = height - heightDiff;
+//                    }else
+//                        params.height=(int)(250.0/ll.getRootView().getHeight()*1920);
+//                    params.setMargins(0, 0, 0, 10);
+//                    rl_icon.setLayoutParams(params);
+//                }else{
+//                    //大小小于100时，为不显示虚拟键盘或虚拟键盘隐藏
+//                    LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)rl_icon.getLayoutParams();
+//                    params.height= ViewGroup.LayoutParams.WRAP_CONTENT;
+//                    params.setMargins(0,0,0,dip2px(getApplicationContext(),50.0f));
+//                    rl_icon.setLayoutParams(params);
+//                }
+//            }
+//        });
+
     }
 
     //确认用户填写 手机号
@@ -249,6 +338,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         mQueue.add(stringRequest);
     }
 
@@ -268,11 +358,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     CarInfo.speed=result.get("speed").toString();
                     CarInfo.batteryState=result.get("batteryState").toString();
                     CarInfo.vehicleNumber=result.get("vehicleNumber").toString();
-                    //跳转到主页
-                    getOrderData();
-                    finish();
-                    Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
-                    startActivity(intent);
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -292,7 +377,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         mQueue.add(stringRequest);
+        //跳转到主页
+        getOrderData();
+        finish();
+        Intent intent = new Intent(getApplicationContext(),HomePageActivity.class);
+        startActivity(intent);
     }
 
     public void getOrderData(){
@@ -342,11 +433,25 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                     IndentModel indentModel=new IndentModel();
                                     indentModel.setPrice(data.get("price").toString());
                                     indentModel.setStation((new JSONObject(data.get("station").toString())).get("name").toString());
+                                    indentModel.setBatteryModel((new JSONObject(data.get("station").toString())).get("model").toString());
+                                    if(!(new JSONObject(data.get("station").toString())).isNull("validCount"))
+                                        indentModel.setValidCount((new JSONObject(data.get("station").toString())).get("validCount").toString());
+                                    else
+                                        indentModel.setValidCount("0");
                                     indentModel.setStatus(data.get("status").toString());
                                     indentModel.setOrderNum(data.get("orderNum").toString());
-                                    indentModel.setTradeTime(data.get("ackTime").toString());
-                                    if(data.get("status").toString().equals("0"))
+                                    indentModel.setOrderType(data.get("type").toString());
+                                    if(data.get("status").toString().equals("2"))
+                                        indentModel.setTradeTime(data.get("ackTime").toString());
+                                    else if(data.get("status").toString().equals("1")){
+                                        indentModel.setTradeTime(data.get("appointTime").toString());
+                                        indentModel.setElectricity(data.get("electricity").toString());
+                                        indentModel.setElectricityOfBefore(data.get("electricityOfBefore").toString());
+                                    }
+                                    else if(data.get("status").toString().equals("0")){
+                                        indentModel.setTradeTime(data.get("appointTime").toString());
                                         indentModel.setPayTimeRemain(data.get("payTimeRemain").toString());
+                                    }
                                     indentModel.setId(data.get("id").toString());
                                     Order.getUnPayList().add(indentModel);
                                 }
@@ -362,5 +467,44 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
                     }
                 });
+    }
+
+    public void registerMsg(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://116.62.56.64/test/Login/basicLogin", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("TAG", response);
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.get("code").toString().equals("200")){
+                        MsgCountDown();//验证码发送倒计时
+                        MsgCode=jsonObject.get("result").toString();
+                    }else if(jsonObject.get("code").toString().equals("400"))
+                        Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("mobile", mPhoneEt.getText().toString());
+                return map;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
+        mQueue.add(stringRequest);
+    }
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }

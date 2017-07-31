@@ -36,6 +36,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
     private ListView listView;
     CountDownTimer timer;
     boolean isCountDown=false;
+    boolean isCountDownOver=false;
     View view;
     private PullToRefreshView mPullToRefreshView;
     public static final int REFRESH_DELAY = 5000;
@@ -78,12 +79,15 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                     //System.out.println(mIndentModels.get(0).getPayTimeRemain());
                     mIndentModels.get(0).setPayTimeRemain(Integer.valueOf(mIndentModels.get(0).getPayTimeRemain())-1+"");
                     adapter.notifyDataSetChanged();
-                }else
-                    timer.cancel();
+                }else{
+                    timer.onFinish();
+                }
             }
             @Override
             public void onFinish() {
-
+                isCountDownOver=true;
+                timer.cancel();
+                getData();
             }
         };
         if(Order.getUnPayList().size()!=0){
@@ -126,20 +130,26 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                                     indentModel.setPrice(data.get("price").toString());
                                     indentModel.setStation((new JSONObject(data.get("station").toString())).get("name").toString());
                                     indentModel.setBatteryModel((new JSONObject(data.get("station").toString())).get("model").toString());
-                                    indentModel.setValidCount((new JSONObject(data.get("station").toString())).get("validCount").toString());
+                                    if(!(new JSONObject(data.get("station").toString())).isNull("validCount"))
+                                        indentModel.setValidCount((new JSONObject(data.get("station").toString())).get("validCount").toString());
+                                    else
+                                        indentModel.setValidCount("0");
                                     indentModel.setStatus(data.get("status").toString());
                                     indentModel.setOrderNum(data.get("orderNum").toString());
                                     indentModel.setOrderType(data.get("type").toString());
                                     if(data.get("status").toString().equals("2"))
                                         indentModel.setTradeTime(data.get("ackTime").toString());
                                     else if(data.get("status").toString().equals("1")){
+                                        indentModel.setTradeTime(data.get("appointTime").toString());
                                         indentModel.setElectricity(data.get("electricity").toString());
                                         indentModel.setElectricityOfBefore(data.get("electricityOfBefore").toString());
                                     }
                                     else if(data.get("status").toString().equals("0")){
                                         indentModel.setTradeTime(data.get("appointTime").toString());
                                         indentModel.setPayTimeRemain(data.get("payTimeRemain").toString());
+                                        //indentModel.setPayTimeRemain("10");
                                         isCountDown=true;
+                                        //isCountDownOver
                                     }
                                     indentModel.setId(data.get("id").toString());
                                     mIndentModels.add(indentModel);
@@ -147,10 +157,17 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                                 }
                                 adapter=new IndentAdapter(getActivity(),mIndentModels);
                                 listView.setAdapter(adapter);
-                                if(isCountDown)
+                                if(isCountDown){
                                     timer.start();
+                                    System.out.println("开始倒数");
+                                }
                                 System.out.println("收起");
+                                mPullToRefreshView.setListCount(listView.getCount());
                                 mPullToRefreshView.setRefreshing(false);
+//                                if(listView.getCount()==0){
+//                                    IndentActivity indentActivity=(IndentActivity) getActivity().getApplicationContext();
+//                                    indentActivity.setEmptyHintVisible(true,"当前没有未支付订单");
+//                                }
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getActivity(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         }catch (Exception e){

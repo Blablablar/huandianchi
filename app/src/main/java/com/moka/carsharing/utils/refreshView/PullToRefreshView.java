@@ -43,6 +43,7 @@ public class PullToRefreshView extends ViewGroup {
     private float mFromDragPercent;
     private boolean mNotify;
     private OnRefreshListener mListener;
+    private int listCount;
 
     public PullToRefreshView(Context context) {
         this(context, null);
@@ -59,7 +60,6 @@ public class PullToRefreshView extends ViewGroup {
         mRefreshImageView = new ImageView(context);
         mRefreshView = new RefreshView(getContext(), this);
         mRefreshImageView.setImageDrawable(mRefreshView);
-
         addView(mRefreshImageView);
         setWillNotDraw(false);
         ViewCompat.setChildrenDrawingOrderEnabled(this, true);
@@ -399,4 +399,7 @@ public class PullToRefreshView extends ViewGroup {
         void onRefresh();
     }
 
+    public void setListCount(int count){
+        listCount=count;
+    }
 }

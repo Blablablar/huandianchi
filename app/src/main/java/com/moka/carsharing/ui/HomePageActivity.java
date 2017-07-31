@@ -2,11 +2,13 @@ package com.moka.carsharing.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,16 +18,24 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,21 +52,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.moka.carsharing.Http.VolleyListenerInterface;
-import com.moka.carsharing.Http.VolleyRequest;
+import com.moka.carsharing.adapter.MenuItemAdapter;
 import com.moka.carsharing.cache.CarInfo;
 import com.moka.carsharing.R;
-import com.moka.carsharing.cache.Order;
 import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.data.UserInfo;
-import com.moka.carsharing.model.IndentModel;
 import com.moka.carsharing.ui.Indent.IndentActivity;
 import com.moka.carsharing.ui.MyPopupWindow.RescueWindow;
 import com.moka.carsharing.ui.account.MyAccountActivity;
 import com.moka.carsharing.ui.position.CarPositionActivity;
 import com.moka.carsharing.ui.tickets.HistoryTicketsActivity;
+import com.moka.carsharing.utils.WaveView.WaveHelper;
+import com.moka.carsharing.utils.WaveView.WaveView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -70,14 +78,10 @@ import butterknife.ButterKnife;
  */
 
 public class HomePageActivity extends Activity implements View.OnClickListener,GeocodeSearch.OnGeocodeSearchListener {
-    @BindView(R.id.location)
-    ImageView mImgLocation;
     @BindView(R.id.tv_location)
     TextView mLocation;
-    @BindView(R.id.imageView)
-    ImageView mImageView;
-    @BindView(R.id.id_nv_menu)
-    NavigationView mNvMenu;
+//    @BindView(R.id.id_nv_menu)
+//    NavigationView mNvMenu;
     @BindView(R.id.id_drawer_layout)
     DrawerLayout mDrawerLayout;
     ImageButton mMenuBtn;
@@ -93,22 +97,31 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     TextView mPhoneTv;
     ImageView userImg;//用户头像
     TextView batteryPercentTv;
-    TextView pastDisTv;
-    TextView remainDisTv;
-    RelativeLayout relativeLayout;
+    LinearLayout stateLayout;
     FrameLayout frameLayout;
     LinearLayout linearLayout;
     ImageView imageView;
-    TextView hintTv;
+    TextView firstHintTv;
+    TextView secondHintTv;
     private static final int MSG_USER_INFO = 1;
     private static final int MSG_REFRESH_UI = 2;
+    private static final int MSG_UPDATE_THEME_COLOR = 3;
     private GeocodeSearch geocoderSearch;
+
+    private ListView mLvLeftMenu;
+    private View headerView;
+    private View footerView;
+    private View menuView;
+
+    private WaveHelper mWaveHelper;
+    private int mBorderColor = Color.parseColor("#FFFFFF");
+    private int mBorderWidth = 7;
+    MenuItemAdapter menuItemAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         mOrderBtn=(Button)findViewById(R.id.btn_order);
-        mDrawerLayout=(DrawerLayout) findViewById(R.id.id_drawer_layout);
         mMenuBtn=(ImageButton)findViewById(R.id.btn_menu);
         mChangeHistoryll=(LinearLayout)findViewById(R.id.ll_change_history);
         mRescuell=(LinearLayout)findViewById(R.id.ll_rescue);
@@ -117,9 +130,25 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         mChangeHistoryll.setOnClickListener(this);
         mRescuell.setOnClickListener(this);
         ButterKnife.bind(this);
-        init();
-    }
 
+        mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
+        setUpDrawer();
+        init();
+        mHandler.sendEmptyMessage(MSG_REFRESH_UI);
+    }
+    private void setUpDrawer()
+    {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        LayoutInflater lif = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        headerView = lif.inflate(R.layout.header_navigation, mLvLeftMenu, false);
+        footerView = lif.inflate(R.layout.navigation_button, mLvLeftMenu, false);
+        mLvLeftMenu.addHeaderView(headerView);
+        mLvLeftMenu.addFooterView(footerView);
+        menuItemAdapter=new MenuItemAdapter(this);
+        mLvLeftMenu.setAdapter(menuItemAdapter);
+        menuView = inflater.inflate(R.layout.design_drawer_item, mLvLeftMenu, false);
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -152,27 +181,80 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     }
 
     public void init() {
+        //波浪动画
+        final WaveView waveView = (WaveView) findViewById(R.id.wave);
+        waveView.setBorder(mBorderWidth, mBorderColor);
+        waveView.setWaveColor(
+                WaveView.DEFAULT_BEHIND_WAVE_COLOR,
+                Color.parseColor("#ffffff"));
+        waveView.setActivity(this);
+//
+        if(CarInfo.batteryPercent!=null){
+            mWaveHelper = new WaveHelper(waveView,(float)(Integer.parseInt(CarInfo.batteryPercent)/100.0f));
+            //mWaveHelper = new WaveHelper(waveView,0.7f);
+        }else
+            mWaveHelper = new WaveHelper(waveView,0.0f);
+        //获取屏幕大小
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        ImageView mCircleOut=(ImageView)findViewById(R.id.circle_out);
+        ImageView mCircleIn=(ImageView)findViewById(R.id.circle_in);
+        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.ll_baterry_text);
+        LinearLayout wavell=(LinearLayout)findViewById(R.id.ll_wave);
+
+        ViewGroup.LayoutParams params = mCircleOut.getLayoutParams();
+        params.height=(new Double(370.0/1334*dm.heightPixels)).intValue();
+        mCircleOut.setLayoutParams(params);
+        mCircleIn.setLayoutParams(params);
+        //waveView.setLayoutParams(params);
+        ViewGroup.LayoutParams textParams = linearLayout.getLayoutParams();
+        textParams.height=(new Double(370.0/1334*dm.heightPixels)).intValue();
+        linearLayout.setLayoutParams(textParams);
+        ViewGroup.LayoutParams waveParams = wavell.getLayoutParams();
+        waveParams.height=(new Double(370.0/1334*dm.heightPixels)).intValue();
+        wavell.setLayoutParams(waveParams);
+        //两外圈旋转动画
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_circle_out);
+        LinearInterpolator lin = new LinearInterpolator();//设置动画匀速运动
+        animation.setInterpolator(lin);
+        mCircleOut.startAnimation(animation);
+
+        animation = AnimationUtils.loadAnimation(this, R.anim.anim_circle_in);
+        lin = new LinearInterpolator();//设置动画匀速运动
+        animation.setInterpolator(lin);
+        mCircleIn.startAnimation(animation);
+
         mQueue = Volley.newRequestQueue(this);
-        View header = mNvMenu.getHeaderView(0);
-        mNvMenu.setPressed(false);
-        userImg= (ImageView) header.findViewById(R.id.iv_avatar);
-        mUserNameTv=(TextView)header.findViewById(R.id.tv_username);
-        mPhoneTv=(TextView)header.findViewById(R.id.tv_phone_number);
+        //View header = mLvLeftMenu.getChildAt(1);
+        //mNvMenu.setPressed(false);
+        userImg= (ImageView) headerView.findViewById(R.id.iv_avatar);
+        mUserNameTv=(TextView)headerView.findViewById(R.id.tv_username);
+        mPhoneTv=(TextView)headerView.findViewById(R.id.tv_phone_number);
+        if(UserInfo.getHeadPortrait()!=null){
+            userImg.setImageBitmap(UserInfo.getHeadPortrait());
+        }
+        if(UserInfo.getNameStr()!=null){
+            mUserNameTv.setText(UserInfo.getNameStr());
+        }
+        if(UserInfo.getMobilePhoneStr()!=null){
+            mPhoneTv.setText(UserInfo.getMobilePhoneStr());
+        }
+        //pastDisTv=(TextView)findViewById(R.id.tv_past_distance);
+        //remainDisTv=(TextView)findViewById(R.id.tv_remain_distance);
+        //frameLayout=(FrameLayout) findViewById(R.id.fl_homepage_up);
+//        linearLayout=(LinearLayout)findViewById(R.id.ll_homepage_down);
+//        imageView=(ImageView)findViewById(R.id.iv_hint);
+        firstHintTv=(TextView)findViewById(R.id.tv_hint_first);
+        secondHintTv=(TextView)findViewById(R.id.tv_hint_second);
+        stateLayout=(LinearLayout) findViewById(R.id.ll_state);
         batteryPercentTv=(TextView)findViewById(R.id.tv_batteryPercent);
-        pastDisTv=(TextView)findViewById(R.id.tv_past_distance);
-        remainDisTv=(TextView)findViewById(R.id.tv_remain_distance);
-        frameLayout=(FrameLayout) findViewById(R.id.fl_homepage_up);
-        linearLayout=(LinearLayout)findViewById(R.id.ll_homepage_down);
-        imageView=(ImageView)findViewById(R.id.iv_hint);
-        hintTv=(TextView)findViewById(R.id.tv_drive_hint);
-        relativeLayout=(RelativeLayout)findViewById(R.id.rl_header);
         if(CarInfo.batteryPercent!=null){
             batteryPercentTv.setText(CarInfo.batteryPercent+"%");
             if(SystemConfig.mileage!=-1){
                 int percent=Integer.parseInt(CarInfo.batteryPercent);
                 int mileage=SystemConfig.mileage;
-                remainDisTv.setText(percent*mileage+"");
-                pastDisTv.setText(mileage-percent*mileage+"");
+                //remainDisTv.setText(percent*mileage+"");
+                //pastDisTv.setText(mileage-percent*mileage+"");
             }
         }
         userImg.setOnClickListener(new View.OnClickListener() {
@@ -181,46 +263,72 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                 new MyAccountActivity.Builder(HomePageActivity.this).start();
             }
         });
-        mNvMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                //在这里处理item的点击事件
-                switch (item.getItemId()){
-                    case R.id.nav_ticket:
-                        new HistoryTicketsActivity.Builder(HomePageActivity.this).start();
-                        break;
-                    case R.id.nav_home:
-                        new CarPositionActivity.Builder(HomePageActivity.this).start();
-                        break;
-//                    case R.id.nav_position:
-//                        Intent intent1=new Intent(getApplicationContext(),PhoneActivity.class);
-//                        startActivity(intent1);
-                    case R.id.nav_order:
-                        Intent intent1=new Intent(getApplicationContext(),IndentActivity.class);
-                        intent1.putExtra("fragment","unpay");
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for(int i=1;i<9;i++){
+                    if(i==5)
+                        continue;
+                    if(parent.getChildAt(i)!=null){
+                        parent.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.white));
+                    }
+                }
+                switch (position){
+                    case 1:
+                        parent.getChildAt(1).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent1=new Intent(getApplicationContext(),CarPositionActivity.class);
                         startActivity(intent1);
                         break;
-                    case R.id.nav_phone:
-                        Intent intent2=new Intent(getApplicationContext(),PhoneActivity.class);
+                    case 2:
+                        parent.getChildAt(2).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent2=new Intent(getApplicationContext(),IndentActivity.class);
+                        intent2.putExtra("fragment","unpay");
                         startActivity(intent2);
                         break;
-                    case R.id.nav_info:
-                        Intent intent3=new Intent(getApplicationContext(),CarInfoActivity.class);
+                    case 3:
+                        parent.getChildAt(3).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent3=new Intent(getApplicationContext(),HistoryTicketsActivity.class);
                         startActivity(intent3);
                         break;
-                    case R.id.nav_instruction:
-                        Intent intent4=new Intent(getApplicationContext(),InstructionsActivity.class);
+                    case 4:
+                        parent.getChildAt(4).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent4=new Intent(getApplicationContext(),CarInfoActivity.class);
                         startActivity(intent4);
                         break;
-                    case R.id.nav_problem:
-                        Intent intent5=new Intent(getApplicationContext(),FaqActivity.class);
+                    case 6:
+                        parent.getChildAt(6).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent5=new Intent(getApplicationContext(),InstructionsActivity.class);
                         startActivity(intent5);
                         break;
+                    case 7:
+                        parent.getChildAt(7).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent6=new Intent(getApplicationContext(),FaqActivity.class);
+                        startActivity(intent6);
+                        break;
+                    case 8:
+                        parent.getChildAt(8).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+                        Intent intent7=new Intent(getApplicationContext(),PhoneActivity.class);
+                        startActivity(intent7);
+                        break;
+                    default:
+                        break;
                 }
-                return true;
             }
         });
-        
+        Button quitButton=(Button) footerView.findViewById(R.id.btn_logout);
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sp = getSharedPreferences("user", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.clear();
+                editor.commit();
+                UserInfo.clear();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
         Handler popupHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -239,15 +347,16 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         if(CarInfo.position!=null){
             TextView titleTv=(TextView)findViewById(R.id.tv_location);
             titleTv.setText(CarInfo.position);
-            ImageView imageView=(ImageView)findViewById(R.id.location);
-            imageView.setVisibility(View.VISIBLE);
         }
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
-        LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
-        // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-        RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
-        geocoderSearch.getFromLocationAsyn(query);
+        if(CarInfo.endAddressX!=null&&CarInfo.endAddressY!=null){
+            LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+            // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+            RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
+            geocoderSearch.getFromLocationAsyn(query);
+        }else
+            getCarInfo();
     }
 
     //为弹出窗口实现监听类
@@ -309,6 +418,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                getUserInfo();
                 Log.e("TAG", error.getMessage(), error);
             }
         }) {
@@ -331,18 +441,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         return true;
     }
 
-    private Handler mHandler = new Handler() {
+    public Handler mHandler = new Handler() {
         public void handleMessage (Message msg) {//此方法在ui线程运行
             switch(msg.what) {
                 case MSG_USER_INFO:
                     JSONObject jsonObject=(JSONObject)msg.obj;
                     try{
                         if(!jsonObject.isNull("mobile")){
-                            mUserNameTv.setText(jsonObject.get("mobile").toString());
+                            mPhoneTv.setText(jsonObject.get("mobile").toString());
                             UserInfo.setMobilePhoneStr(jsonObject.get("mobile").toString());
                         }
                         if(!jsonObject.isNull("name")){
-                            mPhoneTv.setText(jsonObject.get("name").toString());
+                            mUserNameTv.setText(jsonObject.get("name").toString());
                             UserInfo.setNameStr(jsonObject.get("name").toString());
                         }
                         if(!jsonObject.isNull("headPortrait")){
@@ -362,32 +472,53 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                         if(SystemConfig.mileage!=-1){
                             int percent=Integer.parseInt(CarInfo.batteryPercent);
                             int mileage=SystemConfig.mileage;
-                            remainDisTv.setText(percent*mileage+"");
-                            pastDisTv.setText(mileage-percent*mileage+"");
+                            //remainDisTv.setText(percent*mileage+"");
+                            //pastDisTv.setText(mileage-percent*mileage+"");
                         }
+                    }else{
+                        firstHintTv.setText("汽车信息获取失败！");
+                        secondHintTv.setText("");
+                        break;
                     }
                     if(Integer.parseInt(CarInfo.batteryPercent)>=60){
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
-                        frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
-                        linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
-                        imageView.setImageDrawable(getResources().getDrawable(R.mipmap.homepage_icon));
-                        hintTv.setText("电量健康，祝您驾驶愉快！");
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
+                        //frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
+                        //linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_good));
+                        firstHintTv.setText("当前汽车剩余电量充足");
+                        secondHintTv.setText("（不建议预约）");
                     }
                     else if(Integer.parseInt(CarInfo.batteryPercent)>=30){
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
-                        frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
-                        linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
-                        imageView.setImageDrawable(getResources().getDrawable(R.mipmap.homepage_60));
-                        hintTv.setText("电量不足，请您即使预约电站！");
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
+                        //frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
+                        //linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_medium));
+                        firstHintTv.setText("当前汽车剩余电量不足");
+                        secondHintTv.setText("（请尽快预约）");
                     }
                     else{
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
-                        frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
-                        linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
-                        imageView.setImageDrawable(getResources().getDrawable(R.mipmap.homepage_30));
-                        hintTv.setText("电量过低，请您及时更换电池！");
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
+                        //frameLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
+                        //linearLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
+                        //imageView.setImageDrawable(getResources().getDrawable(R.mipmap.homepage_30));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_bad));
+                        firstHintTv.setText("当前汽车剩余电量过低");
+                        secondHintTv.setText("（请尽快预约）");
                     }
                     break;
+                case MSG_UPDATE_THEME_COLOR:
+                    int status=(int) msg.obj;
+                    if(status==3){
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_good));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_good));
+                    }else if(status==2){
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_medium));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_medium));
+                    }else{
+                        stateLayout.setBackgroundColor(getResources().getColor(R.color.battery_bad));
+                        mOrderBtn.setBackground(getResources().getDrawable(R.drawable.button_bad));
+                    }
+
             }
         }
     };
@@ -410,8 +541,43 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     protected void onResume() {
         super.onResume();
         System.out.println("Resume");
-        mHandler.sendEmptyMessage(MSG_REFRESH_UI);
+        mWaveHelper.start();
+//        setUpDrawer();
+        getCarInfo();
         getUserInfo();
+//        if(getIntent().getStringExtra("Activity")!=null)
+//        {
+//            if(getIntent().getStringExtra("Activity").equals("CarPosition")){
+//                mDrawerLayout.openDrawer(Gravity.LEFT);
+//                mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
+//                menuItemAdapter.getView(1,null,mLvLeftMenu).setBackgroundColor(getResources().getColor(R.color.black));
+//                menuItemAdapter.getView(2,null,mLvLeftMenu).setBackgroundColor(getResources().getColor(R.color.black));
+//                menuItemAdapter.getView(3,null,mLvLeftMenu).setBackgroundColor(getResources().getColor(R.color.black));
+//                menuItemAdapter.getView(4,null,mLvLeftMenu).setBackgroundColor(getResources().getColor(R.color.black));
+//                menuItemAdapter.getView(6,null,mLvLeftMenu).setBackgroundColor(getResources().getColor(R.color.black));
+//                mLvLeftMenu.setAdapter(menuItemAdapter);
+//                menuItemAdapter.notifyDataSetChanged();
+//                menuItemAdapter.notifyDataSetInvalidated();
+                //View view=(View)menuItemAdapter.getView(1,menuView,mLvLeftMenu);
+                //view.setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                view=(View)listAdapter.getView(2,menuView,mLvLeftMenu);
+//                view.setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                AdapterView.OnItemClickListener onItemClickListener = mLvLeftMenu.getOnItemClickListener();
+//                if(onItemClickListener!=null){
+//                    onItemClickListener.onItemClick(mLvLeftMenu,null,1,0);
+//                }
+           // }
+//            else if(getIntent().getStringExtra("Activity").equals("Indent")){
+//                mDrawerLayout.openDrawer(Gravity.LEFT);
+//                ListAdapter listAdapter = mLvLeftMenu.getAdapter();
+//                View view=(View)listAdapter.getItem(2);
+//                view.setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                AdapterView.OnItemClickListener onItemClickListener = mLvLeftMenu.getOnItemClickListener();
+//                if(onItemClickListener!=null){
+//                    onItemClickListener.onItemClick(mLvLeftMenu,null,2,0);
+//                }
+           // }
+       // }
     }
 
     @Override
@@ -422,8 +588,65 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
         TextView titleTv=(TextView)findViewById(R.id.tv_location);
         titleTv.setText(regeocodeResult.getRegeocodeAddress().getDistrict()+regeocodeResult.getRegeocodeAddress().getTownship());
-        ImageView imageView=(ImageView)findViewById(R.id.location);
-        imageView.setVisibility(View.VISIBLE);
+//        ImageView imageView=(ImageView)findViewById(R.id.location);
+//        imageView.setVisibility(View.VISIBLE);
         CarInfo.position=(regeocodeResult.getRegeocodeAddress().getDistrict()+regeocodeResult.getRegeocodeAddress().getTownship());
+    }
+
+    public void getCarInfo(){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                "http://116.62.56.64/test/Car/position", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("TAG", response);
+                try{
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject result=new JSONObject(jsonObject.get("result").toString());
+                    CarInfo.batteryPercent=result.get("batteryPercent").toString();
+                    CarInfo.batteryType=result.get("batteryType").toString();
+                    CarInfo.endAddressX=result.get("endAddressX").toString();
+                    CarInfo.endAddressY=result.get("endAddressY").toString();
+                    CarInfo.speed=result.get("speed").toString();
+                    CarInfo.batteryState=result.get("batteryState").toString();
+                    CarInfo.vehicleNumber=result.get("vehicleNumber").toString();
+                    //刷新UI
+                    mHandler.sendEmptyMessage(MSG_REFRESH_UI);
+                    //获取已完成订单
+                    LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                    // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
+                    geocoderSearch.getFromLocationAsyn(query);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+                Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
+                getCarInfo();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("MK-AUTH", phoneNumberStr+"-"+tokenStr);
+                return headers;
+            }
+        };
+        mQueue.add(stringRequest);
+    }
+    public void setThemeColor(int status){
+        Message msg=new Message();
+        msg.what=MSG_UPDATE_THEME_COLOR;
+        msg.obj=status;
+        mHandler.sendMessage(msg);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWaveHelper.cancel();
     }
 }

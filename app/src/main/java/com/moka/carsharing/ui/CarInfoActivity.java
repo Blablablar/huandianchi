@@ -45,16 +45,27 @@ public class CarInfoActivity extends Activity implements View.OnClickListener{
         carIdTv=(TextView)findViewById(R.id.tv_car_id);
         carIdTv.setText(UserInfo.getCarIdStr());
         batteryTypeTv=(TextView)findViewById(R.id.tv_type);
-        batteryTypeTv.setText(CarInfo.batteryType);
+        if(CarInfo.batteryType!=null)
+            batteryTypeTv.setText(CarInfo.batteryType);
+        else
+            batteryTypeTv.setText("null");
         carLicenseTv=(TextView)findViewById(R.id.tv_car_model);
         statusTv=(TextView)findViewById(R.id.tv_status);
-        carLicenseTv.setText(CarInfo.vehicleNumber);
-        if(CarInfo.batteryState.equals("1")){
-            statusTv.setText("良好");
+        if(CarInfo.vehicleNumber!=null)
+            carLicenseTv.setText(CarInfo.vehicleNumber);
+        else
+            carLicenseTv.setText("null");
+        if(CarInfo.batteryState!=null){
+            if(CarInfo.batteryState.equals("1")){
+                statusTv.setText("良好");
+            }
+            else{
+                statusTv.setText("损坏");
+                statusTv.setTextColor(Color.rgb(255, 0, 0));
+            }
         }
-        else{
-            statusTv.setText("损坏");
-            statusTv.setTextColor(Color.rgb(255, 0, 0));
+        else {
+            statusTv.setText("null");
         }
     }
 }

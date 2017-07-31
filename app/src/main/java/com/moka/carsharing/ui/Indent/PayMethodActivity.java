@@ -18,9 +18,11 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.android.volley.VolleyError;
+import com.moka.carsharing.ActivityManagerApplication;
 import com.moka.carsharing.Http.VolleyListenerInterface;
 import com.moka.carsharing.Http.VolleyRequest;
 import com.moka.carsharing.R;
+import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.pay.apli.PayResult;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -57,7 +59,6 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_method);
         init();
-
     }
     @Override
     public void onClick(View v){
@@ -78,6 +79,10 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
     }
 
     public void init(){
+        //加入销毁栈
+        ActivityManagerApplication.addDestoryActivity(this,"PayMethod");
+
+        SystemConfig.orderNum=getIntent().getStringExtra("orderNum");
         ((TextView)findViewById(R.id.tv_title)).setText("选择支付方式");
         backBtn = (ImageButton)findViewById(R.id.btn_back);
         mConfirmBtn=(Button)findViewById(R.id.btn_pay_confirm);
@@ -155,10 +160,12 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
                                     if(jsonObject.get("status").equals("支付成功"))
                                     {
                                         Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), IndentActivity.class);
-                                        intent.putExtra("fragment","payed");
+                                        Intent intent = new Intent(getApplicationContext(), IndentDetailActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("id", SystemConfig.orderNum);
+                                        intent.putExtra("fragment", "pay_success");
                                         startActivity(intent);
+                                        finish();
                                     }else{
                                         Runnable payRunnable = new Runnable() {
                                             @Override
@@ -206,9 +213,11 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        finish();
                         Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), IndentActivity.class);
-                        intent.putExtra("fragment","payed");
+                        Intent intent = new Intent(getApplicationContext(), IndentDetailActivity.class);
+                        intent.putExtra("id", SystemConfig.orderNum);
+                        intent.putExtra("fragment", "pay_success");
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {
@@ -242,11 +251,11 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
                                         if(jsonObject.get("status").equals("支付成功"))
                                         {
                                             Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getApplicationContext(), IndentActivity.class);
-                                            intent.putExtra("fragment","payed");
+                                            Intent intent = new Intent(getApplicationContext(), IndentDetailActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            intent.putExtra("id", SystemConfig.orderNum);
                                             startActivity(intent);
-                                            finish();
+                                            //finish();
                                         }
                                         JSONObject resultJson=new JSONObject(jsonObject.getString("result"));
                                         //Toast.makeText(getApplicationContext(), "订单信息获取成功", Toast.LENGTH_SHORT).show();
@@ -273,5 +282,11 @@ public class PayMethodActivity extends Activity implements View.OnClickListener{
 
                             }
                         });
+    }
+    protected void onResume() {
+        super.onResume();
+    }
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

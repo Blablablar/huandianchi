@@ -57,6 +57,9 @@ public class PayedFragment extends Fragment implements View.OnClickListener
 
     public void init(View view){
         listView=(ListView) view.findViewById(R.id.lv_content);
+//        View listEmptyView = View.inflate(getActivity(), R.layout.payed_fragment_empty, (ViewGroup) listView.getParent());
+//        listView.setEmptyView(listEmptyView);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,6 +120,10 @@ public class PayedFragment extends Fragment implements View.OnClickListener
                                 adapter=new IndentAdapter(getActivity(),mIndentModels);
                                 listView.setAdapter(adapter);
                                 mPullToRefreshView.setRefreshing(false);
+//                                if(listView.getCount()==0){
+//                                    IndentActivity indentActivity=(IndentActivity) getActivity().getApplicationContext();
+//                                    indentActivity.setEmptyHintVisible(true,"当前没有未支付订单");
+//                                }
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getActivity(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         }catch (Exception e){

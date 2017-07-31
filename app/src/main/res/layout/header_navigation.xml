@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="180dp"
     android:background="@color/themeColor"
     android:orientation="vertical">
     <ImageView
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/nav_bg_img"
@@ -17,25 +17,27 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="5dp"
         app:riv_oval="true"
         android:src="@mipmap/timg"/>
     <TextView
         android:layout_below="@+id/iv_avatar"
-        android:id="@+id/tv_phone_number"
+        android:id="@+id/tv_username"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="13dp"/>
     <TextView
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/tv_phone_number"
-        android:id="@+id/tv_username"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_username"
+        android:id="@+id/tv_phone_number"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="13dp"/>
 </RelativeLayout>

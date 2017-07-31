@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -92,6 +94,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
 
     private Random mRandom;
     private boolean mEndOfRefreshing;
+    private int length;
 
     private enum AnimationPart {
         FIRST,
@@ -246,7 +249,9 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         drawJet(canvas);
         drawSideClouds(canvas);
         drawCenterClouds(canvas);
-
+        if(length==0){
+            drawEmptyHint(canvas);
+        }
         canvas.restoreToCount(saveCount);
     }
 
@@ -461,6 +466,33 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         canvas.drawBitmap(mJet, matrix, null);
     }
 
+    public void drawEmptyHint(Canvas canvas){
+//        String hintStr="当前没有未支付订单";
+//        Paint mViewPaint=new Paint();
+//        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.order_hint);
+//        Rect mSrcRect = new Rect(0, 0, 100, 100);
+//        Rect mDestRect = new Rect(0, 0, 100, 100);
+//        canvas.drawBitmap(bitmap,mSrcRect,mDestRect,mViewPaint);
+//        //下方提示文字
+//        mViewPaint.setTextSize(100);
+//        Typeface font = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
+//        mViewPaint.setTypeface(font);
+//
+//        mViewPaint.setColor(Color.parseColor("#ffffff"));
+//        mViewPaint.setTextAlign(Paint.Align.LEFT);
+//        Rect bounds = new Rect();
+//        mViewPaint.getTextBounds(hintStr, 0, (hintStr).length(), bounds);
+//        Paint.FontMetricsInt fontMetrics = mViewPaint.getFontMetricsInt();
+//        int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+//        canvas.drawText(hintStr,getMeasuredWidth() / 2 - bounds.width() / 2, baseline-30, mViewPaint);
+//        //下方剩余电量小字
+//        mViewPaint.setTextSize(40);
+//        font = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL);
+//        mViewPaint.setTypeface(font);
+//        bounds = new Rect();
+//        mViewPaint.getTextBounds("剩余电量", 0, ("剩余电量").length(), bounds);
+//        canvas.drawText("剩余电量",getMeasuredWidth() / 2 - bounds.width() / 2, baseline+25, mViewPaint);
+    }
     public float random(int min, int max) {
 
         // nextInt is normally exclusive of the top value,
@@ -540,6 +572,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
 
     public void setPercent(float percent) {
         mPercent = percent;
+        System.out.println("==================="+percent+"===================");
     }
 
     public void resetOriginals() {
@@ -577,6 +610,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         isRefreshing = false;
         mEndOfRefreshing = false;
         resetOriginals();
+        System.out.println("Stop!!!!!!!!!!!!!!!!!");
     }
 
     private void setupAnimations() {
@@ -598,4 +632,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         invalidateSelf();
     }
 
+    public void setListLength(int length){
+        this.length=length;
+    }
 }

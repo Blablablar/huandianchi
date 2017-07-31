@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray"
+    android:background="@color/bg_homepage"
     tools:context=".ui.account.MyAccountActivity">
 
     <com.moka.carsharing.widget.TitleBar
@@ -24,7 +24,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
 
@@ -65,10 +65,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/gray"></View>
+            android:layout_height="2px"
+            android:background="@color/bg_homepage"></View>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,10 +112,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/gray"></View>
+            android:layout_height="2px"
+            android:background="@color/bg_homepage"></View>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -154,14 +150,15 @@
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/gray"></View>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:background="@color/gray"></View>-->
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:paddingEnd="10dp"
@@ -195,6 +192,7 @@
         </RelativeLayout>
     </LinearLayout>
     <Button
+        android:visibility="gone"
         android:id="@+id/btn_logout"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"

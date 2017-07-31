@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.moka.carsharing.ActivityManagerApplication;
 import com.moka.carsharing.R;
+import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.ui.Indent.IndentActivity;
+import com.moka.carsharing.ui.Indent.IndentDetailActivity;
 import com.moka.carsharing.ui.Indent.PayMethodActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -26,7 +29,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.pay_result);
+        //setContentView(R.layout.pay_result);
 
         api = WXAPIFactory.createWXAPI(this, PayMethodActivity.APP_ID);
         api.handleIntent(getIntent(), this);
@@ -52,15 +55,28 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 //            builder.setMessage(String.valueOf(resp.errCode));
 //            builder.show();
             if(resp.errCode==0){
+                //ActivityManagerApplication.destoryActivity("PayMethod");
                 Toast.makeText(getApplicationContext(), "订单支付成功", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), IndentActivity.class);
-                intent.putExtra("fragment","payed");
+//                Intent intent = new Intent(getApplicationContext(), IndentActivity.class);
+//                intent.putExtra("fragment","payed");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+                //ActivityCollector
+                Intent intent = new Intent(this, IndentDetailActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("id", SystemConfig.orderNum);
+                intent.putExtra("fragment", "pay_success");
                 startActivity(intent);
-                finish();
+                //finish();
             }else
                 Toast.makeText(WXPayEntryActivity.this, "订单支付失败", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+    protected void onResume() {
+        super.onResume();
+    }
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

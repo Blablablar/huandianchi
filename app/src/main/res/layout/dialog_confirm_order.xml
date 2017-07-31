@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/test"/>
-
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
-
-        <TextView
+        android:orientation="vertical"
+        android:background="@drawable/dialog_confirm">
+        <ImageView
+            android:id="@+id/iv_car_gif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="预约成功"
-            android:layout_margin="10dp"
-            android:textColor="@color/black"
-            android:textSize="22sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="您距离目的地还需要596公里"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/btn_cancel"
-            android:layout_width="0dp"
+            android:src="@drawable/anim_car_gif"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_weight="1"
-            android:text="不去导航"
-            android:layout_margin="10dp"
-            android:textSize="22sp"/>
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预约成功"
+                android:layout_margin="10dp"
+                android:textColor="@color/black"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请您在30分钟内到达目的地"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_confirm"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:layout_weight="1"
-            android:text="前往导航"
-            android:textColor="@color/underline"
-            android:layout_margin="10dp"
-            android:textSize="22sp"/>
+            android:background="@color/transparent"
+            android:weightSum="2">
+            <TextView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="不去导航"
+                android:background="@drawable/button_confirm_order_left"
+                android:textSize="22sp"/>
+            <TextView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/btn_confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="前往导航"
+                android:textColor="@color/underline"
+                android:background="@drawable/button_confirm_order_right"
+                android:textSize="22sp"/>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

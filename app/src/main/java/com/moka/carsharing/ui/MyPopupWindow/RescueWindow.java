@@ -32,7 +32,6 @@ public class RescueWindow extends PopupWindow {
         Button ll_select03 = (Button) mView.findViewById(R.id.btn_cancel);
         ll_select01.setText("救援电话："+phoneStr);
         ll_select03.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View v) {
                 //销毁弹出框
                 dismiss();

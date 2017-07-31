@@ -91,7 +91,10 @@ public class IndentConfirmActivity extends Activity implements View.OnClickListe
         TextView timeTv=(TextView)findViewById(R.id.tv_time);
         timeTv.setText("时间："+getTime());
         TextView newBatteryTv=(TextView)findViewById(R.id.tv_battery_new);
-        newBatteryTv.setText(Order.getUnPayList().get(getIntent().getIntExtra("position",0)).getElectricity()+"%");
+        if(getIntent().getStringExtra("electricity")!=null)
+            newBatteryTv.setText(getIntent().getStringExtra("electricity")+"%");
+        else
+            newBatteryTv.setText(Order.getUnPayList().get(getIntent().getIntExtra("position",0)).getElectricity()+"%");
     }
 
     //为弹出窗口实现监听类

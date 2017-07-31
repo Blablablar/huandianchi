@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,9 +86,13 @@ public class OrderConfirmActivity extends AppCompatActivity {
         batteryInfo.setText(model.validity.equals("1") ? "电池可更换" : "电池不可更换");
         tvDate.setText(sdf.format(new Date()));
         tvBatteryType.setText(model.batteryType);
-        tvTimeDistance.setText(distance + "公里 " + distance / speed * 60 + "分钟");
+        int time=(new Double(distance / speed * 60)).intValue();
+        tvTimeDistance.setText(distance + "公里 " + time + "分钟");
         tvDistance.setText(String.valueOf(SystemConfig.mileage * (Double.valueOf(CarInfo.batteryPercent)) / 100) + "公里");
-        tvMoney.setText(String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))) + "元");
+        if(SystemConfig.unitPrice!=null&&CarInfo.batteryPercent!=null)
+            tvMoney.setText(String.valueOf(Double.parseDouble(SystemConfig.unitPrice) * (100 - Double.valueOf(CarInfo.batteryPercent))) + "元");
+        else
+            tvMoney.setText(""+"元");
         if (Double.valueOf(CarInfo.batteryState) > 0){
             tvStatus.setText("良好");
             tvStatus.setTextColor(getResources().getColor(R.color.underline));
@@ -116,7 +122,10 @@ public class OrderConfirmActivity extends AppCompatActivity {
                                 JSONObject obj = new JSONObject(result);
                                 if (obj.getString("code").equals("200")) {
                                     System.out.println(result);
-                                    OrderConfirmDialog.Builder builder = new OrderConfirmDialog.Builder(OrderConfirmActivity.this);
+                                    DisplayMetrics dm = new DisplayMetrics();
+                                    getWindowManager().getDefaultDisplay().getMetrics(dm);
+                                    OrderConfirmDialog.Builder builder = new OrderConfirmDialog.Builder(OrderConfirmActivity.this,
+                                            dm.widthPixels,dm.heightPixels,obj.getString("result"));
                                     builder.show();
                                 } else {
                                     Toast.makeText(OrderConfirmActivity.this, obj.getString("error"), Toast.LENGTH_SHORT).show();

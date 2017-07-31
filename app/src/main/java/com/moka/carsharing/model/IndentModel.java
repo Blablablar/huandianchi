@@ -5,21 +5,21 @@ package com.moka.carsharing.model;
  */
 
 public class IndentModel {
-    public String payTimeRemain;
-    public String station;
-    public String status;
-    public String actualPrice;
-    public String price;
-    public String youhuiPrice;
-    public String tradeTime;
-    public String orderNum;
-    public String id;
-    public String orderType;
-    public String batteryModel;
-    public String validCount;
-    public String electricity;
-    public String electricityOfBefore;
-    public String payType;
+    public String payTimeRemain="";
+    public String station="";
+    public String status="";
+    public String actualPrice="";
+    public String price="";
+    public String youhuiPrice="";
+    public String tradeTime="";
+    public String orderNum="";
+    public String id="";
+    public String orderType="";
+    public String batteryModel="";
+    public String validCount="";
+    public String electricity="";
+    public String electricityOfBefore="";
+    public String payType="";
 
     public void setYouhuiPrice(String youhuiPrice) {
         this.youhuiPrice = youhuiPrice;

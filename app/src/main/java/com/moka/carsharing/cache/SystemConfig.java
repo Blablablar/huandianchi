@@ -9,4 +9,5 @@ public class SystemConfig {
     public static String rescueTel;
     public static String serviceTel;
     public static String unitPrice;
+    public static String orderNum;
 }

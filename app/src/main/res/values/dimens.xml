@@ -9,4 +9,5 @@
     <dimen name="subtitle_size">17sp</dimen>
 
     <dimen name="pos_recycle_height">220dp</dimen>
+    <dimen name="drawer_icon_size">24dp</dimen>
 </resources>

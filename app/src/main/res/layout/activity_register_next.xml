@@ -6,73 +6,71 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <com.moka.carsharing.widget.TitleBar
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:scaleType="fitCenter"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/back_gray"
+        android:background="@color/transparent"/>
+    <TextView
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleText="换电汽车系统注册"
-        app:isShowBack="false"/>
-
+        android:text="验证成功!"
+        android:textSize="28sp"
+        android:textColor="@color/themeColor"/>
     <TextView
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="绑定成功后请您开启系统通知，结束电池电量的信息"
-        android:textColor="@color/register_text"/>
-    <RelativeLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-        <ImageView
-            android:layout_marginStart="15dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/iv_vin"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:scaleType="fitCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/vin"/>
-        <EditText
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="欢迎您加入绿车荟\n绑定成功后请您开启系统通知，接收电量的信息"
+        android:lineSpacingMultiplier="1.3"
+        android:textSize="15sp"
+        android:textColor="@color/register_text_color"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <com.moka.carsharing.utils.ClearEditText
             android:id="@+id/et_car_id"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/iv_vin"
-            android:layout_toStartOf="@+id/iv_pigeon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="请输入您车架号"
-            android:textColorHint="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="请输入您的车架号"
+            android:maxLines="1"
             android:textColor="@color/black"
-            android:background="@null" />
-        <ImageView
-            android:layout_marginEnd="15dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/iv_pigeon"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:scaleType="fitCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/pigeon"/>
-    </RelativeLayout>
+            android:textColorHint="@color/gray"
+            android:textCursorDrawable="@null" />
+    </LinearLayout>
     <View
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray">
     </View>
+
     <Button
         android:id="@+id/btn_submit"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button"
         android:text="确认绑定"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:background="@drawable/button"/>
+        android:textSize="18sp" />
 </LinearLayout>

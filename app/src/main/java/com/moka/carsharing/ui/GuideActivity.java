@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,6 +45,7 @@ public class GuideActivity extends Activity{
         mQueue = Volley.newRequestQueue(this);
     }
     public void login(){
+        System.out.println("start login");
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://116.62.56.64/test/Login/validate", new Response.Listener<String>() {
             @Override
@@ -51,22 +53,24 @@ public class GuideActivity extends Activity{
                 Log.d("TAG", response);
                 try{
                     JSONObject jsonObject = new JSONObject(response);
+                    System.out.println(jsonObject.toString());
                     if(jsonObject.get("code").toString().equals("200")){
-//                        CountDownTimer timer = new CountDownTimer(2000, 1000) {
-//                            @Override
-//                            public void onTick(long millisUntilFinished) {}
-//                            @Override
-//                            public void onFinish() {
-                                VolleyRequest.setToken(tokenStr,phoneNumberStr);
-                                getSysInfo();
-//                            }
-//                        };
-//                        timer.start();
+                        VolleyRequest.setToken(tokenStr,phoneNumberStr);
+                        getSysInfo();
                     }else if(jsonObject.get("code").toString().equals("400")){
                         Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         finish();
-                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                        startActivity(intent);
+                        SharedPreferences pref = getSharedPreferences("first", Activity.MODE_PRIVATE);
+                        Boolean isFirst = pref.getBoolean("status",true);
+                        if(isFirst){
+                            Intent intent = new Intent(getApplicationContext(),GuidePageActivity.class);
+                            startActivity(intent);
+                        }else {
+                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }else if(jsonObject.get("code").toString().equals("504")){
+
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -81,10 +85,12 @@ public class GuideActivity extends Activity{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
+                System.out.println(phoneNumberStr+"-"+tokenStr);
                 headers.put("MK-AUTH", phoneNumberStr+"-"+tokenStr);
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         mQueue.add(stringRequest);
     }
 
@@ -130,10 +136,36 @@ public class GuideActivity extends Activity{
     @Override
     protected void onResume() {
         super.onResume();
-        if(getUserInfo())
-            login();
-        else
-            toLoginPage();
+        if(getUserInfo()){
+            CountDownTimer timer = new CountDownTimer(1500, 1500) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+                @Override
+                public void onFinish() {
+                    login();
+                }
+            };
+            timer.start();
+        }
+        else{
+            CountDownTimer timer = new CountDownTimer(1500, 1500) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+                @Override
+                public void onFinish() {
+                    SharedPreferences pref = getSharedPreferences("first", Activity.MODE_PRIVATE);
+                    Boolean isFirst = pref.getBoolean("status",true);
+                    if(isFirst){
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(),GuidePageActivity.class);
+                        startActivity(intent);
+                    }else
+                        toLoginPage();
+                }
+            };
+            timer.start();
+        }
+
     }
 
     public void getSysInfo(){
@@ -170,6 +202,7 @@ public class GuideActivity extends Activity{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         mQueue.add(stringRequest);
     }
 
@@ -189,12 +222,12 @@ public class GuideActivity extends Activity{
                     CarInfo.speed=result.get("speed").toString();
                     CarInfo.batteryState=result.get("batteryState").toString();
                     CarInfo.vehicleNumber=result.get("vehicleNumber").toString();
-                    //跳转到主页
-                    getPayedOrder();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
+                //获取已完成订单
+                getPayedOrder();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -210,6 +243,7 @@ public class GuideActivity extends Activity{
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,5, 5));
         mQueue.add(stringRequest);
     }
 
@@ -272,13 +306,22 @@ public class GuideActivity extends Activity{
                                     JSONObject data=resultArray.getJSONObject(i);
                                     IndentModel indentModel=new IndentModel();
                                     indentModel.setPrice(data.get("price").toString());
-                                    JSONObject stationJson =(new JSONObject(data.get("station").toString()));
-                                    //System.out.println(data.get("station").toString());
-                                    indentModel.setStation(stationJson.get("name").toString());
+                                    indentModel.setStation((new JSONObject(data.get("station").toString())).get("name").toString());
+                                    indentModel.setBatteryModel((new JSONObject(data.get("station").toString())).get("model").toString());
+                                    if(!(new JSONObject(data.get("station").toString())).isNull("validCount"))
+                                        indentModel.setValidCount((new JSONObject(data.get("station").toString())).get("validCount").toString());
+                                    else
+                                        indentModel.setValidCount("0");
                                     indentModel.setStatus(data.get("status").toString());
                                     indentModel.setOrderNum(data.get("orderNum").toString());
+                                    indentModel.setOrderType(data.get("type").toString());
                                     if(data.get("status").toString().equals("2"))
                                         indentModel.setTradeTime(data.get("ackTime").toString());
+                                    else if(data.get("status").toString().equals("1")){
+                                        indentModel.setTradeTime(data.get("appointTime").toString());
+                                        indentModel.setElectricity(data.get("electricity").toString());
+                                        indentModel.setElectricityOfBefore(data.get("electricityOfBefore").toString());
+                                    }
                                     else if(data.get("status").toString().equals("0")){
                                         indentModel.setTradeTime(data.get("appointTime").toString());
                                         indentModel.setPayTimeRemain(data.get("payTimeRemain").toString());

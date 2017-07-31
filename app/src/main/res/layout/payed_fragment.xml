@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.moka.carsharing.utils.refreshView.PullToRefreshView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
         <ListView
             android:id="@+id/lv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/background"
-            android:dividerHeight="5dp"/>
+            android:dividerHeight="5dp"
+            android:background="@color/transparent"/>
     </com.moka.carsharing.utils.refreshView.PullToRefreshView>
-</LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@color/transparent">-->
+        <!--<ImageView-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:src="@mipmap/order_hint"-->
+            <!--android:clickable="false"/>-->
+    <!--</LinearLayout>-->
+</FrameLayout>

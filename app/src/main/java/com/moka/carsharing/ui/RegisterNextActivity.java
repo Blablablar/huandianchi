@@ -25,6 +25,7 @@ import com.moka.carsharing.cache.CarInfo;
 import com.moka.carsharing.cache.Order;
 import com.moka.carsharing.cache.SystemConfig;
 import com.moka.carsharing.model.IndentModel;
+import com.moka.carsharing.utils.ClearEditText;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ import java.util.Map;
 public class RegisterNextActivity extends Activity implements View.OnClickListener{
     private ImageButton backBtn;
     private Button submitBtn;
-    EditText mCarIdEt;
+    ClearEditText mCarIdEt;
     RequestQueue mQueue;
     String tokenStr;
     @Override
@@ -101,7 +102,7 @@ public class RegisterNextActivity extends Activity implements View.OnClickListen
         backBtn.setOnClickListener(this);
         submitBtn.setOnClickListener(this);
 
-        mCarIdEt=(EditText)findViewById(R.id.et_car_id);
+        mCarIdEt=(ClearEditText)findViewById(R.id.et_car_id);
 
         mQueue = Volley.newRequestQueue(this);
     }

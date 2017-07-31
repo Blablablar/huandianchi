@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.model.Text;
 import com.moka.carsharing.ui.HomePageActivity;
 import com.moka.carsharing.R;
 
@@ -34,7 +35,6 @@ public class IndentActivity extends Activity implements View.OnClickListener{
         fragmentManager=getFragmentManager();
         backBtn = (ImageButton)findViewById(R.id.btn_back);
         backBtn.setOnClickListener(this);
-        init();
     }
     @Override
     public void onClick(View v){
@@ -42,6 +42,7 @@ public class IndentActivity extends Activity implements View.OnClickListener{
             case R.id.btn_back:
                 Intent intent=new Intent(this, HomePageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Activity","Indent");
                 startActivity(intent);
                 break;
             case R.id.btn_confirm:
@@ -152,11 +153,30 @@ public class IndentActivity extends Activity implements View.OnClickListener{
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             Intent intent=new Intent(this, HomePageActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("Activity","Indent");
             startActivity(intent);
             return false;
         }else {
             return super.onKeyDown(keyCode, event);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
+    }
+
+
+    public void setEmptyHintVisible(boolean visible,String content) {
+        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.ll_order_hint);
+        if(visible){
+            linearLayout.setVisibility(View.VISIBLE);
+            TextView textView=(TextView) linearLayout.findViewById(R.id.tv_hint);
+            textView.setText(content);
+        }
+        else
+            linearLayout.setVisibility(View.INVISIBLE);
     }
 }
