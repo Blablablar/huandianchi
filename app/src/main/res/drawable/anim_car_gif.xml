@@ -11,5 +11,4 @@
     <item android:drawable="@mipmap/gif_car_3" android:duration="500"></item>
     <item android:drawable="@mipmap/gif_car_4" android:duration="500"></item>
     <item android:drawable="@mipmap/gif_car_5" android:duration="500"></item>
-    <item android:drawable="@mipmap/gif_car_6" android:duration="500"></item>
 </animation-list>

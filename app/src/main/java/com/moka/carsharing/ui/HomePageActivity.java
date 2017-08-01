@@ -62,6 +62,7 @@ import com.moka.carsharing.ui.MyPopupWindow.RescueWindow;
 import com.moka.carsharing.ui.account.MyAccountActivity;
 import com.moka.carsharing.ui.position.CarPositionActivity;
 import com.moka.carsharing.ui.tickets.HistoryTicketsActivity;
+import com.moka.carsharing.utils.MenuListView;
 import com.moka.carsharing.utils.WaveView.WaveHelper;
 import com.moka.carsharing.utils.WaveView.WaveView;
 
@@ -108,7 +109,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
     private static final int MSG_UPDATE_THEME_COLOR = 3;
     private GeocodeSearch geocoderSearch;
 
-    private ListView mLvLeftMenu;
+    private MenuListView mLvLeftMenu;
     private View headerView;
     private View footerView;
     private View menuView;
@@ -131,7 +132,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
         mRescuell.setOnClickListener(this);
         ButterKnife.bind(this);
 
-        mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
+        mLvLeftMenu = (MenuListView) findViewById(R.id.id_lv_left_menu);
         setUpDrawer();
         init();
         mHandler.sendEmptyMessage(MSG_REFRESH_UI);
@@ -263,58 +264,59 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                 new MyAccountActivity.Builder(HomePageActivity.this).start();
             }
         });
-        mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for(int i=1;i<9;i++){
-                    if(i==5)
-                        continue;
-                    if(parent.getChildAt(i)!=null){
-                        parent.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.white));
-                    }
-                }
-                switch (position){
-                    case 1:
-                        parent.getChildAt(1).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent1=new Intent(getApplicationContext(),CarPositionActivity.class);
-                        startActivity(intent1);
-                        break;
-                    case 2:
-                        parent.getChildAt(2).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent2=new Intent(getApplicationContext(),IndentActivity.class);
-                        intent2.putExtra("fragment","unpay");
-                        startActivity(intent2);
-                        break;
-                    case 3:
-                        parent.getChildAt(3).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent3=new Intent(getApplicationContext(),HistoryTicketsActivity.class);
-                        startActivity(intent3);
-                        break;
-                    case 4:
-                        parent.getChildAt(4).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent4=new Intent(getApplicationContext(),CarInfoActivity.class);
-                        startActivity(intent4);
-                        break;
-                    case 6:
-                        parent.getChildAt(6).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent5=new Intent(getApplicationContext(),InstructionsActivity.class);
-                        startActivity(intent5);
-                        break;
-                    case 7:
-                        parent.getChildAt(7).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent6=new Intent(getApplicationContext(),FaqActivity.class);
-                        startActivity(intent6);
-                        break;
-                    case 8:
-                        parent.getChildAt(8).setBackgroundColor(getResources().getColor(R.color.navigation_select));
-                        Intent intent7=new Intent(getApplicationContext(),PhoneActivity.class);
-                        startActivity(intent7);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+
+//        mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                for(int i=1;i<9;i++){
+//                    if(i==5)
+//                        continue;
+//                    if(parent.getChildAt(i)!=null){
+//                        parent.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.white));
+//                    }
+//                }
+//                switch (position){
+//                    case 1:
+//                        //parent.getChildAt(1).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent1=new Intent(getApplicationContext(),CarPositionActivity.class);
+//                        startActivity(intent1);
+//                        break;
+//                    case 2:
+//                        //parent.getChildAt(2).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent2=new Intent(getApplicationContext(),IndentActivity.class);
+//                        intent2.putExtra("fragment","unpay");
+//                        startActivity(intent2);
+//                        break;
+//                    case 3:
+//                        //parent.getChildAt(3).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent3=new Intent(getApplicationContext(),HistoryTicketsActivity.class);
+//                        startActivity(intent3);
+//                        break;
+//                    case 4:
+//                        //parent.getChildAt(4).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent4=new Intent(getApplicationContext(),CarInfoActivity.class);
+//                        startActivity(intent4);
+//                        break;
+//                    case 6:
+//                        //parent.getChildAt(6).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent5=new Intent(getApplicationContext(),InstructionsActivity.class);
+//                        startActivity(intent5);
+//                        break;
+//                    case 7:
+//                        //parent.getChildAt(7).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent6=new Intent(getApplicationContext(),FaqActivity.class);
+//                        startActivity(intent6);
+//                        break;
+//                    case 8:
+//                        //parent.getChildAt(8).setBackgroundColor(getResources().getColor(R.color.navigation_select));
+//                        Intent intent7=new Intent(getApplicationContext(),PhoneActivity.class);
+//                        startActivity(intent7);
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
         Button quitButton=(Button) footerView.findViewById(R.id.btn_logout);
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,6 +326,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                 editor.clear();
                 editor.commit();
                 UserInfo.clear();
+                /////
+                SharedPreferences pref = getSharedPreferences("first", Activity.MODE_PRIVATE);
+                editor = pref.edit();
+                editor.putBoolean("status",false);
+                editor.commit();
+                ///////
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -601,21 +609,26 @@ public class HomePageActivity extends Activity implements View.OnClickListener,G
                 Log.d("TAG", response);
                 try{
                     JSONObject jsonObject=new JSONObject(response);
-                    JSONObject result=new JSONObject(jsonObject.get("result").toString());
-                    CarInfo.batteryPercent=result.get("batteryPercent").toString();
-                    CarInfo.batteryType=result.get("batteryType").toString();
-                    CarInfo.endAddressX=result.get("endAddressX").toString();
-                    CarInfo.endAddressY=result.get("endAddressY").toString();
-                    CarInfo.speed=result.get("speed").toString();
-                    CarInfo.batteryState=result.get("batteryState").toString();
-                    CarInfo.vehicleNumber=result.get("vehicleNumber").toString();
-                    //刷新UI
-                    mHandler.sendEmptyMessage(MSG_REFRESH_UI);
-                    //获取已完成订单
-                    LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
-                    // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-                    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
-                    geocoderSearch.getFromLocationAsyn(query);
+                    if(jsonObject.get("code").toString().equals("200")){
+                        JSONObject result=new JSONObject(jsonObject.get("result").toString());
+                        CarInfo.batteryPercent=result.get("batteryPercent").toString();
+                        CarInfo.batteryType=result.get("batteryType").toString();
+                        CarInfo.endAddressX=result.get("endAddressX").toString();
+                        CarInfo.endAddressY=result.get("endAddressY").toString();
+                        CarInfo.speed=result.get("speed").toString();
+                        CarInfo.batteryState=result.get("batteryState").toString();
+                        CarInfo.vehicleNumber=result.get("vehicleNumber").toString();
+                        //刷新UI
+                        mHandler.sendEmptyMessage(MSG_REFRESH_UI);
+                        //获取已完成订单
+                        LatLng location = new LatLng(Double.parseDouble(CarInfo.endAddressX), Double.parseDouble(CarInfo.endAddressY));//new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                        // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                        RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(location.latitude, location.longitude), 200, GeocodeSearch.AMAP);
+                        geocoderSearch.getFromLocationAsyn(query);
+                    }else if(jsonObject.get("code").toString().equals("400")) {
+                        if(!jsonObject.isNull("status"))
+                            Toast.makeText(getApplicationContext(), jsonObject.getString("status"), Toast.LENGTH_SHORT).show();
+                    }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "车辆信息获取失败", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();

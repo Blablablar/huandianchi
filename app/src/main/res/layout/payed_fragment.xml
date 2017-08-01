@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.moka.carsharing.utils.refreshView.PullToRefreshView
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <com.moka.carsharing.utils.refreshView.MyPullToRefreshView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent">
+        app:view_empty="@layout/payed_fragment_empty"
+        android:background="@color/background">
         <ListView
             android:id="@+id/lv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/background"
-            android:dividerHeight="5dp"
-            android:background="@color/transparent"/>
-    </com.moka.carsharing.utils.refreshView.PullToRefreshView>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:background="@color/transparent">-->
-        <!--<ImageView-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:src="@mipmap/order_hint"-->
-            <!--android:clickable="false"/>-->
-    <!--</LinearLayout>-->
-</FrameLayout>
+            android:dividerHeight="5dp"/>
+    </com.moka.carsharing.utils.refreshView.MyPullToRefreshView>
+</LinearLayout>

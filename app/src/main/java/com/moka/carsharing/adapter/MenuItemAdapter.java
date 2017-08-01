@@ -109,7 +109,7 @@ public class MenuItemAdapter extends BaseAdapter
                     convertView = mInflater.inflate(R.layout.design_drawer_item, parent,
                             false);
                 }
-                TextView itemView = (TextView) convertView;
+                TextView itemView = (TextView) convertView.findViewById(R.id.tv_menu_item);
                 itemView.setText(item.name);
                 Drawable icon = mContext.getResources().getDrawable(item.icon);
                 setIconColor(icon);
@@ -144,7 +144,44 @@ public class MenuItemAdapter extends BaseAdapter
                 }
                 break;
         }
-        convertView.setTag("");
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (position){
+                    case 0:
+                        Intent intent1=new Intent(mContext,CarPositionActivity.class);
+                        mContext.startActivity(intent1);
+                        break;
+                    case 1:
+                        Intent intent2=new Intent(mContext,IndentActivity.class);
+                        intent2.putExtra("fragment","unpay");
+                        mContext.startActivity(intent2);
+                        break;
+                    case 2:
+                        Intent intent3=new Intent(mContext,HistoryTicketsActivity.class);
+                        mContext.startActivity(intent3);
+                        break;
+                    case 3:
+                        Intent intent4=new Intent(mContext,CarInfoActivity.class);
+                        mContext.startActivity(intent4);
+                        break;
+                    case 5:
+                        Intent intent5=new Intent(mContext,InstructionsActivity.class);
+                        mContext.startActivity(intent5);
+                        break;
+                    case 6:
+                        Intent intent6=new Intent(mContext,FaqActivity.class);
+                        mContext.startActivity(intent6);
+                        break;
+                    case 7:
+                        Intent intent7=new Intent(mContext,PhoneActivity.class);
+                        mContext.startActivity(intent7);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         return convertView;
     }
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class HistoryTicketsActivity extends AppCompatActivity {
     TitleBar mTitleBar;
     @BindView(R.id.loading)
     TextView tvLoading;
+    @BindView(R.id.ll_hint)
+    LinearLayout hintll;
 
     private TicketAdapter mAdapter;
     private ArrayList<TicketModel> mTicketModels = new ArrayList<>();
@@ -128,7 +131,10 @@ public class HistoryTicketsActivity extends AppCompatActivity {
                                                 , Double.parseDouble(orderObj.getString("price"))));
                                     }
                                 }
-
+                                hintll.setVisibility(View.INVISIBLE);
+                                if(orderModels.length==0){
+                                    hintll.setVisibility(View.VISIBLE);
+                                }
                             }else{
                                 Toast.makeText(HistoryTicketsActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
                             }

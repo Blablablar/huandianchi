@@ -23,8 +23,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,10 +104,18 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
     RecyclerView vgSearchPoi;
     @BindView(R.id.btn_more)
     LinearLayout btnMore;
+    @BindView(R.id.btn_arrow)
+    ImageButton arrowBtn;
+    @BindView(R.id.rl_arrow)
+    RelativeLayout arrowRl;
 
 
     @OnClick(R.id.btn_more)
     public void onMoreClicked() {
+        scrollList();
+    }
+    @OnClick(R.id.rl_arrow)
+    public void onArrowClicked() {
         scrollList();
     }
 
@@ -113,8 +123,11 @@ public class CarPositionActivity extends AppCompatActivity implements LocationSo
         int deltaHeight = mContainer.getHeight();
         if (mSearchResult.getTranslationY() < deltaHeight) {//向下滑动
             ObjectAnimator.ofFloat(mSearchResult, "translationY", mSearchResult.getTranslationY(), deltaHeight).setDuration(100).start();
+            arrowBtn.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_up));
+
         } else if (mSearchResult.getTranslationY() > 0) {//向上滑动
             ObjectAnimator.ofFloat(mSearchResult, "translationY", mSearchResult.getTranslationY(), 0).setDuration(100).start();
+            arrowBtn.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_down));
         }
     }
 

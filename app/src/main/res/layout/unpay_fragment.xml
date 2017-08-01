@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
-    <com.moka.carsharing.utils.refreshView.PullToRefreshView
+    <com.moka.carsharing.utils.refreshView.MyPullToRefreshView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:view_empty="@layout/unpay_fragment_empty"
         android:background="@color/background">
         <ListView
             android:id="@+id/lv_content"
@@ -14,24 +17,5 @@
             android:layout_height="match_parent"
             android:divider="@color/background"
             android:dividerHeight="5dp"/>
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ll_order_hint"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:orientation="vertical">-->
-            <!--<ImageView-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@mipmap/order_hint"/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_hint"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="当前没有未支付订单"-->
-                <!--android:textSize="50px"/>-->
-        <!--</LinearLayout>-->
-    </com.moka.carsharing.utils.refreshView.PullToRefreshView>
+    </com.moka.carsharing.utils.refreshView.MyPullToRefreshView>
 </LinearLayout>

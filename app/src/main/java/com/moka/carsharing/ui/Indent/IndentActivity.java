@@ -169,14 +169,14 @@ public class IndentActivity extends Activity implements View.OnClickListener{
     }
 
 
-    public void setEmptyHintVisible(boolean visible,String content) {
-        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.ll_order_hint);
-        if(visible){
-            linearLayout.setVisibility(View.VISIBLE);
-            TextView textView=(TextView) linearLayout.findViewById(R.id.tv_hint);
-            textView.setText(content);
-        }
-        else
-            linearLayout.setVisibility(View.INVISIBLE);
-    }
+//    public void setEmptyHintVisible(boolean visible,String content) {
+//        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.ll_order_hint);
+//        if(visible){
+//            linearLayout.setVisibility(View.VISIBLE);
+//            TextView textView=(TextView) linearLayout.findViewById(R.id.tv_hint);
+//            textView.setText(content);
+//        }
+//        else
+//            linearLayout.setVisibility(View.INVISIBLE);
+//    }
 }

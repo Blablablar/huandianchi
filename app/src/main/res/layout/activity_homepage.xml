@@ -216,14 +216,15 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <ListView
+    <com.moka.carsharing.utils.MenuListView
         android:id="@+id/id_lv_left_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:paddingTop="0dp"
-        android:background="@color/bg_homepage"
+        android:background="@color/white"
         android:clipToPadding="false"
         android:divider="@null"
-        android:listSelector="?attr/selectableItemBackground" />
+        android:listSelector="?attr/selectableItemBackground"
+        android:scrollbars="none"/>
 </android.support.v4.widget.DrawerLayout>

@@ -45,14 +45,22 @@
     </View>
 
     <RelativeLayout
+        android:id="@+id/rl_arrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:padding="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="推荐电站点"/>
-
+        <ImageButton
+            android:id="@+id/btn_arrow"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrow_down"
+            android:background="@color/transparent"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

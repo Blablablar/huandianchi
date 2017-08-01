@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
+import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
+import com.jwenfeng.library.pulltorefresh.ViewStatus;
 import com.moka.carsharing.model.IndentModel;
 import com.moka.carsharing.Http.VolleyListenerInterface;
 import com.moka.carsharing.Http.VolleyRequest;
 import com.moka.carsharing.R;
 import com.moka.carsharing.adapter.IndentAdapter;
 import com.moka.carsharing.cache.Order;
+import com.moka.carsharing.utils.refreshView.MyPullToRefreshView;
 import com.moka.carsharing.utils.refreshView.PullToRefreshView;
 
 import org.json.JSONArray;
@@ -38,7 +44,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
     boolean isCountDown=false;
     boolean isCountDownOver=false;
     View view;
-    private PullToRefreshView mPullToRefreshView;
+    private MyPullToRefreshView mPullToRefreshView;
     public static final int REFRESH_DELAY = 5000;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -62,6 +68,7 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
 
     public void init(View view){
         listView=(ListView) view.findViewById(R.id.lv_content);
+        //listView.setEmptyView(view.findViewById(R.id.scrollView_list));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,18 +101,19 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
             adapter=new IndentAdapter(getActivity(),Order.getUnPayList());
             listView.setAdapter(adapter);
         }
-        mPullToRefreshView = (PullToRefreshView) view.findViewById(R.id.pull_to_refresh);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+        mPullToRefreshView = (MyPullToRefreshView) view.findViewById(R.id.pull_to_refresh);
+//        mPullToRefreshView.set
+        //mPullToRefreshView.setProgressViewOffset(true, 0,  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics()));
+        //mPullToRefreshView.setColorScheme(getResources().getColor(R.color.background),getResources().getColor(R.color.background),getResources().getColor(R.color.background),getResources().getColor(R.color.background));
+        mPullToRefreshView.setRefreshListener(new BaseRefreshListener() {
             @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Toast.makeText(getActivity(), "当前网络较差，请稍后重试", Toast.LENGTH_SHORT).show();
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, REFRESH_DELAY);
+            public void refresh() {
                 getData();
+            }
+
+            @Override
+            public void loadMore() {
+                mPullToRefreshView.finishLoadMore();
             }
         });
     }
@@ -162,12 +170,11 @@ public class UnPayFragment extends Fragment implements View.OnClickListener
                                     System.out.println("开始倒数");
                                 }
                                 System.out.println("收起");
-                                mPullToRefreshView.setListCount(listView.getCount());
-                                mPullToRefreshView.setRefreshing(false);
-//                                if(listView.getCount()==0){
-//                                    IndentActivity indentActivity=(IndentActivity) getActivity().getApplicationContext();
-//                                    indentActivity.setEmptyHintVisible(true,"当前没有未支付订单");
-//                                }
+//                                mPullToRefreshView.setListCount(listView.getCount());
+                                mPullToRefreshView.finishRefresh();
+                                if(listView.getCount()==0){
+                                    mPullToRefreshView.showView(ViewStatus.EMPTY_STATUS);
+                                }
                             }else if(jsonObject.get("code").toString().equals("400"))
                                 Toast.makeText(getActivity(), jsonObject.get("error").toString(), Toast.LENGTH_SHORT).show();
                         }catch (Exception e){

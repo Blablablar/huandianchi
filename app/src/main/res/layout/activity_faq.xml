@@ -18,14 +18,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="常见问题"
-                android:textSize="15sp"/>
+                android:textSize="14sp"/>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <RelativeLayout
@@ -50,7 +50,7 @@
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <TextView
@@ -62,7 +62,7 @@
                     android:text="适用于商家在App应用中集成支付宝支付功能。商家APP调用支付宝提供的SDK调用支付宝客户端内的支付模块，商家APP会跳转到支付宝中完成支付，支付完后跳回到商家APP内，最后展示支付结果。目前支持手机系统有：iOS（苹果）、Android（安卓）。"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <RelativeLayout
@@ -87,7 +87,7 @@
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <TextView
@@ -99,7 +99,7 @@
                     android:text="适用于商家在App应用中集成支付宝支付功能。商家APP调用支付宝提供的SDK调用支付宝客户端内的支付模块，商家APP会跳转到支付宝中完成支付，支付完后跳回到商家APP内，最后展示支付结果。目前支持手机系统有：iOS（苹果）、Android（安卓）。"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <RelativeLayout
@@ -124,7 +124,7 @@
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="2px"
                     android:background="@color/gray">
                 </View>
                 <TextView

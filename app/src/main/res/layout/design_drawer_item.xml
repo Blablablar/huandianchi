@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="136px"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:drawablePadding="5dp"
-    android:gravity="center_vertical|start"
-    android:maxLines="1"
-    android:textAppearance="?attr/textAppearanceListItem"
-    android:textColor="?android:attr/textColorPrimary"
-    android:textSize="14sp"
-    android:background="?android:attr/selectableItemBackground" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground" >
+    <TextView
+        android:id="@+id/tv_menu_item"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="136px"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical|start"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="14sp"
+        android:background="@color/transparent"/>
+</LinearLayout>

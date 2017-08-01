@@ -52,4 +52,5 @@ dependencies {
     compile files('libs/AMap3DMap_5.0.0_AMapNavi_5.0.1_20170410.jar')
     compile files('libs/alipaySdk-20170407.jar')
     compile files('libs/Msc.jar')
+    compile 'com.jwenfeng.pulltorefresh:library:1.2.5'
 }

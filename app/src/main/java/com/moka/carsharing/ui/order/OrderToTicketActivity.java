@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class OrderToTicketActivity extends AppCompatActivity {
     TitleBar titleBar;
     @BindView(R.id.loading)
     TextView tvLoading;
+    @BindView(R.id.ll_hint)
+    LinearLayout hintll;
 
     private OrderAdapter mOrderAdapter;
     private ArrayList<OrderModel> mOrderModels = new ArrayList<>();
@@ -132,6 +135,10 @@ public class OrderToTicketActivity extends AppCompatActivity {
                                         stationObj.getString("name"),
                                         "消费电量"+(Integer.valueOf(obj.getString("electricity"))-Integer.valueOf(obj.getString("electricityOfBefore")))+"%",
                                         Integer.valueOf(obj.getString("price"))));
+                            }
+                            hintll.setVisibility(View.INVISIBLE);
+                            if(mOrderModels.size()==0){
+                                hintll.setVisibility(View.VISIBLE);
                             }
                         }else {
                             Toast.makeText(OrderToTicketActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();

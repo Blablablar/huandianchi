@@ -55,18 +55,18 @@ public class MyAccountActivity extends AppCompatActivity {
     TitleBar titleBar;
     @BindView(R.id.user_img)
     RoundedImageView userImg;
-    @BindView(R.id.vg_edit_img)
-    ViewGroup vgEditImg;
+//    @BindView(R.id.vg_edit_img)
+//    ViewGroup vgEditImg;
     @BindView(R.id.user_name)
     TextView userName;
-    @BindView(R.id.vg_edit_username)
-    ViewGroup vgEditUsername;
+//    @BindView(R.id.vg_edit_username)
+//    ViewGroup vgEditUsername;
     @BindView(R.id.user_phone)
     TextView userPhone;
     @BindView(R.id.tv_car_id)
     TextView carId;
-    @BindView(R.id.vg_edit_phone)
-    ViewGroup vgEditPhone;
+//    @BindView(R.id.vg_edit_phone)
+//    ViewGroup vgEditPhone;
     @BindView(R.id.btn_logout)
     Button mLogOutBtn;
 
@@ -98,32 +98,32 @@ public class MyAccountActivity extends AppCompatActivity {
             carId.setText(UserInfo.getCarIdStr());
         titleBar.bindActivity(this);
         mQueue = Volley.newRequestQueue(this);
-        mLogOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sp = getSharedPreferences("user", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.clear();
-                editor.commit();
-                UserInfo.clear();
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
+//        mLogOutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences sp = getSharedPreferences("user", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sp.edit();
+//                editor.clear();
+//                editor.commit();
+//                UserInfo.clear();
+//                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//            }
+//        });
     }
 
-    @OnClick({R.id.vg_edit_img, R.id.vg_edit_username, R.id.vg_edit_phone})
+    @OnClick({R.id.rl_edit_img, R.id.rl_edit_username})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.vg_edit_img:
+            case R.id.rl_edit_img:
                 showChoosePicDialog();
                 break;
-            case R.id.vg_edit_username:
+            case R.id.rl_edit_username:
                 new MyUserNameEditActivity.Builder(this).start();
                 break;
-            case R.id.vg_edit_phone:
-                break;
+//            case R.id.vg_edit_phone:
+//                break;
         }
     }
 

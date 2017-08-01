@@ -23,10 +23,13 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_edit_img"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,7 +42,6 @@
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:id="@+id/vg_edit_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -69,10 +71,13 @@
             android:background="@color/bg_homepage"></View>
 
         <RelativeLayout
+            android:id="@+id/rl_edit_username"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:paddingStart="10dp"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +137,6 @@
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:id="@+id/vg_edit_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
